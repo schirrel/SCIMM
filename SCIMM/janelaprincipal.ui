@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JanelaPrincipal</class>
+ <widget class="QMainWindow" name="JanelaPrincipal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SCIMM</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QStackedWidget" name="TELAS">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>800</width>
+      <height>600</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>2</number>
+    </property>
+    <widget class="QWidget" name="TelaManual">
+     <widget class="QFrame" name="frameManual">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>800</width>
+        <height>600</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTabWidget" name="TAB_HSV">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>50</y>
+         <width>641</width>
+         <height>371</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="TAB_H">
+        <attribute name="title">
+         <string>H</string>
+        </attribute>
+        <widget class="QCustomPlot" name="customPlotH" native="true">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>640</width>
+           <height>340</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="TAB_S">
+        <attribute name="title">
+         <string>S</string>
+        </attribute>
+        <widget class="QCustomPlot" name="customPlotS" native="true">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>640</width>
+           <height>340</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="TAB_V">
+        <attribute name="title">
+         <string>V</string>
+        </attribute>
+        <widget class="QCustomPlot" name="customPlotV" native="true">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>640</width>
+           <height>340</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>420</y>
+         <width>781</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>MIN</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="SLIDER_CM_MIN">
+            <property name="maximum">
+             <number>255</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="EDIT_CM_MIN">
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>MAX</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="SLIDER_CM_MAX">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="EDIT_CM_MAX">
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="BT_CM_FINALIZAR">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>300</y>
+         <width>110</width>
+         <height>60</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Finalizar</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="BT_CM_SALVAR">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>220</y>
+         <width>110</width>
+         <height>60</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Salvar</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="BT_CM_CALIBRAR">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>110</width>
+         <height>60</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Calibrar</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="CB_CM_CORES">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>140</y>
+         <width>110</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Amarelo</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Azul</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Ciano</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Laranja</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Verde</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Vermelho</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rosa</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Roxo</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QFrame" name="frame">
+       <property name="geometry">
+        <rect>
+         <x>15</x>
+         <y>130</y>
+         <width>120</width>
+         <height>70</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QCheckBox" name="CHECK_CM_CALIBRADO">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>97</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Calibrada</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>0</y>
+         <width>800</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Calibração Manual</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <zorder>frame</zorder>
+      <zorder>TAB_HSV</zorder>
+      <zorder>verticalLayoutWidget_2</zorder>
+      <zorder>BT_CM_FINALIZAR</zorder>
+      <zorder>BT_CM_SALVAR</zorder>
+      <zorder>BT_CM_CALIBRAR</zorder>
+      <zorder>CB_CM_CORES</zorder>
+      <zorder>label_5</zorder>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="TelaAutomatico">
+     <widget class="QFrame" name="frame_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>800</width>
+        <height>600</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>800</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Calibração Automática</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="BT_CA_INICIAR">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>60</y>
+         <width>200</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Iniciar Calibração</string>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="PROGRESS_CA">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>150</y>
+         <width>600</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="LABEL_CA_STATUS">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>200</y>
+         <width>600</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>280</y>
+         <width>150</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Objetos Encontrado</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="CB_CA_OBJETOS">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>275</y>
+         <width>85</width>
+         <height>27</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>330</y>
+         <width>67</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Cores:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="BT_CA_SALVAR">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>290</y>
+         <width>100</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Salvar</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="CHECK_CA_CALIBRADO">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>360</y>
+         <width>97</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Calibrada</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="CB_CA_CORES">
+       <property name="geometry">
+        <rect>
+         <x>215</x>
+         <y>325</y>
+         <width>111</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Amarelo</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Azul</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Ciano</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Laranja</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Verde</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Vermelho</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rosa</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Roxo</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QPushButton" name="BT_CA_FINALIZAR">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>450</y>
+         <width>200</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>FInalizar Calibração</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="TelaSobre">
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>800</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>80</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>SCIMM</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>97</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sistema de Calibração de Intervalos Minimos e Maximos</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>120</y>
+        <width>800</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Desenvolvido por Jasane Schio.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>-20</x>
+        <y>350</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Trabalho de Conclusão de Curso</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>-20</x>
+        <y>490</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Universidade Federal do Mato Grosso do Sul - Campus Coxim</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>410</y>
+        <width>800</width>
+        <height>100</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>30</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Equipe Cedro de Futebol de Robôs</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>180</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Linguagem: C++</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>200</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Framework GUI: Qt</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>220</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Widget de Plotagem de Grafico: QCustomPlot</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>240</y>
+        <width>800</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Biblioteca  de Processamento de Imagens: OpenCV</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCalibracao">
+    <property name="title">
+     <string>Calibração</string>
+    </property>
+    <addaction name="actionManual"/>
+    <addaction name="actionAutomatica"/>
+   </widget>
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title">
+     <string>Ajuda</string>
+    </property>
+    <addaction name="actionSobre"/>
+   </widget>
+   <addaction name="menuCalibracao"/>
+   <addaction name="menuAjuda"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionManual">
+   <property name="text">
+    <string>Manual</string>
+   </property>
+  </action>
+  <action name="actionAutomatica">
+   <property name="text">
+    <string>Automatica</string>
+   </property>
+  </action>
+  <action name="actionSobre">
+   <property name="text">
+    <string>Sobre</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header location="global">qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
