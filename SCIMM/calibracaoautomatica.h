@@ -10,7 +10,7 @@ class CalibracaoAutomatica
 {
 public:
     CalibracaoAutomatica();
-    void Iniciar(JanelaPrincipal* janela);
+    void Iniciar(JanelaPrincipal* janela, int CAMERA);
     void Fechar();
 
 

@@ -12,9 +12,9 @@ class CalibracaoManual
 {
 public:
     CalibracaoManual();
-    void Iniciar(JanelaPrincipal* janela);
+    void Iniciar(JanelaPrincipal* janela, int CAMERA);
     void Fechar();
-
+    bool CameraLiberada();
 private:
 
     int CAMERA = 0;

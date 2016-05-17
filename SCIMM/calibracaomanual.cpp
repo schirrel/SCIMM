@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#define CAMERA 0
 using namespace cv;
 bool FIM=false;
 CalibracaoManual::CalibracaoManual()
@@ -13,10 +12,17 @@ CalibracaoManual::CalibracaoManual()
 
 }
 
-void CalibracaoManual::Iniciar(JanelaPrincipal*  janela){
+
+
+bool CalibracaoManual::CameraLiberada(){
+    return FIM;
+}
+
+void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
     int CALIBRANDO_ATUAL;
     Mat frame, src;
-    cv::VideoCapture camera(0);
+    FIM  =false;
+    cv::VideoCapture camera(CAMERA);
     if (camera.isOpened()) {
         CALIBRANDO_ATUAL = janela->INDEX_CALIBRACAO;
         while (!janela->FINALIZADA || !FIM) {
@@ -36,41 +42,36 @@ void CalibracaoManual::Iniciar(JanelaPrincipal*  janela){
 
             }
             key = cv::waitKey(5) & 255;
-            if (key == 99 || FIM) {
-                 cv::destroyAllWindows();
-                camera.release();
-                camera.release();
-                camera.release();
-                camera.release();
-                camera.release();
-                cv::destroyAllWindows();
-
+            if (FIM) {
                 break;
             }
         }
-        cv::destroyWindow(janelasNome[0]);
-        cv::destroyAllWindows();
 
-
-        camera.release();
-        camera.release();
-        camera.release();
-        camera.release();
-        camera.release();
-        camera.release();
-        camera.release();
-        camera.release();
+       camera.release();
         camera.release();
         camera.release();
 
         cv::destroyAllWindows();
-SalvarArquivo();
+        cv::destroyAllWindows();
+        cv::destroyAllWindows();
+        cv::destroyAllWindows();
+
+        if(!FIM)
+            SalvarArquivo();
     }
 
 
 }
+
+
 void CalibracaoManual::Fechar(){
+
     FIM =true;
+    cv::destroyAllWindows();
+    cv::destroyAllWindows();
+    cv::destroyAllWindows();
+    cv::destroyAllWindows();
+
 
 }
 

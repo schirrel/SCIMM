@@ -14,6 +14,7 @@ class JanelaPrincipal : public QMainWindow
 public:
     explicit JanelaPrincipal(QWidget *parent = 0);
     ~JanelaPrincipal();
+    void ResetarTelas();
 
     // -----------  Métodos Calibração Manual
     void Plot(int h[256] , int s[256], int v[256]);
@@ -61,6 +62,10 @@ public slots:
     void BotaoSalvar();
     void BotaoFinalizar();
     void ComboCorChanged(int index);
+
+    void IniciarCameraManual();
+    void IniciarCameraAutomatico();
+
 
 
 private:

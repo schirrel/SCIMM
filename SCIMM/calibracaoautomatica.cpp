@@ -13,15 +13,15 @@
 #define PORCENTAGEM 1
 using namespace cv;
 RNG rng(12345);
-bool fim;
+bool fim=false;
 CalibracaoAutomatica::CalibracaoAutomatica()
 {
 
 }
 
-void CalibracaoAutomatica::Iniciar(JanelaPrincipal* janela){
-
-      cv::VideoCapture camera(0);
+void CalibracaoAutomatica::Iniciar(JanelaPrincipal* janela, int CAMERA){
+fim=false;
+      cv::VideoCapture camera(CAMERA);
     if (!camera.isOpened()) {
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
@@ -33,10 +33,13 @@ void CalibracaoAutomatica::Iniciar(JanelaPrincipal* janela){
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
         thresh_callback(0, 0);
-        if (cv::waitKey(30) >= 0) break;
-    }
+        if (cv::waitKey(30) >= 0 || fim) break;
+//        if(fim) {
+//            break;
+//        }
 
-    cvDestroyAllWindows();
+    }
+   if(!fim){
     janela->SetStatus(25, "Detectando Objetos");
 
     cvtColor(frame, src_gray, CV_BGR2GRAY);
@@ -71,22 +74,23 @@ void CalibracaoAutomatica::Iniciar(JanelaPrincipal* janela){
         }
         bitwise_and(frame, frame, res, Threshold );
         cv::imshow("Limiar por Objeto", res);
-        waitKey(30);
-        if(janela->FINALIZADO || fim){
-            cvDestroyAllWindows();
-            cvDestroyAllWindows();
-            camera.release();
-            break;
+       if(janela->FINALIZADO){
+         break;
         }
     }
-    cvDestroyAllWindows();
-    cvDestroyAllWindows();
-    camera.release();
     SalvarArquivo();
+    }
+   camera.release();
+   camera.release();
+   camera.release();
+   cvDestroyAllWindows();
+  cvDestroyAllWindows();
 
 }
 void CalibracaoAutomatica::Fechar(){
-    fim = true;
+        fim = true;
+       cv::destroyAllWindows();
+
 
 }
 void CalibracaoAutomatica::thresh_callback(int, void *) {

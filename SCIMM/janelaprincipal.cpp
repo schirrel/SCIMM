@@ -12,6 +12,7 @@
 
 CalibracaoAutomatica CA;
 CalibracaoManual CM;
+int CAMERA =0;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::JanelaPrincipal)
@@ -53,33 +54,51 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     connect(ui->BT_CM_CALIBRAR, SIGNAL(clicked(bool)), SLOT(IniciarCalibracao()));
     connect(ui->BT_CM_SALVAR, SIGNAL(clicked(bool)), SLOT(SalvarCalibracao()));
     connect(ui->BT_CM_FINALIZAR, SIGNAL(clicked(bool)), SLOT(FinalizarCalibracao()));
-
+    connect(ui->BT_CM_INICIAR, SIGNAL(clicked(bool)), SLOT(IniciarCameraManual()));
     //Ações Calibração Automatica
     connect(ui->BT_CA_INICIAR, SIGNAL(clicked(bool)), SLOT(BotaoIniciar()));
     connect(ui->BT_CA_SALVAR, SIGNAL(clicked(bool)), SLOT(BotaoSalvar()));
     connect(ui->BT_CA_FINALIZAR, SIGNAL(clicked(bool)), SLOT(BotaoFinalizar()));
     connect(ui->CB_CA_CORES, SIGNAL(currentIndexChanged(int)), SLOT(ComboCorChanged(int)));
     connect(ui->CB_CA_OBJETOS, SIGNAL(currentIndexChanged(int)), SLOT(ComboObjetoChanged(int)));
+    connect(ui->BT_CA_INICIAR_CAM, SIGNAL(clicked(bool)), SLOT(IniciarCameraAutomatico()));
 
 }
 
 // ----------- Métodos Menu -----------
 void JanelaPrincipal::MenuManual(){
-    ui->TELAS->setCurrentIndex(0);
     CA.Fechar();
-    CM.Iniciar(this);
+            ResetarTelas();
+    ui->TELAS->setCurrentIndex(0);
+
 
 }
 void JanelaPrincipal::MenuAutomatico(){
+    CM.Fechar();
+    ResetarTelas();
     ui->TELAS->setCurrentIndex(1);
-    CM.Fechar();
-    CM.Fechar();
-    CM.Fechar();
-    CM.Fechar();
-   CA.Iniciar(this);
 }
 void JanelaPrincipal::MenuSobre(){
+    ResetarTelas();
     ui->TELAS->setCurrentIndex(2);
+}
+void JanelaPrincipal::ResetarTelas(){
+    ui->BT_CA_INICIAR_CAM->setEnabled(true);
+    ui->BT_CM_INICIAR->setEnabled(true);
+
+    ui->BT_CM_CALIBRAR->setEnabled(false);
+    ui->BT_CM_SALVAR->setEnabled(false);
+    ui->BT_CM_FINALIZAR->setEnabled(false);
+    ui->SLIDER_CM_MAX->setEnabled(false);
+    ui->SLIDER_CM_MIN->setEnabled(false);
+    ui->EDIT_CM_MAX->setEnabled(false);
+    ui->EDIT_CM_MIN->setEnabled(false);
+    ui->BT_CA_INICIAR->setEnabled(false);
+    ui->BT_CA_SALVAR->setEnabled(false);
+    ui->BT_CA_FINALIZAR->setEnabled(false);
+    ui->CB_CA_CORES->setEnabled(false);
+    ui->CB_CA_OBJETOS->setEnabled(false);
+    ui->PROGRESS_CA->setEnabled(false);
 }
 
 // ----------- Métodos Calibração Manual -----------
@@ -111,6 +130,7 @@ void JanelaPrincipal::SalvarCalibracao(){
 }
 void JanelaPrincipal::FinalizarCalibracao(){
     // std::cout << "Finalizada " << std::endl;
+    CM.Fechar();
     FINALIZADA = true;
 }
 void JanelaPrincipal::setMaxTextInt(int value){
@@ -342,6 +362,17 @@ void JanelaPrincipal::RePlot(int a[256]){
     }
 
 }
+void JanelaPrincipal::IniciarCameraManual(){
+    ui->BT_CM_INICIAR->setEnabled(false);
+    ui->BT_CM_CALIBRAR->setEnabled(true);
+    ui->BT_CM_SALVAR->setEnabled(true);
+    ui->BT_CM_FINALIZAR->setEnabled(true);
+    ui->SLIDER_CM_MAX->setEnabled(true);
+    ui->SLIDER_CM_MIN->setEnabled(true);
+    ui->EDIT_CM_MAX->setEnabled(true);
+    ui->EDIT_CM_MIN->setEnabled(true);
+    CM.Iniciar(this, CAMERA);
+}
 
 // ----------- Métodos Calibração Automatico -----------
 
@@ -376,6 +407,7 @@ void JanelaPrincipal::SetStatus(int porcento, std::string mensagem){
 
 }
 void JanelaPrincipal::BotaoFinalizar(){
+    CA.Fechar();
     FINALIZADO = true;
 
 }
@@ -383,10 +415,21 @@ void JanelaPrincipal::ComboObjetoChanged(int index){
     INDICE_OBJETO = index;
     ui->CHECK_CA_CALIBRADO->setChecked(CALIBRADO[INDICE_COR]);
 }
-void::JanelaPrincipal::ComboCorChanged(int index){
+void JanelaPrincipal::ComboCorChanged(int index){
     INDICE_COR = index;
     ui->CHECK_CA_CALIBRADO->setChecked(CALIBRADO[INDICE_COR]);
 }
+void JanelaPrincipal::IniciarCameraAutomatico(){
+    ui->BT_CA_INICIAR_CAM->setEnabled(false);
+    ui->BT_CA_INICIAR->setEnabled(true);
+    ui->BT_CA_SALVAR->setEnabled(true);
+    ui->BT_CA_FINALIZAR->setEnabled(true);
+    ui->CB_CA_CORES->setEnabled(true);
+    ui->CB_CA_OBJETOS->setEnabled(true);
+    ui->PROGRESS_CA->setEnabled(true);
+   CA.Iniciar(this, CAMERA);
+}
+
 
 JanelaPrincipal::~JanelaPrincipal()
 {
