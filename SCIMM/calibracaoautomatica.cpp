@@ -14,14 +14,134 @@
 using namespace cv;
 RNG rng(12345);
 bool fim=false;
+Rect tamanho;
+Mat frameA, imgFinal;
+int dragA, select_flagA;
+bool callbackA = false;
+const char* src_window = "Selecao de Campo";
+
+cv::Point point1, point2;
 CalibracaoAutomatica::CalibracaoAutomatica()
 {
 
 }
 
+static void mouseHandler(int event, int x, int y, int flags, void *param) {
+    /*if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA)
+        {
+            /* left button clicked. ROI selection begins
+            point1 = cv::Point(x, y);
+              cv::imshow(src_window, frameA);
+            dragA = 1;
+        }
+
+        if (event == CV_EVENT_MOUSEMOVE && dragA && !select_flagA)
+        {
+            /* mouse dragged. ROI being selected
+            cv::Mat img1 = frameA.clone();
+            point2 = cv::Point(x, y);
+cv::rectangle(img1, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+            cv::imshow(src_window, img1);
+        }
+
+        if (event == CV_EVENT_LBUTTONUP && dragA && !select_flagA)
+        {
+
+            cv::Mat img2 = frameA.clone();
+
+            point2 = cv::Point(x, y);
+            dragA = 0;
+            select_flagA = 1;
+             cv::imshow(src_window, img2);
+            cv::Rect rRect(point1, point2);
+           rRect;
+            Mat roi(img2, rRect);
+            cv::imshow("final ", roi);
+            callbackA = true;
+        }*/
+
+    if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA) {
+
+        point1 = cv::Point(x, y);
+        dragA = 1;
+    }
+
+    if (event == CV_EVENT_MOUSEMOVE && dragA && !select_flagA) {
+
+        cv::Mat img1 = frameA.clone();
+        point2 = cv::Point(x, y);
+        cv::rectangle(img1, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+        cv::imshow(src_window, img1);
+    }
+
+    if (event == CV_EVENT_LBUTTONUP && dragA && !select_flagA) {
+        cv::Mat img2 = frameA.clone();
+        point2 = cv::Point(x, y);
+        cv::rectangle(img2, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+        dragA = 0;
+        callbackA = true;
+        cv::imshow(src_window, img2);
+        if (point1.y > point2.y || point1.x > point2.x) {
+            printf("Horientação errada para detecção de cor.");
+
+        } else {
+            //AddPoint(ponto_inicio, ponto_fim);
+        }
+
+    }
+
+
+
+}
+
+void CalibracaoAutomatica::ConfigurarCamera(int CAMERA){
+    cv::VideoCapture cap;
+
+    cap.open(CAMERA);
+
+    if( !cap.isOpened() )
+    {
+        std::cout << "Could not initialize capturing...\n";
+
+    }
+
+   while(true){
+        cap >> frameA;
+        cv::imshow(src_window,frameA);
+        cv::setMouseCallback(src_window,mouseHandler,0);
+        if(callbackA)
+        {
+            cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+            cv::imshow(src_window,frameA);}
+        if (cv::waitKey(30) >= 0) break;
+    }
+
+    cvDestroyAllWindows();
+
+    tamanho = Rect(point1.x,point1.y,(point2.x-point1.x) ,(point2.y-point1.y));
+
+    while(true){
+        cap >> frameA;
+        cv::Mat croppedImage = frameA(tamanho);
+        cv::imshow(src_window,croppedImage);
+        if (cv::waitKey(30) >= 0) break;
+    }
+ cvDestroyAllWindows();
+ cap.release();
+ cvDestroyAllWindows();
+}
+
 void CalibracaoAutomatica::Iniciar(JanelaPrincipal* janela, int CAMERA){
-fim=false;
-      cv::VideoCapture camera(CAMERA);
+    ConfigurarCamera(CAMERA);\
+    std::cout  << tamanho << std::endl;
+   Calibrar(janela, CAMERA);
+
+}
+
+void CalibracaoAutomatica::Calibrar(JanelaPrincipal* janela, int CAMERA){
+    fim=false;
+     cv::Mat croppedImage;
+    cv::VideoCapture camera(CAMERA);
     if (!camera.isOpened()) {
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
@@ -29,75 +149,78 @@ fim=false;
 
     while (!janela->INICIAR) {
         camera >> frame;
-        cv::imshow("Imagem da Camera", frame);
+      frame=  croppedImage = frame(tamanho);
+        cv::imshow("Imagem da Camera", croppedImage);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
         thresh_callback(0, 0);
         if (cv::waitKey(30) >= 0 || fim) break;
-//        if(fim) {
-//            break;
-//        }
+        //        if(fim) {
+        //            break;
+        //        }
 
     }
-   if(!fim){
-    janela->SetStatus(25, "Detectando Objetos");
+    if(!fim){
+        janela->SetStatus(25, "Detectando Objetos");
 
-    cvtColor(frame, src_gray, CV_BGR2GRAY);
-    blur(src_gray, src_gray, Size(3, 3));
-    //createTrackbar(" Canny thresh:", "janela", &thresh, 255, thresh_callback);
-    thresh_callback(0, 0);
-    sleep(1);
-    insideRect = EliminarExcessos();
-    janela->SetStatus(50, "Eliminando Objetos Indesejados");
-    sleep(1);
-    MetodoCalcular();
-    janela->SetStatus(75, "Calculando Valores HSV");
-    sleep(1);
-    janela->SetText(cores.size() );
-    janela->SetStatus(100, "Exibindo Objetos com Threshold");
-    sleep(1);
-    Mat Threshold;
-    Mat res;
-    while(1){
-        camera >> frame;
-        dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
-
-        cv::cvtColor(frame,HSV,cv::COLOR_RGB2HSV);
-        cv::inRange(HSV,cv::Scalar(cores[janela->INDICE_OBJETO].MIN[0],cores[janela->INDICE_OBJETO].MIN[1],cores[janela->INDICE_OBJETO].MIN[2]),cv::Scalar( cores[janela->INDICE_OBJETO].MAX[0] , cores[janela->INDICE_OBJETO].MAX[1] , cores[janela->INDICE_OBJETO].MAX[2] ),Threshold);
+        cvtColor(frame, src_gray, CV_BGR2GRAY);
+        blur(src_gray, src_gray, Size(3, 3));
+        //createTrackbar(" Canny thresh:", "janela", &thresh, 255, thresh_callback);
+        thresh_callback(0, 0);
+        sleep(1);
+        insideRect = EliminarExcessos();
+        janela->SetStatus(50, "Eliminando Objetos Indesejados");
+        sleep(1);
+        MetodoCalcular();
+        janela->SetStatus(75, "Calculando Valores HSV");
+        sleep(1);
+        janela->SetText(cores.size() );
+        janela->SetStatus(100, "Exibindo Objetos com Threshold");
+        sleep(1);
+        Mat Threshold;
         Mat res;
-        if(janela->CALIBRADO){
-            CorCalibrada cor;
-            cor.SetMax(cores[janela->INDICE_OBJETO].MAX);
-            cor.SetMin(cores[janela->INDICE_OBJETO].MIN);
-            coresCalibradas[janela->INDICE_COR] = cor;
-            janela->SALVAR = false;
+        while(1){
+            camera >> frame;
+            dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
+
+            cv::cvtColor(frame,HSV,cv::COLOR_RGB2HSV);
+            cv::inRange(HSV,cv::Scalar(cores[janela->INDICE_OBJETO].MIN[0],cores[janela->INDICE_OBJETO].MIN[1],cores[janela->INDICE_OBJETO].MIN[2]),cv::Scalar( cores[janela->INDICE_OBJETO].MAX[0] , cores[janela->INDICE_OBJETO].MAX[1] , cores[janela->INDICE_OBJETO].MAX[2] ),Threshold);
+            Mat res;
+            if(janela->CALIBRADO){
+                CorCalibrada cor;
+                cor.SetMax(cores[janela->INDICE_OBJETO].MAX);
+                cor.SetMin(cores[janela->INDICE_OBJETO].MIN);
+                coresCalibradas[janela->INDICE_COR] = cor;
+                janela->SALVAR = false;
+            }
+            bitwise_and(frame, frame, res, Threshold );
+            cv::imshow("Limiar por Objeto", res);
+            if(janela->FINALIZADO){
+                break;
+            }
         }
-        bitwise_and(frame, frame, res, Threshold );
-        cv::imshow("Limiar por Objeto", res);
-       if(janela->FINALIZADO){
-         break;
-        }
+        SalvarArquivo();
     }
-    SalvarArquivo();
-    }
-   camera.release();
-   camera.release();
-   camera.release();
-   cvDestroyAllWindows();
-  cvDestroyAllWindows();
+    camera.release();
+    camera.release();
+    camera.release();
+    cvDestroyAllWindows();
+    cvDestroyAllWindows();
 
 }
+
+
 void CalibracaoAutomatica::Fechar(){
-        fim = true;
-       cv::destroyAllWindows();
+    fim = true;
+    cv::destroyAllWindows();
 
 
 }
 void CalibracaoAutomatica::thresh_callback(int, void *) {
 
     Mat canny_output;
-     std::vector< std::vector<Point> > contours;
-     std::vector<Vec4i> hierarchy;
+    std::vector< std::vector<Point> > contours;
+    std::vector<Vec4i> hierarchy;
 
 
     Canny(src_gray, canny_output, thresh, thresh * 2, 3);
@@ -123,7 +246,7 @@ void CalibracaoAutomatica::thresh_callback(int, void *) {
 
     Rect n;
     Point pTopRight, pBottomLeft;
-    namedWindow("Contours", CV_WINDOW_AUTOSIZE);
+    //  namedWindow("Contours", CV_WINDOW_AUTOSIZE);
     for (unsigned int i = 0; i < contours.size(); i++) {
         Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
         drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, Point());
@@ -147,14 +270,14 @@ void CalibracaoAutomatica::thresh_callback(int, void *) {
         }
     }
 
-    imshow("Contours", drawing);
+    //    /imshow("Contours", drawing);
 
 }
 bool CalibracaoAutomatica::CompararRectPorArea(Rect a, Rect b){
     return a.area() < b.area();
 
 }
- std::vector<Rect> CalibracaoAutomatica::EliminarExcessos(){
+std::vector<Rect> CalibracaoAutomatica::EliminarExcessos(){
 
     if(insideRect.size() > 29) {
         std::cout << "PROBLEMA, AMOSTRA MAIOR QUE 29" <<std::endl;
@@ -166,7 +289,7 @@ bool CalibracaoAutomatica::CompararRectPorArea(Rect a, Rect b){
 
 
     double L1=Limites[1], L2=Limites[0];
-     std::vector<Rect> tamanhoEsperado;
+    std::vector<Rect> tamanhoEsperado;
     //sort(insideRect.begin(), insideRect.end(),CalibracaoAutomatica::EliminarExcessos);
     for(unsigned int i=0; i< insideRect.size(); i++){
         //        std::cout << insideRect.at(i).area() << std::endl;

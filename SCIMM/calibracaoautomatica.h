@@ -16,6 +16,7 @@ public:
 
 private:
 
+    void ConfigurarCamera(int CAMERA);
     CorCalibrada coresCalibradas[8];
     Mat src_gray, HSV, frame;
     int thresh = 20;
@@ -27,6 +28,7 @@ private:
     void thresh_callback(int, void *);
     void SalvarArquivo();
     double ObterPorcentagem(int valor, int porcentagem);
+    void Calibrar(JanelaPrincipal* janela, int CAMERA);
     bool CompararRectPorArea(Rect a, Rect b);
 };
 

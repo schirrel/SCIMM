@@ -7,20 +7,62 @@
 #include "opencv2/imgproc/imgproc.hpp"
 using namespace cv;
 bool FIM=false;
+
+char* janelasNome[2] = {"Selecão de Cores", "Threshold"};;
+Mat frame;
+
+int CALIBRANDO_ATUAL, select_flag, key;
+int H[256], S[256], V[256];
+bool CalibracaoFinalizada = false, callback;
+
+CorCalibrada coresCalibradas[8];
+cv::Mat hsvImagens[8], HSV, Threshold;
+cv::Point ponto_inicio, ponto_fim;
+cv::Vec3b pixel;
+int drag;
 CalibracaoManual::CalibracaoManual()
 {
 
 }
-
-
-
 bool CalibracaoManual::CameraLiberada(){
     return FIM;
 }
 
+
+static void mouseHandler(int event, int x, int y, int flags, void *param) {
+   /* if (event == CV_EVENT_LBUTTONDOWN && !drag && !select_flag) {
+        /* left button clicked. ROI selection begins
+        ponto_inicio = cv::Point(x, y);
+        drag = 1;
+    }
+
+    if (event == CV_EVENT_MOUSEMOVE && drag && !select_flag) {
+        /* mouse dragged. ROI being selected
+        cv::Mat img1 = frame.clone();
+        ponto_fim = cv::Point(x, y);
+        cv::rectangle(img1, ponto_inicio, ponto_fim, CV_RGB(255, 0, 0), 2, 5, 0);
+        cv::imshow(janelasNome[0], img1);
+    }
+
+    if (event == CV_EVENT_LBUTTONUP && drag && !select_flag) {
+        cv::Mat img2 = frame.clone();
+        ponto_fim = cv::Point(x, y);
+        cv::rectangle(img2, ponto_inicio, ponto_fim, CV_RGB(255, 0, 0), 2, 5, 0);
+        drag = 0;
+       callback = true;
+       if (ponto_inicio.y > ponto_fim.y || ponto_inicio.x > ponto_fim.x) {
+                   printf("Horientação errada para detecção de cor.");
+
+               } else {
+                   //AddPoint(ponto_inicio, ponto_fim);
+               }
+
+    } */
+}
+
 void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
     int CALIBRANDO_ATUAL;
-    Mat frame, src;
+    Mat src;
     FIM  =false;
     cv::VideoCapture camera(CAMERA);
     if (camera.isOpened()) {
@@ -34,6 +76,7 @@ void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
                 DeclararMatrizes();
                 CALIBRANDO_ATUAL = janela->INDEX_CALIBRACAO;
             }
+            cv::setMouseCallback(janelasNome[0], mouseHandler, 0);
             cv::imshow(janelasNome[0], frame);
             //  cv::setMouseCallback("janelasNome[0]",mouseWrapper,this);
             if(janela->CALIBRAR){
@@ -62,8 +105,6 @@ void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
 
 
 }
-
-
 void CalibracaoManual::Fechar(){
 
     FIM =true;
@@ -74,7 +115,6 @@ void CalibracaoManual::Fechar(){
 
 
 }
-
 void CalibracaoManual::DeclararMatrizes(){
     memset(H, 0, sizeof(H));
     memset(S, 0, sizeof(S));
