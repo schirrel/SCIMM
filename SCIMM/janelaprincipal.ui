@@ -488,15 +488,29 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>240</x>
-         <y>345</y>
+         <x>100</x>
+         <y>450</y>
          <width>85</width>
          <height>27</height>
         </rect>
        </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
        <property name="editable">
         <bool>false</bool>
        </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="duplicatesEnabled">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>Vazio</string>
+        </property>
+       </item>
       </widget>
       <widget class="QLabel" name="label_9">
        <property name="geometry">
@@ -623,6 +637,16 @@
        </property>
        <property name="text">
         <string>Ligar Camera</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>340</y>
+         <width>85</width>
+         <height>27</height>
+        </rect>
        </property>
       </widget>
      </widget>

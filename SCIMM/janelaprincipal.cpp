@@ -9,9 +9,11 @@
 #include <QCloseEvent>
 #include "calibracaomanual.h"
 #include "calibracaoautomatica.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 CalibracaoAutomatica CA;
 CalibracaoManual CM;
+QComboBox *op;
 int CAMERA =1;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
@@ -21,7 +23,6 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
 
 
     ui->setupUi(this);
-
     //Inicialização de Variaveis
     cor.COR_INDICE = 0;
     MIN[0] = MIN[1]  = MIN[2] = 0;
@@ -60,15 +61,13 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     connect(ui->BT_CA_SALVAR, SIGNAL(clicked(bool)), SLOT(BotaoSalvar()));
     connect(ui->BT_CA_FINALIZAR, SIGNAL(clicked(bool)), SLOT(BotaoFinalizar()));
     connect(ui->CB_CA_CORES, SIGNAL(currentIndexChanged(int)), SLOT(ComboCorChanged(int)));
-    connect(ui->CB_CA_OBJETOS, SIGNAL(currentIndexChanged(int)), SLOT(ComboObjetoChanged(int)));
     connect(ui->BT_CA_INICIAR_CAM, SIGNAL(clicked(bool)), SLOT(IniciarCameraAutomatico()));
-
 }
 
 // ----------- Métodos Menu -----------
 void JanelaPrincipal::MenuManual(){
     CA.Fechar();
-            ResetarTelas();
+    ResetarTelas();
     ui->TELAS->setCurrentIndex(0);
 
 
@@ -77,6 +76,8 @@ void JanelaPrincipal::MenuAutomatico(){
     CM.Fechar();
     ResetarTelas();
     ui->TELAS->setCurrentIndex(1);
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(ComboObjetoChanged(int)));
+
 }
 void JanelaPrincipal::MenuSobre(){
     ResetarTelas();
@@ -99,6 +100,7 @@ void JanelaPrincipal::ResetarTelas(){
     ui->CB_CA_CORES->setEnabled(false);
     ui->CB_CA_OBJETOS->setEnabled(false);
     ui->PROGRESS_CA->setEnabled(false);
+
 }
 
 // ----------- Métodos Calibração Manual -----------
@@ -377,16 +379,10 @@ void JanelaPrincipal::IniciarCameraManual(){
 // ----------- Métodos Calibração Automatico -----------
 
 void JanelaPrincipal::SetText(int qtd){
-   QStringList sl;
-    sl << "one" << "two" << "three";
-    ui->CB_CA_OBJETOS->addItems(sl);
- ui->CB_CA_OBJETOS->setEnabled(true);
-   for(int i=0;i<qtd;i++){
-       std::cout << "qtd " << i << std::endl;
-       QString s = "hallo";
 
-     // ui->CB_CA_OBJETOS->addItem(s);
-    }
+   for(int i=0;i<qtd;i++){
+         ui->comboBox->addItem(QString::number(i));
+  }
 
 }
 void JanelaPrincipal::BotaoSalvar(){
@@ -432,7 +428,7 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     ui->CB_CA_CORES->setEnabled(true);
     ui->CB_CA_OBJETOS->setEnabled(true);
     ui->PROGRESS_CA->setEnabled(true);
-   CA.Iniciar(this, CAMERA);
+    CA.Iniciar(this, CAMERA);
 }
 
 
@@ -440,3 +436,4 @@ JanelaPrincipal::~JanelaPrincipal()
 {
     delete ui;
 }
+

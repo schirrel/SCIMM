@@ -34,7 +34,7 @@ public:
     CorCalibrada cor;
 
     // -----------  Variaveis Publicas Calibração Automatica
-    int INDICE_COR, INDICE_OBJETO;
+    int INDICE_COR = 067    , INDICE_OBJETO = 0;
     bool SALVAR, INICIAR, FINALIZADO;
 
 

@@ -85,6 +85,7 @@ public:
     QComboBox *CB_CA_CORES;
     QPushButton *BT_CA_FINALIZAR;
     QPushButton *BT_CA_INICIAR_CAM;
+    QComboBox *comboBox;
     QWidget *TelaSobre;
     QLabel *label_7;
     QLabel *label_10;
@@ -291,8 +292,10 @@ public:
         CB_CA_OBJETOS = new QComboBox(frame_2);
         CB_CA_OBJETOS->setObjectName(QStringLiteral("CB_CA_OBJETOS"));
         CB_CA_OBJETOS->setEnabled(true);
-        CB_CA_OBJETOS->setGeometry(QRect(240, 345, 85, 27));
-        CB_CA_OBJETOS->setEditable(true);
+        CB_CA_OBJETOS->setGeometry(QRect(100, 450, 85, 27));
+        CB_CA_OBJETOS->setAcceptDrops(true);
+        CB_CA_OBJETOS->setEditable(false);
+        CB_CA_OBJETOS->setDuplicatesEnabled(true);
         label_9 = new QLabel(frame_2);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setGeometry(QRect(100, 400, 67, 17));
@@ -315,6 +318,9 @@ public:
         BT_CA_INICIAR_CAM = new QPushButton(frame_2);
         BT_CA_INICIAR_CAM->setObjectName(QStringLiteral("BT_CA_INICIAR_CAM"));
         BT_CA_INICIAR_CAM->setGeometry(QRect(309, 61, 181, 51));
+        comboBox = new QComboBox(frame_2);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setGeometry(QRect(240, 340, 85, 27));
         TELAS->addWidget(TelaAutomatico);
         TelaSobre = new QWidget();
         TelaSobre->setObjectName(QStringLiteral("TelaSobre"));
@@ -394,6 +400,7 @@ public:
 
         TELAS->setCurrentIndex(1);
         TAB_HSV->setCurrentIndex(0);
+        CB_CA_OBJETOS->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(JanelaPrincipal);
@@ -431,6 +438,10 @@ public:
         BT_CA_INICIAR->setText(QApplication::translate("JanelaPrincipal", "Iniciar Calibra\303\247\303\243o", 0));
         LABEL_CA_STATUS->setText(QString());
         label_8->setText(QApplication::translate("JanelaPrincipal", "Objetos Encontrado", 0));
+        CB_CA_OBJETOS->clear();
+        CB_CA_OBJETOS->insertItems(0, QStringList()
+         << QApplication::translate("JanelaPrincipal", "Vazio", 0)
+        );
         label_9->setText(QApplication::translate("JanelaPrincipal", "Cores:", 0));
         BT_CA_SALVAR->setText(QApplication::translate("JanelaPrincipal", "Salvar", 0));
         CHECK_CA_CALIBRADO->setText(QApplication::translate("JanelaPrincipal", "Calibrada", 0));

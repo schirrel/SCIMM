@@ -1865,15 +1865,79 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qicon.h \
 		ui_janelaprincipal.h \
+		../../Qt/5.6/gcc_64/include/QtCore/QVariant \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QAction \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qaction.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QApplication \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qapplication.h \
+		../../Qt/5.6/gcc_64/include/QtCore/qcoreapplication.h \
+		../../Qt/5.6/gcc_64/include/QtCore/qeventloop.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qguiapplication.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qinputmethod.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QButtonGroup \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QCheckBox \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QComboBox \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qcombobox.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qvalidator.h \
+		../../Qt/5.6/gcc_64/include/QtCore/qregularexpression.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qslider.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qstyle.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qtabbar.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qframe.h \
+		../../Qt/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QFrame \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qlayout.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QHeaderView \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qheaderview.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../Qt/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QLabel \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qlabel.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QLineEdit \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qlineedit.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qtextcursor.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qtextformat.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.6/gcc_64/include/QtGui/qtextoption.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QMenu \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qmenu.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QMenuBar \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qmenubar.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QProgressBar \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qprogressbar.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QPushButton \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QSlider \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QStackedWidget \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qstackedwidget.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QStatusBar \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QTabWidget \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QToolBar \
+		../../Qt/5.6/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../Qt/5.6/gcc_64/include/QtWidgets/QWidget \
 		../SCIMM/qcustomplot.h \
 		../../Qt/5.6/gcc_64/include/QtCore/QObject \
 		../../Qt/5.6/gcc_64/include/QtCore/QPointer \
 		../../Qt/5.6/gcc_64/include/QtCore/qpointer.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.6/gcc_64/include/QtGui/QPainter \
 		../../Qt/5.6/gcc_64/include/QtGui/qpainter.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qtextoption.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qpen.h \
 		../../Qt/5.6/gcc_64/include/QtGui/QPaintEvent \
 		../../Qt/5.6/gcc_64/include/QtGui/QMouseEvent \
 		../../Qt/5.6/gcc_64/include/QtGui/QPixmap \
@@ -1933,10 +1997,8 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qtemporarydir.h \
 		../../Qt/5.6/gcc_64/include/QtCore/QScopedPointer \
 		../../Qt/5.6/gcc_64/include/QtCore/qtemporaryfile.h \
-		../../Qt/5.6/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qabstractproxymodel.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qidentityproxymodel.h \
-		../../Qt/5.6/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qsortfilterproxymodel.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qstringlistmodel.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qjsonarray.h \
@@ -1944,10 +2006,8 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qjsondocument.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qjsonobject.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-		../../Qt/5.6/gcc_64/include/QtCore/qeventloop.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qbasictimer.h \
-		../../Qt/5.6/gcc_64/include/QtCore/qcoreapplication.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qmetaobject.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qmimedata.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qobjectcleanuphandler.h \
@@ -1998,7 +2058,6 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qlinkedlist.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qmessageauthenticationcode.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qqueue.h \
-		../../Qt/5.6/gcc_64/include/QtCore/qregularexpression.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qscopedvaluerollback.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qtextboundaryfinder.h \
 		../../Qt/5.6/gcc_64/include/QtCore/qtimeline.h \
@@ -2027,8 +2086,6 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qdrag.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qgenericplugin.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qgenericpluginfactory.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qinputmethod.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qoffscreensurface.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qsurface.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qsurfaceformat.h \
@@ -2079,11 +2136,9 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qpdfwriter.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qtextlayout.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qtextformat.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qglyphrun.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qrawfont.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qfontdatabase.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qtextcursor.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qtextdocument.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qstatictext.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qsyntaxhighlighter.h \
@@ -2093,7 +2148,6 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qtextlist.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qtexttable.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qdesktopservices.h \
-		../../Qt/5.6/gcc_64/include/QtGui/qvalidator.h \
 		../../Qt/5.6/gcc_64/include/QtGui/qtguiversion.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/QtWidgets \
 		../../Qt/5.6/gcc_64/include/QtWidgets/QtWidgetsDepends \
@@ -2105,8 +2159,6 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qfilesystemmodel.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qfontdialog.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qinputdialog.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qlineedit.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qframe.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qprogressdialog.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qwizard.h \
@@ -2127,21 +2179,10 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtGui/QMatrix4x4 \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qgraphicsview.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qscrollarea.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qstyleoption.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qslider.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractslider.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qstyle.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qtabbar.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qrubberband.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractitemview.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qcolumnview.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qdirmodel.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qfileiconprovider.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qheaderview.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qitemdelegate.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qitemeditorfactory.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qlistview.h \
@@ -2152,14 +2193,6 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtreeview.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtreewidget.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtreewidgetitemiterator.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qaction.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qgridlayout.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qformlayout.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/QLayout \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qgesture.h \
@@ -2186,18 +2219,12 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/QScrollerProperties \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qscrollerproperties.h \
 		../../Qt/5.6/gcc_64/include/QtCore/QMetaType \
-		../../Qt/5.6/gcc_64/include/QtCore/QVariant \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qsystemtrayicon.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qundogroup.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qundostack.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qundoview.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qbuttongroup.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qcalendarwidget.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qcheckbox.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qcombobox.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qcommandlinkbutton.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qdatetimeedit.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qdial.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qdialogbuttonbox.h \
@@ -2206,25 +2233,18 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qfontcombobox.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qgroupbox.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qkeysequenceedit.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qlabel.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qlcdnumber.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qmdiarea.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qmdisubwindow.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qmenu.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qmenubar.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qplaintextedit.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtextedit.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qprogressbar.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qradiobutton.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qscrollbar.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qsizegrip.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qspinbox.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qsplashscreen.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qsplitter.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qstackedwidget.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qstatusbar.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtextbrowser.h \
-		../../Qt/5.6/gcc_64/include/QtWidgets/qtoolbar.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtoolbox.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtoolbutton.h \
 		../../Qt/5.6/gcc_64/include/QtWidgets/qtwidgetsversion.h \

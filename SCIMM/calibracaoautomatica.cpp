@@ -148,7 +148,7 @@ std::cout <<"Tamanho " <<insideRect.size() << std::endl;
         sleep(1);
 
 
-    /*   Mat Threshold;
+  Mat Threshold;
         Mat res;
 
         while(1){
@@ -158,21 +158,21 @@ std::cout <<"Tamanho " <<insideRect.size() << std::endl;
 
           cv::cvtColor(frame,HSV,cv::COLOR_RGB2HSV);
             cv::inRange(HSV,cv::Scalar(cores[janela->INDICE_OBJETO].MIN[0],cores[janela->INDICE_OBJETO].MIN[1],cores[janela->INDICE_OBJETO].MIN[2]),cv::Scalar( cores[janela->INDICE_OBJETO].MAX[0] , cores[janela->INDICE_OBJETO].MAX[1] , cores[janela->INDICE_OBJETO].MAX[2] ),Threshold);
-            Mat res;
+            /*Mat res;
             if(janela->CALIBRADO){
                 CorCalibrada cor;
                 cor.SetMax(cores[janela->INDICE_OBJETO].MAX);
                 cor.SetMin(cores[janela->INDICE_OBJETO].MIN);
                 coresCalibradas[janela->INDICE_COR] = cor;
                 janela->SALVAR = false;
-            }
+            }*/
             bitwise_and(frame, frame, res, Threshold );
             cv::imshow("Limiar por Objeto", res);
             if(janela->FINALIZADO){
                 break;
             }
              if (cv::waitKey(30) >= 0 || fim) break;
-        }*/
+        }
         //SalvarArquivo();
 
     }
