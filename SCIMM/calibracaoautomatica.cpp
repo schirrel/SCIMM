@@ -27,38 +27,6 @@ CalibracaoAutomatica::CalibracaoAutomatica()
 }
 
 static void mouseHandler(int event, int x, int y, int flags, void *param) {
-    /*if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA)
-        {
-            /* left button clicked. ROI selection begins
-            point1 = cv::Point(x, y);
-              cv::imshow(src_window, frameA);
-            dragA = 1;
-        }
-
-        if (event == CV_EVENT_MOUSEMOVE && dragA && !select_flagA)
-        {
-            /* mouse dragged. ROI being selected
-            cv::Mat img1 = frameA.clone();
-            point2 = cv::Point(x, y);
-cv::rectangle(img1, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
-            cv::imshow(src_window, img1);
-        }
-
-        if (event == CV_EVENT_LBUTTONUP && dragA && !select_flagA)
-        {
-
-            cv::Mat img2 = frameA.clone();
-
-            point2 = cv::Point(x, y);
-            dragA = 0;
-            select_flagA = 1;
-             cv::imshow(src_window, img2);
-            cv::Rect rRect(point1, point2);
-           rRect;
-            Mat roi(img2, rRect);
-            cv::imshow("final ", roi);
-            callbackA = true;
-        }*/
 
     if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA) {
 
@@ -133,7 +101,7 @@ void CalibracaoAutomatica::ConfigurarCamera(int CAMERA){
 
 void CalibracaoAutomatica::Iniciar(JanelaPrincipal* janela, int CAMERA){
     ConfigurarCamera(CAMERA);\
-    std::cout  << tamanho << std::endl;
+ //   std::cout  << tamanho << std::endl;
    Calibrar(janela, CAMERA);
 
 }
@@ -149,17 +117,15 @@ void CalibracaoAutomatica::Calibrar(JanelaPrincipal* janela, int CAMERA){
 
     while (!janela->INICIAR) {
         camera >> frame;
-      frame=  croppedImage = frame(tamanho);
-        cv::imshow("Imagem da Camera", croppedImage);
+      frame = frame(tamanho);
+        cv::imshow("Imagem da Camera", frame);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
         thresh_callback(0, 0);
         if (cv::waitKey(30) >= 0 || fim) break;
-        //        if(fim) {
-        //            break;
-        //        }
 
     }
+
     if(!fim){
         janela->SetStatus(25, "Detectando Objetos");
 
@@ -169,21 +135,28 @@ void CalibracaoAutomatica::Calibrar(JanelaPrincipal* janela, int CAMERA){
         thresh_callback(0, 0);
         sleep(1);
         insideRect = EliminarExcessos();
+std::cout <<"Tamanho " <<insideRect.size() << std::endl;
         janela->SetStatus(50, "Eliminando Objetos Indesejados");
         sleep(1);
         MetodoCalcular();
+        std::cout <<"Cores " <<cores.size() << std::endl;
+
         janela->SetStatus(75, "Calculando Valores HSV");
         sleep(1);
-        janela->SetText(cores.size() );
+      janela->SetText(cores.size() );
         janela->SetStatus(100, "Exibindo Objetos com Threshold");
         sleep(1);
-        Mat Threshold;
+
+
+    /*   Mat Threshold;
         Mat res;
+
         while(1){
             camera >> frame;
-            dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
+            frame = frame(tamanho);
+             dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
 
-            cv::cvtColor(frame,HSV,cv::COLOR_RGB2HSV);
+          cv::cvtColor(frame,HSV,cv::COLOR_RGB2HSV);
             cv::inRange(HSV,cv::Scalar(cores[janela->INDICE_OBJETO].MIN[0],cores[janela->INDICE_OBJETO].MIN[1],cores[janela->INDICE_OBJETO].MIN[2]),cv::Scalar( cores[janela->INDICE_OBJETO].MAX[0] , cores[janela->INDICE_OBJETO].MAX[1] , cores[janela->INDICE_OBJETO].MAX[2] ),Threshold);
             Mat res;
             if(janela->CALIBRADO){
@@ -198,14 +171,17 @@ void CalibracaoAutomatica::Calibrar(JanelaPrincipal* janela, int CAMERA){
             if(janela->FINALIZADO){
                 break;
             }
-        }
-        SalvarArquivo();
+             if (cv::waitKey(30) >= 0 || fim) break;
+        }*/
+        //SalvarArquivo();
+
     }
-    camera.release();
+   camera.release();
     camera.release();
     camera.release();
     cvDestroyAllWindows();
     cvDestroyAllWindows();
+
 
 }
 
@@ -246,20 +222,14 @@ void CalibracaoAutomatica::thresh_callback(int, void *) {
 
     Rect n;
     Point pTopRight, pBottomLeft;
-    //  namedWindow("Contours", CV_WINDOW_AUTOSIZE);
+      namedWindow("Contours", CV_WINDOW_AUTOSIZE);
     for (unsigned int i = 0; i < contours.size(); i++) {
         Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
         drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, Point());
         n = boundRect.at(i);
         pTopRight = n.tl();
         pBottomLeft = n.br();
-        //        pTopRight.x += 10;
-        //        pTopRight.y += 10;
-        //        pBottomLeft.x -= 10;
-        //        pBottomLeft.y -= 10;
-        //         ObterPorcentagem(pTopRight.x, 10);
-        //        std::cout <<"Valor x À direita " << pTopRight.x <<", 10% = " << ObterPorcentagem(pTopRight.x, 10)<< std::endl;
-        pTopRight.x += ObterPorcentagem(pTopRight.x, PORCENTAGEM);
+     pTopRight.x += ObterPorcentagem(pTopRight.x, PORCENTAGEM);
         pTopRight.y += ObterPorcentagem(pTopRight.y, PORCENTAGEM);
         pBottomLeft.x -= ObterPorcentagem(pBottomLeft.x, PORCENTAGEM);
         pBottomLeft.y -= ObterPorcentagem(pBottomLeft.y,PORCENTAGEM);
@@ -269,8 +239,7 @@ void CalibracaoAutomatica::thresh_callback(int, void *) {
             rectangle(drawing, rRect, Scalar(0, 0, 255), 1, 8, 0);
         }
     }
-
-    //    /imshow("Contours", drawing);
+imshow("Contours", drawing);
 
 }
 bool CalibracaoAutomatica::CompararRectPorArea(Rect a, Rect b){
@@ -287,7 +256,7 @@ std::vector<Rect> CalibracaoAutomatica::EliminarExcessos(){
     student.CalcularTdeStudent(insideRect);
     double* Limites =student.GetLimites();
 
-
+//std::cout << "Limite 1 " << Limites[1] << "\t Limite 2 " << Limites[0] <<std::endl;
     double L1=Limites[1], L2=Limites[0];
     std::vector<Rect> tamanhoEsperado;
     //sort(insideRect.begin(), insideRect.end(),CalibracaoAutomatica::EliminarExcessos);
@@ -392,7 +361,6 @@ void CalibracaoAutomatica::SalvarArquivo(){
     out.close();
 }
 double CalibracaoAutomatica::ObterPorcentagem(int valor, int porcentagem){
-    //    return (porcentagem * valor);
     double p = (porcentagem*valor)/100;
     return p;
 

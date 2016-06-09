@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="TelaManual">
      <widget class="QFrame" name="frameManual">
@@ -484,7 +484,7 @@
       </widget>
       <widget class="QComboBox" name="CB_CA_OBJETOS">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="geometry">
         <rect>
@@ -493,6 +493,9 @@
          <width>85</width>
          <height>27</height>
         </rect>
+       </property>
+       <property name="editable">
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QLabel" name="label_9">
@@ -817,7 +820,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCalibracao">

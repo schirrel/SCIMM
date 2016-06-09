@@ -290,8 +290,9 @@ public:
         label_8->setGeometry(QRect(100, 350, 150, 17));
         CB_CA_OBJETOS = new QComboBox(frame_2);
         CB_CA_OBJETOS->setObjectName(QStringLiteral("CB_CA_OBJETOS"));
-        CB_CA_OBJETOS->setEnabled(false);
+        CB_CA_OBJETOS->setEnabled(true);
         CB_CA_OBJETOS->setGeometry(QRect(240, 345, 85, 27));
+        CB_CA_OBJETOS->setEditable(true);
         label_9 = new QLabel(frame_2);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setGeometry(QRect(100, 400, 67, 17));
@@ -370,7 +371,7 @@ public:
         JanelaPrincipal->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(JanelaPrincipal);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 800, 19));
+        menuBar->setGeometry(QRect(0, 0, 800, 25));
         menuCalibracao = new QMenu(menuBar);
         menuCalibracao->setObjectName(QStringLiteral("menuCalibracao"));
         menuAjuda = new QMenu(menuBar);
@@ -391,7 +392,7 @@ public:
 
         retranslateUi(JanelaPrincipal);
 
-        TELAS->setCurrentIndex(2);
+        TELAS->setCurrentIndex(1);
         TAB_HSV->setCurrentIndex(0);
 
 

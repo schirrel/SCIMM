@@ -12,7 +12,7 @@
 
 CalibracaoAutomatica CA;
 CalibracaoManual CM;
-int CAMERA =0;
+int CAMERA =1;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::JanelaPrincipal)
@@ -377,10 +377,15 @@ void JanelaPrincipal::IniciarCameraManual(){
 // ----------- Métodos Calibração Automatico -----------
 
 void JanelaPrincipal::SetText(int qtd){
+   QStringList sl;
+    sl << "one" << "two" << "three";
+    ui->CB_CA_OBJETOS->addItems(sl);
+ ui->CB_CA_OBJETOS->setEnabled(true);
+   for(int i=0;i<qtd;i++){
+       std::cout << "qtd " << i << std::endl;
+       QString s = "hallo";
 
-    for(int i=0;i<qtd;i++){
-        ui->CB_CA_OBJETOS->addItem(QString::number(i));
-
+     // ui->CB_CA_OBJETOS->addItem(s);
     }
 
 }

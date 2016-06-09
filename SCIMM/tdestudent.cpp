@@ -28,11 +28,12 @@ double TdeStudent::Media(){
 double TdeStudent::DesvioPadrao(){
     int media = Media();
     int dif;
+
     for(unsigned int i=0;i<RECTS.size(); i++){
         dif+=pow((RECTS.at(i).area() - media),2);
     }
 
-
+return sqrt(dif/RECTS.size());;
 }
 
 double TdeStudent::EncontrarZ(int gl){
@@ -46,6 +47,7 @@ double TdeStudent::EncontrarZ(int gl){
 }
 
 void TdeStudent::DistribuicaoT(double media, double desvio, int numDados, int gl){
+   // std::cout<< " Media: " <<media << "\t desvio " << desvio << "\t numDados "<<numDados << "\t gl "<< gl << std::endl;
 
 
     double z = EncontrarZ(gl);
@@ -58,11 +60,14 @@ void TdeStudent::DistribuicaoT(double media, double desvio, int numDados, int gl
         LIMITES[1]=media-(z*(desvio/sqrt(numDados)));
     }
 
+
+   // std::cout<< " Media: " <<media << "\t calc " << (z*(desvio/sqrt(numDados))) << std::endl;
 }
 
 void TdeStudent::CalcularTdeStudent( std::vector<cv::Rect> rects){
 
       RECTS = rects;
+   //   std::cout << "Recs " << RECTS.size() << std::endl;
     double media = Media();
     double desvioPadrao = DesvioPadrao();
     int NumDados = RECTS.size();
@@ -85,7 +90,7 @@ double* TdeStudent::GetLimites(){
     //sort(insideRect.begin(), insideRect.end(),TdeStudent::CompararRectPorArea);
     for(unsigned int i=0; i< insideRect.size(); i++){
 //        std::cout << insideRect.at(i).area() << std::endl;
-        if(insideRect.at(i).area() >  LIMITES[0] && insideRect.at(i).area() <  LIMITES[1]){
+        if(insideRect.at(i).area() >  LIMITES[1] && insideRect.at(i).area() <  LIMITES[0]){
             tamanhoEsperado.push_back(insideRect.at(i));
         }
     }
