@@ -78,7 +78,6 @@ public:
     QProgressBar *PROGRESS_CA;
     QLabel *LABEL_CA_STATUS;
     QLabel *label_8;
-    QComboBox *CB_CA_OBJETOS;
     QLabel *label_9;
     QPushButton *BT_CA_SALVAR;
     QCheckBox *CHECK_CA_CALIBRADO;
@@ -289,13 +288,6 @@ public:
         label_8 = new QLabel(frame_2);
         label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setGeometry(QRect(100, 350, 150, 17));
-        CB_CA_OBJETOS = new QComboBox(frame_2);
-        CB_CA_OBJETOS->setObjectName(QStringLiteral("CB_CA_OBJETOS"));
-        CB_CA_OBJETOS->setEnabled(true);
-        CB_CA_OBJETOS->setGeometry(QRect(100, 450, 85, 27));
-        CB_CA_OBJETOS->setAcceptDrops(true);
-        CB_CA_OBJETOS->setEditable(false);
-        CB_CA_OBJETOS->setDuplicatesEnabled(true);
         label_9 = new QLabel(frame_2);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setGeometry(QRect(100, 400, 67, 17));
@@ -400,7 +392,6 @@ public:
 
         TELAS->setCurrentIndex(1);
         TAB_HSV->setCurrentIndex(0);
-        CB_CA_OBJETOS->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(JanelaPrincipal);
@@ -438,10 +429,6 @@ public:
         BT_CA_INICIAR->setText(QApplication::translate("JanelaPrincipal", "Iniciar Calibra\303\247\303\243o", 0));
         LABEL_CA_STATUS->setText(QString());
         label_8->setText(QApplication::translate("JanelaPrincipal", "Objetos Encontrado", 0));
-        CB_CA_OBJETOS->clear();
-        CB_CA_OBJETOS->insertItems(0, QStringList()
-         << QApplication::translate("JanelaPrincipal", "Vazio", 0)
-        );
         label_9->setText(QApplication::translate("JanelaPrincipal", "Cores:", 0));
         BT_CA_SALVAR->setText(QApplication::translate("JanelaPrincipal", "Salvar", 0));
         CHECK_CA_CALIBRADO->setText(QApplication::translate("JanelaPrincipal", "Calibrada", 0));

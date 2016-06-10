@@ -30,6 +30,7 @@ private:
     double ObterPorcentagem(int valor, int porcentagem);
     void Calibrar(JanelaPrincipal* janela, int CAMERA);
     bool CompararRectPorArea(Rect a, Rect b);
+    void ApplyCLAHE(Mat tmp);
 };
 
 #endif // CALIBRACAOAUTOMATICA_H

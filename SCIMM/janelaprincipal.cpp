@@ -99,7 +99,7 @@ void JanelaPrincipal::ResetarTelas(){
     ui->BT_CA_SALVAR->setEnabled(false);
     ui->BT_CA_FINALIZAR->setEnabled(false);
     ui->CB_CA_CORES->setEnabled(false);
-    ui->CB_CA_OBJETOS->setEnabled(false);
+    ui->comboBox->setEnabled(false);
     ui->PROGRESS_CA->setEnabled(false);
 
 }
@@ -389,7 +389,7 @@ void JanelaPrincipal::SetText(int qtd){
 void JanelaPrincipal::BotaoSalvar(){
     SALVAR=true;
     INDICE_COR = ui->CB_CA_CORES->currentIndex();
-    INDICE_OBJETO = ui->CB_CA_OBJETOS->currentIndex();
+    INDICE_OBJETO = ui->comboBox->currentIndex();
     CALIBRADO[INDICE_COR] = true;
     ui->CHECK_CA_CALIBRADO->setChecked( CALIBRADO[INDICE_COR]);
 }
@@ -400,7 +400,7 @@ void JanelaPrincipal::BotaoIniciar(){
 void JanelaPrincipal::SetStatus(int porcento, std::string mensagem){
 
     ui->LABEL_CA_STATUS->setText(QString::fromStdString(mensagem));
-    ui->CB_CA_OBJETOS->repaint();
+    ui->comboBox->repaint();
     ui->PROGRESS_CA->setValue(porcento);
     ui->PROGRESS_CA->repaint();
     if(porcento>90){
@@ -411,6 +411,7 @@ void JanelaPrincipal::SetStatus(int porcento, std::string mensagem){
 void JanelaPrincipal::BotaoFinalizar(){
     CA.Fechar();
     FINALIZADO = true;
+    this->close();
 
 }
 void JanelaPrincipal::ComboObjetoChanged(int index){
@@ -427,7 +428,7 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     ui->BT_CA_SALVAR->setEnabled(true);
     ui->BT_CA_FINALIZAR->setEnabled(true);
     ui->CB_CA_CORES->setEnabled(true);
-    ui->CB_CA_OBJETOS->setEnabled(true);
+    ui->comboBox->setEnabled(true);
     ui->PROGRESS_CA->setEnabled(true);
     CA.Iniciar(this, CAMERA);
 }

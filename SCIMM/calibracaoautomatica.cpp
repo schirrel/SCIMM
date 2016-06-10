@@ -18,7 +18,9 @@ Rect tamanho;
 Mat frameA, imgFinal;
 int dragA, select_flagA;
 bool callbackA = false;
-const char* src_window = "Selecao de Campo";
+int brightness_value = 50, contrast_value = 50;
+
+const char* src_window = "Configuracao";
 
 cv::Point point1, point2;
 CalibracaoAutomatica::CalibracaoAutomatica()
@@ -64,7 +66,6 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
 
 void CalibracaoAutomatica::ConfigurarCamera(int CAMERA){
     cv::VideoCapture cap;
-
     cap.open(CAMERA);
 
     if( !cap.isOpened() )
@@ -74,7 +75,11 @@ void CalibracaoAutomatica::ConfigurarCamera(int CAMERA){
     }
 
    while(true){
+       createTrackbar("Brightness", src_window, &brightness_value, 100);
+           createTrackbar("Contrast", src_window, &contrast_value, 100);
         cap >> frameA;
+        frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
+
         cv::imshow(src_window,frameA);
         cv::setMouseCallback(src_window,mouseHandler,0);
         if(callbackA)
@@ -90,6 +95,7 @@ void CalibracaoAutomatica::ConfigurarCamera(int CAMERA){
 
     while(true){
         cap >> frameA;
+         frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
         cv::Mat croppedImage = frameA(tamanho);
         cv::imshow(src_window,croppedImage);
         if (cv::waitKey(30) >= 0) break;
@@ -118,6 +124,8 @@ void CalibracaoAutomatica::Calibrar(JanelaPrincipal* janela, int CAMERA){
     while (!janela->INICIAR) {
         camera >> frame;
       frame = frame(tamanho);
+      frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value - 50);
+
         cv::imshow("Imagem da Camera", frame);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
@@ -173,7 +181,7 @@ std::cout <<"Tamanho " <<insideRect.size() << std::endl;
             }
              if (cv::waitKey(30) >= 0 || fim) break;
         }
-        //SalvarArquivo();
+       SalvarArquivo();
 
     }
    camera.release();
@@ -185,6 +193,27 @@ std::cout <<"Tamanho " <<insideRect.size() << std::endl;
 
 }
 
+void CalibracaoAutomatica::ApplyCLAHE(Mat tmp) {
+    Mat lab_image;
+
+    cvtColor(tmp, lab_image, CV_BGR2Lab);
+
+    // Extract the L channel
+    std::vector<cv::Mat> lab_planes(3);
+    cv::split(lab_image, lab_planes);  // now we have the L image in lab_planes[0]
+
+    // apply the CLAHE algorithm to the L channel
+    cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE();
+    clahe->setClipLimit(4);
+    cv::Mat dst;
+    clahe->apply(lab_planes[0], dst);
+
+    // Merge the the color planes back into an Lab image
+    dst.copyTo(lab_planes[0]);
+    cv::merge(lab_planes, lab_image);
+
+    cv::cvtColor(lab_image, frame, CV_Lab2BGR);
+}
 
 void CalibracaoAutomatica::Fechar(){
     fim = true;
@@ -350,7 +379,7 @@ void CalibracaoAutomatica::MetodoCalcular() {
 }
 void CalibracaoAutomatica::SalvarArquivo(){
 
-    //std::cout << "Salvando"<<std::endl;
+    std::cout << "Salvando"<<std::endl;
     std::ofstream out;
     out.open("cores.arff");
     for(int i = 0; i < 8; i++){
