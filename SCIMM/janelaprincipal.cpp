@@ -62,6 +62,8 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     connect(ui->BT_CA_FINALIZAR, SIGNAL(clicked(bool)), SLOT(BotaoFinalizar()));
     connect(ui->CB_CA_CORES, SIGNAL(currentIndexChanged(int)), SLOT(ComboCorChanged(int)));
     connect(ui->BT_CA_INICIAR_CAM, SIGNAL(clicked(bool)), SLOT(IniciarCameraAutomatico()));
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(ComboObjetoChanged(int)));
+
 }
 
 // ----------- Métodos Menu -----------
@@ -76,7 +78,6 @@ void JanelaPrincipal::MenuAutomatico(){
     CM.Fechar();
     ResetarTelas();
     ui->TELAS->setCurrentIndex(1);
-    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(ComboObjetoChanged(int)));
 
 }
 void JanelaPrincipal::MenuSobre(){
