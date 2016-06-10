@@ -27,37 +27,43 @@ CalibracaoManual::CalibracaoManual()
 bool CalibracaoManual::CameraLiberada(){
     return FIM;
 }
-
-
+void CalcularHSV(cv::Point ini, cv::Point fim) {
+    // std::cout << "Validando pontos de " << TEXTO << std::endl;
+    cv::cvtColor(frame, HSV, CV_RGB2HSV);
+    for (int y = ini.y; y < fim.y; ++y) {
+        for (int x = ini.x; x < fim.x; x++) {
+            pixel = HSV.at<cv::Vec3b>(y, x); // read current pixel
+            H[pixel.val[0]]++;
+            S[pixel.val[1]]++;
+            V[pixel.val[2]]++;
+        }
+    }
+}
 static void mouseHandler(int event, int x, int y, int flags, void *param) {
-   /* if (event == CV_EVENT_LBUTTONDOWN && !drag && !select_flag) {
-        /* left button clicked. ROI selection begins
-        ponto_inicio = cv::Point(x, y);
-        drag = 1;
-    }
+    if (event == CV_EVENT_LBUTTONDOWN && !drag && !select_flag) {
+         /* left button clicked. ROI selection begins */
+         ponto_inicio = cv::Point(x, y);
+         drag = 1;
+     }
+     if (event == CV_EVENT_MOUSEMOVE && drag && !select_flag) {
+         /* mouse dragged. ROI being selected */
+         cv::Mat img1 = frame.clone();
+         ponto_fim = cv::Point(x, y);
+         cv::rectangle(img1, ponto_inicio, ponto_fim, CV_RGB(255, 0, 0), 2, 5, 0);
+         cv::imshow(janelasNome[0], img1);    }
+     if (event == CV_EVENT_LBUTTONUP && drag && !select_flag) {
+         cv::Mat img2 = frame.clone();
+         ponto_fim = cv::Point(x, y);
+         cv::rectangle(img2, ponto_inicio, ponto_fim, CV_RGB(255, 0, 0), 2, 5, 0);
+         drag = 0;
+         if (ponto_inicio.y > ponto_fim.y || ponto_inicio.x > ponto_fim.x) {
+             std::cout << "Horientação errada para detecção de cor." << std::endl;
+         } else {
+            CalcularHSV(ponto_inicio, ponto_fim);
+         }
 
-    if (event == CV_EVENT_MOUSEMOVE && drag && !select_flag) {
-        /* mouse dragged. ROI being selected
-        cv::Mat img1 = frame.clone();
-        ponto_fim = cv::Point(x, y);
-        cv::rectangle(img1, ponto_inicio, ponto_fim, CV_RGB(255, 0, 0), 2, 5, 0);
-        cv::imshow(janelasNome[0], img1);
-    }
 
-    if (event == CV_EVENT_LBUTTONUP && drag && !select_flag) {
-        cv::Mat img2 = frame.clone();
-        ponto_fim = cv::Point(x, y);
-        cv::rectangle(img2, ponto_inicio, ponto_fim, CV_RGB(255, 0, 0), 2, 5, 0);
-        drag = 0;
-       callback = true;
-       if (ponto_inicio.y > ponto_fim.y || ponto_inicio.x > ponto_fim.x) {
-                   printf("Horientação errada para detecção de cor.");
-
-               } else {
-                   //AddPoint(ponto_inicio, ponto_fim);
-               }
-
-    } */
+     }
 }
 
 void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
@@ -78,7 +84,6 @@ void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
             }
             cv::setMouseCallback(janelasNome[0], mouseHandler, 0);
             cv::imshow(janelasNome[0], frame);
-            //  cv::setMouseCallback("janelasNome[0]",mouseWrapper,this);
             if(janela->CALIBRAR){
                 janela->SetHSV(H,S,V);
                 janela->CALIBRAR = false;
@@ -99,7 +104,7 @@ void CalibracaoManual::Iniciar(JanelaPrincipal*  janela, int CAMERA){
         cv::destroyAllWindows();
         cv::destroyAllWindows();
 
-        if(!FIM)
+        if(janela->FINALIZADA)
             SalvarArquivo();
     }
 
@@ -122,6 +127,7 @@ void CalibracaoManual::DeclararMatrizes(){
 }
 void CalibracaoManual::SalvarArquivo(){
     std::ofstream out;
+    std::cout << " salvando " << std::endl;
     out.open("cores.arff");
     for(int i = 0; i < 8; i++){
         out << i << " : " << coresCalibradas[i].MIN[0] << "." << coresCalibradas[i].MIN[1]<< "."<< coresCalibradas[i].MIN[2] << std::endl;
@@ -129,18 +135,5 @@ void CalibracaoManual::SalvarArquivo(){
     }
     out.close();
 }
-void CalibracaoManual::CalcularHSV(cv::Point ini, cv::Point fim) {
-    // std::cout << "Validando pontos de " << TEXTO << std::endl;
-    cv::cvtColor(frame, HSV, CV_RGB2HSV);
-    for (int y = ini.y; y < fim.y; ++y) {
-        for (int x = ini.x; x < fim.x; x++) {
-            pixel = HSV.at<cv::Vec3b>(y, x); // read current pixel
-            H[pixel.val[0]]++;
-            S[pixel.val[1]]++;
-            V[pixel.val[2]]++;
-        }
-    }
-}
-
 
 

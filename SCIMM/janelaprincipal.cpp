@@ -135,6 +135,7 @@ void JanelaPrincipal::FinalizarCalibracao(){
     // std::cout << "Finalizada " << std::endl;
     CM.Fechar();
     FINALIZADA = true;
+      this->close();
 }
 void JanelaPrincipal::setMaxTextInt(int value){
 

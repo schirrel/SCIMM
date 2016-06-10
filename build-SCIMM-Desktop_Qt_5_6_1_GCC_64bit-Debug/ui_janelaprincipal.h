@@ -390,7 +390,7 @@ public:
 
         retranslateUi(JanelaPrincipal);
 
-        TELAS->setCurrentIndex(1);
+        TELAS->setCurrentIndex(2);
         TAB_HSV->setCurrentIndex(0);
 
 
