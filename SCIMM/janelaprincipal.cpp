@@ -7,12 +7,13 @@
 #include <string>
 #include <qdebug.h>
 #include <QCloseEvent>
-#include "calibracaomanual.h"
-#include "calibracaoautomatica.h"
+#include "calibracao.h"
+#include "automatica.h"
+#include "manual.h"
 #include <stdio.h>
 #include <stdlib.h>
-CalibracaoAutomatica CA;
-CalibracaoManual CM;
+Automatica CA;
+Manual CM;
 QComboBox *op;
 int CAMERA =1;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
@@ -75,7 +76,7 @@ void JanelaPrincipal::MenuManual(){
 
 }
 void JanelaPrincipal::MenuAutomatico(){
-    CM.Fechar();
+   CM.Fechar();
     ResetarTelas();
     ui->TELAS->setCurrentIndex(1);
 
@@ -375,7 +376,7 @@ void JanelaPrincipal::IniciarCameraManual(){
     ui->SLIDER_CM_MIN->setEnabled(true);
     ui->EDIT_CM_MAX->setEnabled(true);
     ui->EDIT_CM_MIN->setEnabled(true);
-    CM.Iniciar(this, CAMERA);
+    //CM.Iniciar(this, CAMERA);
 }
 
 // ----------- Métodos Calibração Automatico -----------
@@ -410,7 +411,7 @@ void JanelaPrincipal::SetStatus(int porcento, std::string mensagem){
 
 }
 void JanelaPrincipal::BotaoFinalizar(){
-    CA.Fechar();
+ CA.Fechar();
     FINALIZADO = true;
     this->close();
 
