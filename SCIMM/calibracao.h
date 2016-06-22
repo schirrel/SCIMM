@@ -31,11 +31,11 @@ public:
 
 
 
-
+cv::Point point1, point2;
     bool FIM;
     Mat  HSV;
-    int H[256], S[256], V[256];
-    Mat frame;
+
+   Mat frame;
    CorCalibrada coresCalibradas[8];
 
 
