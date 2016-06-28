@@ -121,6 +121,7 @@ void JanelaPrincipal::SetHSV(int* h, int* s, int* v){
     Plot(H,S,V);
 }
 void JanelaPrincipal::IniciarCalibracao(){
+
     CALIBRAR = true;
 }
 void JanelaPrincipal::SalvarCalibracao(){
@@ -368,14 +369,17 @@ void JanelaPrincipal::RePlot(int a[256]){
 
 }
 void JanelaPrincipal::IniciarCameraManual(){
-    ui->BT_CM_INICIAR->setEnabled(false);
-    ui->BT_CM_CALIBRAR->setEnabled(true);
-    ui->BT_CM_SALVAR->setEnabled(true);
-    ui->BT_CM_FINALIZAR->setEnabled(true);
-    ui->SLIDER_CM_MAX->setEnabled(true);
-    ui->SLIDER_CM_MIN->setEnabled(true);
-    ui->EDIT_CM_MAX->setEnabled(true);
-    ui->EDIT_CM_MIN->setEnabled(true);
+     ui->BT_CM_INICIAR->setEnabled(false);
+     ui->BT_CM_CALIBRAR->setEnabled(true);
+     ui->BT_CM_SALVAR->setEnabled(true);
+     ui->BT_CM_FINALIZAR->setEnabled(true);
+     ui->SLIDER_CM_MAX->setEnabled(true);
+     ui->SLIDER_CM_MIN->setEnabled(true);
+     ui->EDIT_CM_MAX->setEnabled(true);
+     ui->EDIT_CM_MIN->setEnabled(true);
+    CM.Iniciar(this, CAMERA);
+
+
     //CM.Iniciar(this, CAMERA);
 }
 
