@@ -59,31 +59,21 @@ void Manual::Calcular(Point ini, Point fim){
 }
 
 void Manual::Iniciar(JanelaPrincipal *janela, int c){
-    Calibrar(janela, c);
-}
-
-void Manual::DeclararMatrizes(){
-    memset(H, 0, sizeof(H));
-    memset(S, 0, sizeof(S));
-    memset(V, 0, sizeof(V));
-}
-
-void Manual::Calibrar(JanelaPrincipal *janela, int c){
     std::cout << "Calibrar" << std::endl;
     int CALIBRANDO_ATUAL;
     Mat src;
     FIM  =false;
     cv::VideoCapture camera(CAMERA);
     if (camera.isOpened()) {
-        CALIBRANDO_ATUAL = janela->INDEX_CALIBRACAO;
+        CALIBRANDO_ATUAL = janela->INDICE_CALIBRACAO;
         while (!janela->FINALIZADA || !FIM) {
             camera >> frameM;
             if(janela->CALIBRADO[CALIBRANDO_ATUAL]){
                 coresCalibradas[CALIBRANDO_ATUAL] = janela->cor;
             }
-            if(CALIBRANDO_ATUAL!=janela->INDEX_CALIBRACAO){
+            if(CALIBRANDO_ATUAL!=janela->INDICE_CALIBRACAO){
                 DeclararMatrizes();
-                CALIBRANDO_ATUAL = janela->INDEX_CALIBRACAO;
+                CALIBRANDO_ATUAL = janela->INDICE_CALIBRACAO;
             }
             cv::setMouseCallback(janelasNome[0], mouseHandler, 0);
             cv::imshow(janelasNome[0], frameM);
@@ -111,3 +101,11 @@ void Manual::Calibrar(JanelaPrincipal *janela, int c){
             SalvarArquivo();
     }
 }
+
+void Manual::DeclararMatrizes(){
+    memset(H, 0, sizeof(H));
+    memset(S, 0, sizeof(S));
+    memset(V, 0, sizeof(V));
+}
+
+

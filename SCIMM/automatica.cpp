@@ -139,7 +139,7 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
         cv::imshow("Imagem da Camera", frame);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
-        thresh_callback(0, 0);
+        AplicarThresh(0, 0);
         if (cv::waitKey(30) >= 0 || FIM) break;
 
     }
@@ -150,7 +150,7 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
         //createTrackbar(" Canny thresh:", "janela", &thresh, 255, thresh_callback);
-        thresh_callback(0, 0);
+        AplicarThresh(0, 0);
         sleep(1);
         insideRect = EliminarExcessos();
         std::cout <<"Tamanho " <<insideRect.size() << std::endl;
@@ -186,7 +186,7 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
             }
             bitwise_and(frame, frame, res, Threshold );
             cv::imshow("Limiar por Objeto", res);
-            if(janela->FINALIZADO){
+            if(janela->FINALIZADA){
                 break;
             }
             if (cv::waitKey(30) >= 0 || FIM) break;
@@ -292,7 +292,7 @@ void Automatica::Iniciar(JanelaPrincipal *janela, int c){
 }
 
 
-void Automatica::thresh_callback(int, void *){
+void Automatica::AplicarThresh(int, void *){
     Mat canny_output;
     std::vector< std::vector<Point> > contours;
     std::vector<Vec4i> hierarchy;

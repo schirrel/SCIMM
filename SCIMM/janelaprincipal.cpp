@@ -28,7 +28,7 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     cor.COR_INDICE = 0;
     MIN[0] = MIN[1]  = MIN[2] = 0;
     MAX[0] = MAX[1]  = MAX[2] =256;
-    INDEX_CALIBRACAO =  INDEX = 0;
+    INDICE_CALIBRACAO =  INDEX = 0;
     ui->EDIT_CM_MAX->setText("0");
     ui->EDIT_CM_MAX->setText("256");
     ui->SLIDER_CM_MIN->setValue(0);
@@ -107,8 +107,8 @@ void JanelaPrincipal::ResetarTelas(){
 
 // ----------- Métodos Calibração Manual -----------
 void JanelaPrincipal::ComboChanged(int index){
-    INDEX_CALIBRACAO = index;
-    ui->CHECK_CM_CALIBRADO->setChecked(CALIBRADO[INDEX_CALIBRACAO]);
+    INDICE_CALIBRACAO = index;
+    ui->CHECK_CM_CALIBRADO->setChecked(CALIBRADO[INDICE_CALIBRACAO]);
 
 
 }
@@ -125,10 +125,10 @@ void JanelaPrincipal::IniciarCalibracao(){
     CALIBRAR = true;
 }
 void JanelaPrincipal::SalvarCalibracao(){
-    CALIBRADO[INDEX_CALIBRACAO] =  true;
-    ui->CHECK_CM_CALIBRADO->setChecked(CALIBRADO[INDEX_CALIBRACAO]);
+    CALIBRADO[INDICE_CALIBRACAO] =  true;
+    ui->CHECK_CM_CALIBRADO->setChecked(CALIBRADO[INDICE_CALIBRACAO]);
 
-    cor.COR_INDICE = INDEX_CALIBRACAO;
+    cor.COR_INDICE = INDICE_CALIBRACAO;
     cor.SetMax(MAX);
     cor.SetMin(MIN);
 
@@ -416,7 +416,7 @@ void JanelaPrincipal::SetStatus(int porcento, std::string mensagem){
 }
 void JanelaPrincipal::BotaoFinalizar(){
  CA.Fechar();
-    FINALIZADO = true;
+    FINALIZADA = true;
     this->close();
 
 }

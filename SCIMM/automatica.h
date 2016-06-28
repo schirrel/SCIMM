@@ -15,7 +15,7 @@ private:
     int thresh = 20;
     std::vector<Rect> boundRect;
      std::vector<Rect> EliminarExcessos();
-     void thresh_callback(int, void *);
+     void AplicarThresh(int, void *);
      double ObterPorcentagem(int valor, int porcentagem);
 
      bool CompararRectPorArea(Rect a, Rect b);

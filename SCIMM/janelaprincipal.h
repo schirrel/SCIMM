@@ -29,13 +29,13 @@ public:
     bool CALIBRADO[7];
 
     // -----------  Variaveis Publicas Calibração Manual
-    int MIN[3], MAX[3],INDEX_CALIBRACAO;
+    int MIN[3], MAX[3],INDICE_CALIBRACAO;
     bool FINALIZADA, CALIBRAR;
     CorCalibrada cor;
 
     // -----------  Variaveis Publicas Calibração Automatica
-    int INDICE_COR = 067    , INDICE_OBJETO = 0;
-    bool SALVAR, INICIAR, FINALIZADO;
+    int INDICE_COR = 0    , INDICE_OBJETO = 0;
+    bool SALVAR, INICIAR;
 
 
 
