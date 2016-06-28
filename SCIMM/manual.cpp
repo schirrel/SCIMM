@@ -13,31 +13,6 @@ Manual::Manual()
 }
 
 static void mouseHandler(int event, int x, int y, int flags, void *param) {
-//    if (event == CV_EVENT_LBUTTONDOWN && !drag && !select_flag) {
-//        /* left button clicked. ROI selection begins */
-//        ini = cv::Point(x, y);
-//        drag = 1;
-//    }
-//    if (event == CV_EVENT_MOUSEMOVE && drag && !select_flag) {
-//        /* mouse dragged. ROI being selected */
-//        cv::Mat img1 = frameM.clone();
-//        fim = cv::Point(x, y);
-//        cv::rectangle(frameM, ini, fim, CV_RGB(255, 0, 0), 2, 5, 0);
-//        cv::imshow(janelasNome[0], frameM);    }
-//    if (event == CV_EVENT_LBUTTONUP && drag && !select_flag) {
-//        cv::Mat img2 = frameM.clone();
-//        fim = cv::Point(x, y);
-//        cv::rectangle(frameM, ini, fim, CV_RGB(255, 0, 0), 2, 5, 0);
-//        drag = 0;
-//        if (ini.y > fim.y || ini.x > fim.x) {
-//            std::cout << "Horientação errada para detecção de cor." << std::endl;
-//        } else {
-//            Manual::Calcular(ini, fim);
-//        }
-
-
-//    }
-
     if (event == CV_EVENT_LBUTTONDOWN && !drag && !select_flag) {
 
         ini = cv::Point(x, y);
@@ -63,8 +38,8 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
             printf("Horientação errada para detecção de cor.");
 
         }else {
-                        Manual::Calcular(ini, fim);
-                    }
+            Manual::Calcular(ini, fim);
+        }
     }
 
 
@@ -110,7 +85,7 @@ void Manual::Calibrar(JanelaPrincipal *janela, int c){
                 DeclararMatrizes();
                 CALIBRANDO_ATUAL = janela->INDEX_CALIBRACAO;
             }
-          cv::setMouseCallback(janelasNome[0], mouseHandler, 0);
+            cv::setMouseCallback(janelasNome[0], mouseHandler, 0);
             cv::imshow(janelasNome[0], frameM);
             if(janela->CALIBRAR){
                 janela->SetHSV(H,S,V);
