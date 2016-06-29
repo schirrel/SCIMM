@@ -31,7 +31,6 @@ public:
 
 
 
-cv::Point point1, point2;
     bool FIM;
     Mat  HSV;
 

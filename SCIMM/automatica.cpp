@@ -4,8 +4,8 @@ RNG rng(12345);
 Mat frameA, src_gray;
 Automatica at ;
 std::vector<Rect> insideRect;
-char* src_window = "Configuração";
-int brightness_value = 50, contrast_value = 50;
+char* src_window = "Configuração da Imagem";
+int brightness_value = 0, contrast_value = 50;
 Rect tamanho;
 std::vector<CorCalibrada> cores;
 int dragA, select_flagA;
@@ -17,24 +17,25 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
     if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA) {
 
         point1 = cv::Point(x, y);
+        std::cout << "clicou " << x << " " << y  <<std::endl;
         dragA = 1;
     }
 
     if (event == CV_EVENT_MOUSEMOVE && dragA && !select_flagA) {
 
-
+//std::cout << "arrastou" <<std::endl;
         point2 = cv::Point(x, y);
         cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
         cv::imshow(src_window, frameA);
     }
 
     if (event == CV_EVENT_LBUTTONUP && dragA && !select_flagA) {
-
         point2 = cv::Point(x, y);
         cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
         dragA = 0;
         callbackA = true;
         cv::imshow(src_window, frameA);
+        std::cout << point1 << " "<< point2 << std::endl;
         if (point1.y > point2.y || point1.x > point2.x) {
             printf("Horientação errada para detecção de cor.");
 
@@ -91,23 +92,22 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
             createTrackbar("Brightness", src_window, &brightness_value, 100);
             createTrackbar("Contrast", src_window, &contrast_value, 100);
             cap >> frameA;
-            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
+            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value);
 
 
             cv::setMouseCallback(src_window,mouseHandler,0);
             cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
             cv::imshow(src_window,frameA);
 
-            if(callbackA
-                    )
-            {
-                cv::imshow(src_window,frameA);}
+
+                cv::imshow(src_window,frameA);
             if (cv::waitKey(30) >= 0) break;
         }
 
         cvDestroyAllWindows();
-
+        std::cout << point1 << " " << point2 << std::endl;
         tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
+         std::cout << tamanho << std::endl;
         cv::Mat croppedImage;
         while(true){
             cap >> frameA;
@@ -138,7 +138,9 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
         cv::imshow("Imagem da Camera", frame);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
-        blur(src_gray, src_gray, Size(3, 3));
+        blur(src_gray, src_gray, Size(15, 15));
+
+        cv::imshow("Teste", src_gray);
         AplicarThresh(0, 0);
         if (cv::waitKey(30) >= 0 || FIM) break;
 
@@ -300,7 +302,7 @@ void Automatica::AplicarThresh(int, void *){
     std::vector<Vec4i> hierarchy;
 
 
-    Canny(src_gray, canny_output, thresh, thresh * 2, 3);
+    Canny(src_gray, canny_output, thresh, thresh * 3, 3);
     findContours(canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
     //  vector<Moments> mu(contours.size());
     std:: vector<Point2f> center(contours.size());
