@@ -100,6 +100,9 @@ void Manual::Iniciar(JanelaPrincipal *janela, int c){
         if(janela->FINALIZADA)
             SalvarArquivo();
     }
+    else {
+        janela->CameraIndisponivel();
+    }
 }
 
 void Manual::DeclararMatrizes(){

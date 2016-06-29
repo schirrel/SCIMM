@@ -15,6 +15,7 @@
 Automatica CA;
 Manual CM;
 QComboBox *op;
+bool INDISPONIVEL;
 int CAMERA =1;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
@@ -67,6 +68,12 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
 
 }
 
+void JanelaPrincipal::CameraIndisponivel(){
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::warning(this, "SCIMM", "Camera Indisponivel");
+    INDISPONIVEL = true;
+}
+
 // ----------- Métodos Menu -----------
 void JanelaPrincipal::MenuManual(){
     CA.Fechar();
@@ -92,6 +99,7 @@ void JanelaPrincipal::ResetarTelas(){
     ui->BT_CM_CALIBRAR->setEnabled(false);
     ui->BT_CM_SALVAR->setEnabled(false);
     ui->BT_CM_FINALIZAR->setEnabled(false);
+    ui->CB_CM_CORES->setEnabled(false);
     ui->SLIDER_CM_MAX->setEnabled(false);
     ui->SLIDER_CM_MIN->setEnabled(false);
     ui->EDIT_CM_MAX->setEnabled(false);
@@ -102,6 +110,7 @@ void JanelaPrincipal::ResetarTelas(){
     ui->CB_CA_CORES->setEnabled(false);
     ui->comboBox->setEnabled(false);
     ui->PROGRESS_CA->setEnabled(false);
+    INDISPONIVEL= false;
 
 }
 
@@ -377,7 +386,12 @@ void JanelaPrincipal::IniciarCameraManual(){
      ui->SLIDER_CM_MIN->setEnabled(true);
      ui->EDIT_CM_MAX->setEnabled(true);
      ui->EDIT_CM_MIN->setEnabled(true);
+    ui-> CB_CM_CORES->setEnabled(true);
     CM.Iniciar(this, CAMERA);
+
+    if(INDISPONIVEL) {
+        ResetarTelas();
+    }
 
 
     //CM.Iniciar(this, CAMERA);
@@ -437,6 +451,10 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     ui->comboBox->setEnabled(true);
     ui->PROGRESS_CA->setEnabled(true);
     CA.Iniciar(this, CAMERA);
+    if(INDISPONIVEL) {
+        ResetarTelas();
+    }
+
 }
 
 

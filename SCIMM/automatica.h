@@ -7,7 +7,7 @@ class Automatica : public Calibracao
 {
 public:
     Automatica();
-    void ConfigurarCamera();
+    void ConfigurarCamera(JanelaPrincipal* janela);
     void Calibrar(JanelaPrincipal* janela);
  void Iniciar(JanelaPrincipal *janela, int c);
 private:

@@ -11,7 +11,7 @@ std::vector<CorCalibrada> cores;
 int dragA, select_flagA;
 bool callbackA = false;
 cv::Point point1, point2;
-
+bool cameraIndisponivel=false;
 static void mouseHandler(int event, int x, int y, int flags, void *param) {
 
     if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA) {
@@ -77,49 +77,49 @@ std::vector<Rect> Automatica::EliminarExcessos(){
     return tamanhoEsperado;
 }
 
-void Automatica::ConfigurarCamera(){
+void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
 
     cv::VideoCapture cap;
     cap.open(CAMERA);
 
     if( !cap.isOpened() )
-    {
-        std::cout << "Could not initialize capturing...\n";
+    { cameraIndisponivel = true;
+        janela->CameraIndisponivel();
+    } else {
 
+        while(true){
+            createTrackbar("Brightness", src_window, &brightness_value, 100);
+            createTrackbar("Contrast", src_window, &contrast_value, 100);
+            cap >> frameA;
+            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
+
+
+            cv::setMouseCallback(src_window,mouseHandler,0);
+            cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+            cv::imshow(src_window,frameA);
+
+            if(callbackA
+                    )
+            {
+                cv::imshow(src_window,frameA);}
+            if (cv::waitKey(30) >= 0) break;
+        }
+
+        cvDestroyAllWindows();
+
+        tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
+        cv::Mat croppedImage;
+        while(true){
+            cap >> frameA;
+            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
+            croppedImage = frameA(tamanho);
+            cv::imshow(src_window,croppedImage);
+            if (cv::waitKey(30) >= 0) break;
+        }
+        cvDestroyAllWindows();
+        cap.release();
+        cvDestroyAllWindows();
     }
-
-    while(true){
-        createTrackbar("Brightness", src_window, &brightness_value, 100);
-        createTrackbar("Contrast", src_window, &contrast_value, 100);
-        cap >> frameA;
-        frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
-
-
-        cv::setMouseCallback(src_window,mouseHandler,0);
-        cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
-        cv::imshow(src_window,frameA);
-
-        if(callbackA
-                )
-        {
-            cv::imshow(src_window,frameA);}
-        if (cv::waitKey(30) >= 0) break;
-    }
-
-    cvDestroyAllWindows();
-
-    tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
-    cv::Mat croppedImage;
-    while(true){
-        cap >> frameA;
-        frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
-        croppedImage = frameA(tamanho);
-        cv::imshow(src_window,croppedImage);
-        if (cv::waitKey(30) >= 0) break;
-    }
-    cvDestroyAllWindows();
-    cap.release();
-    cvDestroyAllWindows();
 }
 
 void Automatica::Calibrar(JanelaPrincipal *janela){
@@ -286,8 +286,10 @@ void Calibracao::Calcular(){
 
 void Automatica::Iniciar(JanelaPrincipal *janela, int c){
     CAMERA =c ;
-    this->ConfigurarCamera();
-    this->Calibrar(janela);
+    this->ConfigurarCamera(janela);
+
+    if(!cameraIndisponivel)
+        this->Calibrar(janela);
 
 }
 
