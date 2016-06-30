@@ -12,7 +12,7 @@ public:
  void Iniciar(JanelaPrincipal *janela, int c);
 private:
 
-    int thresh = 20;
+    int thresh = 40;
     std::vector<Rect> boundRect;
      std::vector<Rect> EliminarExcessos();
      void AplicarThresh(int, void *);

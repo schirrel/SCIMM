@@ -111,7 +111,7 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
         cv::Mat croppedImage;
         while(true){
             cap >> frameA;
-            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value - 50);
+            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value );
             croppedImage = frameA(tamanho);
             cv::imshow(src_window,croppedImage);
             if (cv::waitKey(30) >= 0) break;
@@ -134,11 +134,11 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
     while (!janela->INICIAR) {
         camera >> frame;
         frame = frame(tamanho);
-        frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value - 50);
+        frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value );
 
         cv::imshow("Imagem da Camera", frame);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
-        blur(src_gray, src_gray, Size(15, 15));
+        blur(src_gray, src_gray, Size(5, 5));
 
         cv::imshow("Teste", src_gray);
         AplicarThresh(0, 0);
@@ -304,12 +304,7 @@ void Automatica::AplicarThresh(int, void *){
 
     Canny(src_gray, canny_output, thresh, thresh * 3, 3);
     findContours(canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
-    //  vector<Moments> mu(contours.size());
-    std:: vector<Point2f> center(contours.size());
-
-    std:: vector<float> radius(contours.size());
-    std:: vector< std::vector<Point> > contours_poly(contours.size());
-    //for (int i = 0; i < contours.size(); i++) { mu[i] = moments(contours[i], false); }
+   std:: vector< std::vector<Point> > contours_poly(contours.size());
 
 
     boundRect.clear();
@@ -317,7 +312,6 @@ void Automatica::AplicarThresh(int, void *){
     for (unsigned int i = 0; i < contours.size(); i++) {
         approxPolyDP(Mat(contours[i]), contours_poly[i], 3, true);
         boundRect.push_back(boundingRect(Mat(contours_poly[i])));
-        minEnclosingCircle((Mat) contours_poly[i], center[i], radius[i]);
 
     }
 

@@ -16,7 +16,7 @@ Automatica CA;
 Manual CM;
 QComboBox *op;
 bool INDISPONIVEL;
-int CAMERA =0;
+int CAMERA =1;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::JanelaPrincipal)
