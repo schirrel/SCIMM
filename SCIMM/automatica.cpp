@@ -1,5 +1,7 @@
 #include "automatica.h"
 #define PORCENTAGEM 1
+
+
 RNG rng(12345);
 Mat frameA, src_gray;
 Automatica at ;
@@ -10,8 +12,12 @@ Rect tamanho;
 std::vector<CorCalibrada> cores;
 int dragA, select_flagA;
 bool callbackA = false;
-cv::Point point1, point2;
+Point point1, point2;
 bool cameraIndisponivel=false;
+
+
+
+
 static void mouseHandler(int event, int x, int y, int flags, void *param) {
 
     if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA) {
@@ -23,29 +29,25 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
 
     if (event == CV_EVENT_MOUSEMOVE && dragA && !select_flagA) {
 
-//std::cout << "arrastou" <<std::endl;
+        //std::cout << "arrastou" <<std::endl;
         point2 = cv::Point(x, y);
-        cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
-        cv::imshow(src_window, frameA);
+        rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+        imshow(src_window, frameA);
     }
 
     if (event == CV_EVENT_LBUTTONUP && dragA && !select_flagA) {
         point2 = cv::Point(x, y);
-        cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+        rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
         dragA = 0;
         callbackA = true;
-        cv::imshow(src_window, frameA);
+        imshow(src_window, frameA);
         std::cout << point1 << " "<< point2 << std::endl;
         if (point1.y > point2.y || point1.x > point2.x) {
             printf("Horientação errada para detecção de cor.");
 
         }
     }
-
-
 }
-
-
 
 Automatica::Automatica()
 {
@@ -100,14 +102,14 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
             cv::imshow(src_window,frameA);
 
 
-                cv::imshow(src_window,frameA);
+            cv::imshow(src_window,frameA);
             if (cv::waitKey(30) >= 0) break;
         }
 
         cvDestroyAllWindows();
         std::cout << point1 << " " << point2 << std::endl;
         tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
-         std::cout << tamanho << std::endl;
+        std::cout << tamanho << std::endl;
         cv::Mat croppedImage;
         while(true){
             cap >> frameA;
@@ -205,7 +207,6 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
 }
 void Calibracao::Calcular(){
-
     cv::cvtColor(frame, HSV, CV_RGB2HSV);
     cv::Vec3b pixel;
     int H[257], S[257], V[257];
@@ -218,9 +219,9 @@ void Calibracao::Calcular(){
         memset(MIN, 0, sizeof(MIN));
         memset(MAX, 0, sizeof(MAX));
 
-        for (int y = insideRect.at(i).tl().y; y < insideRect.at(i).br().y; ++y) {
+        for (int y = insideRect.at(i).tl().y; y < insideRect.at(i).br().y; y++) {
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
-                pixel = HSV.at<cv::Vec3b>(y, x); // read current pixel
+                pixel = HSV.at<cv::Vec3b>(y, x);
                 H[pixel.val[0]]++;
                 S[pixel.val[1]]++;
                 V[pixel.val[2]]++;
@@ -228,20 +229,22 @@ void Calibracao::Calcular(){
         }
 
         for (k = 0; k < 256; k++) {
+            std::cout << H[k] << std::endl;
+        }
+
+         std::cout << "\n\n" << std::endl;
+        for (k = 0; k < 256; k++) {
             if (H[k] != 0) {
                 break;
             }
         }
         MIN[0] = k;
-
         for (k = 255; k > MIN[0]; k--) {
             if (H[k] != 0) {
                 break;
             }
         }
         MAX[0] = k;
-
-
         //Encontrar min e max S
 
         for (k = 0; k < 256; k++) {
@@ -296,6 +299,10 @@ void Automatica::Iniciar(JanelaPrincipal *janela, int c){
 }
 
 
+void Calibracao::DeclararMatrizes(){
+
+}
+
 void Automatica::AplicarThresh(int, void *){
     Mat canny_output;
     std::vector< std::vector<Point> > contours;
@@ -304,7 +311,7 @@ void Automatica::AplicarThresh(int, void *){
 
     Canny(src_gray, canny_output, thresh, thresh * 3, 3);
     findContours(canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
-   std:: vector< std::vector<Point> > contours_poly(contours.size());
+    std:: vector< std::vector<Point> > contours_poly(contours.size());
 
 
     boundRect.clear();

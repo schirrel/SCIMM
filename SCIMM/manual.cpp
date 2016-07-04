@@ -56,6 +56,7 @@ void Manual::Calcular(Point ini, Point fim){
             V[pixel.val[2]]++;
         }
     }
+
 }
 
 void Manual::Iniciar(JanelaPrincipal *janela, int c){

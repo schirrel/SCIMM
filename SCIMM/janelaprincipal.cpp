@@ -21,7 +21,7 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::JanelaPrincipal)
 {
-
+setWindowIcon(QIcon(":/icons/icone.png"));
 
 
     ui->setupUi(this);

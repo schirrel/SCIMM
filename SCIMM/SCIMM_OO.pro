@@ -33,3 +33,6 @@ HEADERS  += janelaprincipal.h \
     tdestudent.h
 
 FORMS    += janelaprincipal.ui
+
+RESOURCES += \
+    icon.qrc
