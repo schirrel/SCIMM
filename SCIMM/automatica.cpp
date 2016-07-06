@@ -67,12 +67,10 @@ std::vector<Rect> Automatica::EliminarExcessos(){
     student.CalcularTdeStudent(insideRect);
     double* Limites =student.GetLimites();
 
-    //std::cout << "Limite 1 " << Limites[1] << "\t Limite 2 " << Limites[0] <<std::endl;
     double L1=Limites[1], L2=Limites[0];
     std::vector<Rect> tamanhoEsperado;
-    //sort(insideRect.begin(), insideRect.end(),CalibracaoAutomatica::EliminarExcessos);
+
     for(unsigned int i=0; i< insideRect.size(); i++){
-        //        std::cout << insideRect.at(i).area() << std::endl;
         if(insideRect.at(i).area() >  L1 && insideRect.at(i).area() <  L2){
             tamanhoEsperado.push_back(insideRect.at(i));
         }
@@ -232,7 +230,7 @@ void Calibracao::Calcular(){
             std::cout << H[k] << std::endl;
         }
 
-         std::cout << "\n\n" << std::endl;
+        std::cout << "\n\n" << std::endl;
         for (k = 0; k < 256; k++) {
             if (H[k] != 0) {
                 break;
