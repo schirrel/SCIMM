@@ -23,14 +23,12 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
     if (event == CV_EVENT_LBUTTONDOWN && !dragA && !select_flagA) {
 
         point1 = cv::Point(x, y);
-        std::cout << "clicou " << x << " " << y  <<std::endl;
         dragA = 1;
     }
 
     if (event == CV_EVENT_MOUSEMOVE && dragA && !select_flagA) {
 
-        //std::cout << "arrastou" <<std::endl;
-        point2 = cv::Point(x, y);
+    point2 = cv::Point(x, y);
         rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
         imshow(src_window, frameA);
     }
@@ -61,7 +59,6 @@ std::vector<Rect> Automatica::EliminarExcessos(){
 
     if(insideRect.size() > 29) {
         std::cout << "PROBLEMA, AMOSTRA MAIOR QUE 29" <<std::endl;
-
     }
     TdeStudent student;
     student.CalcularTdeStudent(insideRect);
@@ -89,8 +86,8 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
     } else {
 
         while(true){
-            createTrackbar("Brightness", src_window, &brightness_value, 100);
-            createTrackbar("Contrast", src_window, &contrast_value, 100);
+            createTrackbar("Brilho", src_window, &brightness_value, 100);
+            createTrackbar("Contraste", src_window, &contrast_value, 100);
             cap >> frameA;
             frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value);
 
@@ -105,7 +102,6 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
         }
 
         cvDestroyAllWindows();
-        std::cout << point1 << " " << point2 << std::endl;
         tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
         std::cout << tamanho << std::endl;
         cv::Mat croppedImage;
@@ -151,16 +147,12 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
-        //createTrackbar(" Canny thresh:", "janela", &thresh, 255, thresh_callback);
-        AplicarThresh(0, 0);
+       AplicarThresh(0, 0);
         sleep(1);
         insideRect = EliminarExcessos();
-        std::cout <<"Tamanho " <<insideRect.size() << std::endl;
         janela->SetStatus(50, "Eliminando Objetos Indesejados");
         sleep(1);
         Calcular();
-        std::cout <<"Cores " <<cores.size() << std::endl;
-
         janela->SetStatus(75, "Calculando Valores HSV");
         sleep(1);
         janela->SetText(cores.size() );
@@ -173,7 +165,6 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
         while(1){
             camera >> frame;
-            //frame = frame(tamanho);
             dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
 
             cv::cvtColor(frame,HSV,cv::COLOR_RGB2HSV);
@@ -226,12 +217,7 @@ void Calibracao::Calcular(){
             }
         }
 
-        for (k = 0; k < 256; k++) {
-            std::cout << H[k] << std::endl;
-        }
-
-        std::cout << "\n\n" << std::endl;
-        for (k = 0; k < 256; k++) {
+   for (k = 0; k < 256; k++) {
             if (H[k] != 0) {
                 break;
             }
@@ -275,7 +261,6 @@ void Calibracao::Calcular(){
         }
         MAX[2] = k;
 
-        //Elimina tons de preto
         if(MIN[2] > 20 && MIN[1] > 20){
             CorCalibrada c;
             c.SetMax(MAX);
