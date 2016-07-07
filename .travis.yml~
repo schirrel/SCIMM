@@ -16,7 +16,7 @@ compiler:
 before_script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
 
 script: 
  - qmake -qt=qt4 -v
@@ -25,7 +25,7 @@ script:
 
   - git clone https://github.com/Itseez/opencv.git
   - cd opencv
-  - cmake .
+  - cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
   - make -j8
  -  make install
  - cd ..
