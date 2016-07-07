@@ -4,24 +4,18 @@ dist: trusty
 
 language: cpp
 
+compiler:
+  - gcc
+
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
   - sudo apt-get install -qq g++ qt4-qmake libqt4-dev qt5-qmake qtbase5-dev
 
-
-compiler:
-  - gcc
-
-before_script:
-  - mkdir build
-  - cd build
-  - cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-
 script: 
  - qmake -qt=qt4 -v
-  - qmake -qt=qt4
-  - make
+ - qmake -qt=qt4
+ - make
 
   - git clone https://github.com/Itseez/opencv.git
   - cd opencv
