@@ -39,6 +39,4 @@ script:
   - sudo make install
   - sudo ldconfig
   - cd ..
-
-  - make qt
   - make
