@@ -32,8 +32,7 @@ HEADERS  += janelaprincipal.h \
     tdestudent.h \
     scimm_cor.h
 
-FORMS    += janelaprincipal.ui \
-    novajanela.ui
+FORMS    += janelaprincipal.ui
 
 RESOURCES += \
     icon.qrc

@@ -240,7 +240,7 @@ TARGET        = SCIMM_OO
 first: all
 ####### Build rules
 
-$(TARGET): ui_janelaprincipal.h ui_novajanela.h $(OBJECTS)  
+$(TARGET): ui_janelaprincipal.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../SCIMM/SCIMM_OO.pro ../../../../Qt/5.7/gcc_64/mkspecs/linux-g++/qmake.conf ../../../../Qt/5.7/gcc_64/mkspecs/features/spec_pre.prf \
@@ -571,7 +571,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents ../SCIMM/icon.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../SCIMM/janelaprincipal.h ../SCIMM/calibracao.h ../SCIMM/automatica.h ../SCIMM/corcalibrada.h ../SCIMM/qcustomplot.h ../SCIMM/tdestudent.h ../SCIMM/scimm_cor.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../SCIMM/main.cpp ../SCIMM/janelaprincipal.cpp ../SCIMM/calibracao.cpp ../SCIMM/automatica.cpp ../SCIMM/corcalibrada.cpp ../SCIMM/qcustomplot.cpp ../SCIMM/tdestudent.cpp ../SCIMM/scimm_cor.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../SCIMM/janelaprincipal.ui ../SCIMM/novajanela.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../SCIMM/janelaprincipal.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1186,16 +1186,12 @@ moc_qcustomplot.cpp: ../../../../Qt/5.7/gcc_64/include/QtCore/QObject \
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_janelaprincipal.h ui_novajanela.h
+compiler_uic_make_all: ui_janelaprincipal.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_janelaprincipal.h ui_novajanela.h
+	-$(DEL_FILE) ui_janelaprincipal.h
 ui_janelaprincipal.h: ../SCIMM/janelaprincipal.ui \
 		../../../../Qt/5.7/gcc_64/bin/uic
 	/home/jasane/Qt/5.7/gcc_64/bin/uic ../SCIMM/janelaprincipal.ui -o ui_janelaprincipal.h
-
-ui_novajanela.h: ../SCIMM/novajanela.ui \
-		../../../../Qt/5.7/gcc_64/bin/uic
-	/home/jasane/Qt/5.7/gcc_64/bin/uic ../SCIMM/novajanela.ui -o ui_novajanela.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:

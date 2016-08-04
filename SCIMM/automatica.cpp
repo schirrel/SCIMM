@@ -62,47 +62,47 @@ Automatica::Automatica()
 }
 void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
 
-        cv::VideoCapture cap;
-        cap.open(CAMERA);
+    cv::VideoCapture cap;
+    cap.open(CAMERA);
 
-        if( !cap.isOpened() )
-        { cameraIndisponivel = true;
-            janela->CameraIndisponivel();
-        } else {
+    if( !cap.isOpened() )
+    { cameraIndisponivel = true;
+        janela->CameraIndisponivel();
+    } else {
 
-            while(true){
-                createTrackbar("Brilho", src_window, &brightness_value, 200);
-                createTrackbar("Contraste", src_window, &contrast_value, 100);
-                cap >> frameA;
-               // frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100);
+        while(true){
+            createTrackbar("Brilho", src_window, &brightness_value, 200);
+            createTrackbar("Contraste", src_window, &contrast_value, 100);
+            cap >> frameA;
+            // frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100);
 
 
-                cv::setMouseCallback(src_window,mouseHandler,0);
-                cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
-                cv::imshow(src_window,frameA);
-                cvtColor(frameA, src_gray, CV_BGR2GRAY);
-                blur(src_gray, src_gray, Size(5, 5));
-                AplicarThresh(0, 0);
+            cv::setMouseCallback(src_window,mouseHandler,0);
+            cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
+            cv::imshow(src_window,frameA);
+            cvtColor(frameA, src_gray, CV_BGR2GRAY);
+            blur(src_gray, src_gray, Size(5, 5));
+            AplicarThresh(0, 0);
 
-                cv::imshow(src_window,frameA);
-                if (cv::waitKey(30) >= 0) break;
-            }
-
-            cvDestroyAllWindows();
-            tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
-            std::cout << tamanho << std::endl;
-            cv::Mat croppedImage;
-            while(true){
-                cap >> frameA;
-             //   frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100 );
-                croppedImage = frameA(tamanho);
-                cv::imshow(src_window,croppedImage);
-                if (cv::waitKey(30) >= 0) break;
-            }
-            cvDestroyAllWindows();
-            cap.release();
-            cvDestroyAllWindows();
+            cv::imshow(src_window,frameA);
+            if (cv::waitKey(30) >= 0) break;
         }
+
+        cvDestroyAllWindows();
+        tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
+        std::cout << tamanho << std::endl;
+        cv::Mat croppedImage;
+        while(true){
+            cap >> frameA;
+            //   frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100 );
+            croppedImage = frameA(tamanho);
+            cv::imshow(src_window,croppedImage);
+            if (cv::waitKey(30) >= 0) break;
+        }
+        cvDestroyAllWindows();
+        cap.release();
+        cvDestroyAllWindows();
+    }
 
 }
 
@@ -119,10 +119,10 @@ void Automatica::ReconhecerFundo(JanelaPrincipal* janela){
     for (int var = 0; var < 101; ++var) {
         janela->SetStatusFundo(var);
         if(capture.read(frame)) {
-         // frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-100);
-         //   frame = frame(tamanho);
+            // frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-100);
+            //   frame = frame(tamanho);
             pMOG2->apply(frame, fgMaskMOG2);
-       }
+        }
     }
     while(true) {
 
@@ -148,8 +148,8 @@ void Automatica::ExtrairObjetos(JanelaPrincipal *janela){
         if(capture.read(frame)) {  //update the background model
             janela->SetStatusExtrair(var*10);
             pMOG2->apply(frame, fgMaskMOG2);
-             imshow("Final", fgMaskMOG2);
-                imshow("Final", frame);
+            imshow("Final", fgMaskMOG2);
+            imshow("Final", frame);
         }
     }
     int k;
@@ -163,7 +163,7 @@ void Automatica::ExtrairObjetos(JanelaPrincipal *janela){
         res=res(tamanho);
         imshow("Final", res);
         k = cv::waitKey(30);
-        std::cout << k << std::endl;
+
         if (k >= 0) break;
 
 
@@ -186,8 +186,8 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
     int cont=0;
 
     while (!janela->INICIAR) {
-              camera >> frame;
-               frame = frame(tamanho);
+        camera >> frame;
+        frame = frame(tamanho);
         //frame.(frame, -1, contrast_value / 50.0, brightness_value-100 );
         bitwise_and(frame, frame, res, fgMaskMOG2);
         cvtColor(res, src_gray, CV_BGR2GRAY);
@@ -199,7 +199,7 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
     if(!FIM){
         janela->SetStatus(25, "Detectando Objetos");
-  frame = frame(tamanho);
+        frame = frame(tamanho);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
         AplicarThresh(0, 0);
@@ -251,54 +251,48 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
 }
 void Calibracao::Calcular(){
-    SCIMM_COR a, b, c1, d, e;
-    CORES.push_back(a);
-    CORES.push_back(b);
+    SCIMM_COR c1,c2,c3,c4,c5,c6,c7;
     CORES.push_back(c1);
-    CORES.push_back(d);
-    CORES.push_back(e);
+    CORES.push_back(c2);
+    CORES.push_back(c3);
+    CORES.push_back(c4);
+    CORES.push_back(c5);
+    CORES.push_back(c6);
+    CORES.push_back(c7);
     cv::cvtColor(frame, HSV, CV_BGR2HSV );
     cv::Vec3b pixel;
-    int H[257], S[257], V[257];
-    int MIN[3], MAX[0];
-    int k;
     for (unsigned int i = 0; i < insideRect.size(); i++) {
-        memset(H, 0, sizeof(H));
-        memset(S, 0, sizeof(S));
-        memset(V, 0, sizeof(V));
-        memset(MIN, 0, sizeof(MIN));
-        memset(MAX, 0, sizeof(MAX));
-
         for (int y = insideRect.at(i).tl().y; y < insideRect.at(i).br().y; y++) {
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
                 pixel = HSV.at<cv::Vec3b>(y, x);
 
 
-                   if(pixel.val[0]>0 &&pixel.val[0]<=20) {
-                        //LARANJA
-                        CORES[4].SetMinMax(pixel);
-                    } else  if(pixel.val[0]>02 &&pixel.val[0]<=30) {
-                       //AMARELO
-                        CORES[0].SetMinMax(pixel);
-                    } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
-                        //VERDE
-                        CORES[2].SetMinMax(pixel);
-                    }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
-                        //AZUL
-                      pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
-                      pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
-                        CORES[1].SetMinMax(pixel);
-                    }else  if(pixel.val[0]>120 &&pixel.val[0]<=160) {
-                        //VIOLETA
-                    }else  if(pixel.val[0]>169 &&pixel.val[0]<=180) {
-                        //VERMELHO
-                        CORES[3].SetMinMax(pixel);
-                    }
-}
+                if(pixel.val[0]>0 &&pixel.val[0]<=20) {
+                    //LARANJA
+                    CORES[LARANJA].SetMinMax(pixel);
+                } else  if(pixel.val[0]>02 &&pixel.val[0]<=30) {
+                    //AMARELO
+                    CORES[AMARELO].SetMinMax(pixel);
+                } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
+                    //VERDE
+                    CORES[VERDE].SetMinMax(pixel);
+                }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
+                    //AZUL
+                    pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
+                    pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
+                    CORES[AZUL].SetMinMax(pixel);
+                }else  if(pixel.val[0]>120 &&pixel.val[0]<=160) {
+                    //ROXO
+                    CORES[ROXO].SetMinMax(pixel);
+                }else  if(pixel.val[0]>160 &&pixel.val[0]<=168) {
+                    //ROSA
+                    CORES[ROSA].SetMinMax(pixel);
+                }else  if(pixel.val[0]>168 &&pixel.val[0]<=180) {
+                    //VERMELHO
+                    CORES[VERMELHO].SetMinMax(pixel);
+                }
+            }
         }
-
-        std::cout << "Min: " << MIN[0] << "." << MIN[1]<< "."<<MIN[2]<< std::endl;
-        std::cout << "Max: " << MAX[0] << "." << MAX[1]<< "."<<MAX[2]<< std::endl;
 
 
     }

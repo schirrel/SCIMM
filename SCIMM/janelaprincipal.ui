@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>604</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,7 +48,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>800</width>
+         <width>601</width>
          <height>50</height>
         </rect>
        </property>
@@ -99,15 +99,15 @@
       <widget class="QLabel" name="LABEL_CA_STATUS">
        <property name="geometry">
         <rect>
-         <x>450</x>
-         <y>130</y>
-         <width>241</width>
+         <x>170</x>
+         <y>240</y>
+         <width>271</width>
          <height>21</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
+         <pointsize>9</pointsize>
         </font>
        </property>
        <property name="text">
@@ -162,6 +162,16 @@
        <item>
         <property name="text">
          <string>Laranja</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rosa</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Roxo</string>
         </property>
        </item>
       </widget>
@@ -468,7 +478,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>604</width>
      <height>20</height>
     </rect>
    </property>

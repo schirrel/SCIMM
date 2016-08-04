@@ -3,6 +3,16 @@
 #include "calibracao.h"
 #include "janelaprincipal.h"
 #include "tdestudent.h"
+
+
+#define LARANJA 4
+#define AMARELO 0
+#define AZUL 1
+#define VERMELHO 3
+#define VERDE 2
+#define ROSA 5
+#define ROXO 6
+
 class Automatica : public Calibracao
 {
 public:

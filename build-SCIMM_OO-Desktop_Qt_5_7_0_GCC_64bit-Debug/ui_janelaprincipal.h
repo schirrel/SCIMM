@@ -71,7 +71,7 @@ public:
     {
         if (JanelaPrincipal->objectName().isEmpty())
             JanelaPrincipal->setObjectName(QStringLiteral("JanelaPrincipal"));
-        JanelaPrincipal->resize(800, 600);
+        JanelaPrincipal->resize(604, 395);
         actionManual = new QAction(JanelaPrincipal);
         actionManual->setObjectName(QStringLiteral("actionManual"));
         actionAutomatica = new QAction(JanelaPrincipal);
@@ -95,7 +95,7 @@ public:
         frame_2->setFrameShadow(QFrame::Raised);
         label_6 = new QLabel(frame_2);
         label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(0, 0, 800, 50));
+        label_6->setGeometry(QRect(0, 0, 601, 50));
         QFont font;
         font.setPointSize(20);
         label_6->setFont(font);
@@ -111,9 +111,9 @@ public:
         PROGRESS_CA->setValue(0);
         LABEL_CA_STATUS = new QLabel(frame_2);
         LABEL_CA_STATUS->setObjectName(QStringLiteral("LABEL_CA_STATUS"));
-        LABEL_CA_STATUS->setGeometry(QRect(450, 130, 241, 21));
+        LABEL_CA_STATUS->setGeometry(QRect(170, 240, 271, 21));
         QFont font1;
-        font1.setPointSize(15);
+        font1.setPointSize(9);
         LABEL_CA_STATUS->setFont(font1);
         label_9 = new QLabel(frame_2);
         label_9->setObjectName(QStringLiteral("label_9"));
@@ -169,12 +169,14 @@ public:
         label_11 = new QLabel(TelaSobre);
         label_11->setObjectName(QStringLiteral("label_11"));
         label_11->setGeometry(QRect(0, 120, 800, 71));
-        label_11->setFont(font1);
+        QFont font3;
+        font3.setPointSize(15);
+        label_11->setFont(font3);
         label_11->setAlignment(Qt::AlignCenter);
         label_12 = new QLabel(TelaSobre);
         label_12->setObjectName(QStringLiteral("label_12"));
         label_12->setGeometry(QRect(-20, 350, 800, 20));
-        label_12->setFont(font1);
+        label_12->setFont(font3);
         label_12->setAlignment(Qt::AlignCenter);
         label_13 = new QLabel(TelaSobre);
         label_13->setObjectName(QStringLiteral("label_13"));
@@ -183,9 +185,9 @@ public:
         label_14 = new QLabel(TelaSobre);
         label_14->setObjectName(QStringLiteral("label_14"));
         label_14->setGeometry(QRect(-10, 410, 800, 100));
-        QFont font3;
-        font3.setPointSize(30);
-        label_14->setFont(font3);
+        QFont font4;
+        font4.setPointSize(30);
+        label_14->setFont(font4);
         label_14->setAlignment(Qt::AlignCenter);
         label_15 = new QLabel(TelaSobre);
         label_15->setObjectName(QStringLiteral("label_15"));
@@ -207,7 +209,7 @@ public:
         JanelaPrincipal->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(JanelaPrincipal);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 800, 20));
+        menuBar->setGeometry(QRect(0, 0, 604, 20));
         JanelaPrincipal->setMenuBar(menuBar);
         mainToolBar = new QToolBar(JanelaPrincipal);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -241,6 +243,8 @@ public:
          << QApplication::translate("JanelaPrincipal", "Verde", 0)
          << QApplication::translate("JanelaPrincipal", "Vermelho", 0)
          << QApplication::translate("JanelaPrincipal", "Laranja", 0)
+         << QApplication::translate("JanelaPrincipal", "Rosa", 0)
+         << QApplication::translate("JanelaPrincipal", "Roxo", 0)
         );
         BT_CA_FINALIZAR->setText(QApplication::translate("JanelaPrincipal", "FInalizar Calibra\303\247\303\243o", 0));
         BT_CA_INICIAR_CAM->setText(QApplication::translate("JanelaPrincipal", "Ligar Camera", 0));
