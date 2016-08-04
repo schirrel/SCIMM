@@ -14,7 +14,7 @@ int dragA, select_flagA;
 bool callbackA = false;
 Point point1, point2;
 bool cameraIndisponivel=false;
-Mat BackImg;
+Mat res;
 /*
 0 AMARELO
 1 AZUL
@@ -118,6 +118,7 @@ void Automatica::ReconhecerFundo(JanelaPrincipal* janela){
             janela->SetStatusFundo(var);
         //read the current frame
         if(capture.read(frame)) {
+          //  frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-100);
             //update the background model
             pMOG2->apply(frame, fgMaskMOG2);
             //get the frame number and write it on the current frame
@@ -138,9 +139,11 @@ void Automatica::ExtrairObjetos(JanelaPrincipal *janela){
     if(!capture.isOpened()){
 
     }
-    Mat res;
+
     for (int var = 0; var < 10; ++var) {
         if(capture.read(frame)) {  //update the background model
+
+
             pMOG2->apply(frame, fgMaskMOG2);
             rectangle(frame, cv::Point(10, 2), cv::Point(100,20),
                       cv::Scalar(255,255,255), -1);
@@ -149,12 +152,13 @@ void Automatica::ExtrairObjetos(JanelaPrincipal *janela){
 
     while(true) {
         if(capture.read(frame)) {
+
             imshow("FG Mask MOG 2", fgMaskMOG2);
             bitwise_and(frame, frame, res, fgMaskMOG2);
+            res=res(tamanho);
             imshow("Final", res);
         }
-        if( waitKey(30)> 0)
-            break;
+        if (cv::waitKey(5) & 255) break;
     }
 
     //delete capture object
@@ -169,10 +173,10 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
     int cont=0;
-
+    frame = res;
     while (!janela->INICIAR) {
-        camera >> frame;
-        frame = frame(tamanho);
+//        camera >> frame;
+//        frame = frame(tamanho);
         frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-100 );
 
         cvtColor(frame, src_gray, CV_BGR2GRAY);
@@ -201,7 +205,7 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
 
 
         Mat Threshold;
-        Mat res;
+        Mat final;
 
         while(1){
             camera >> frame;
@@ -216,9 +220,9 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
                     CORES[janela->INDICE_OBJETO].S_S[1] ,
                     CORES[janela->INDICE_OBJETO].S_V[1] ),Threshold);
             Mat res;
-            bitwise_and(frame, frame, res, Threshold );
+            bitwise_and(frame, frame, final, Threshold );
             // res = res(tamanho);
-            cv::imshow("Limiar por Objeto", res);
+            cv::imshow("Limiar por Objeto", final);
             if(janela->FINALIZADA){
                 break;
             }

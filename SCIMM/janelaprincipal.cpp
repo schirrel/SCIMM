@@ -118,6 +118,7 @@ void JanelaPrincipal::ComboCorChanged(int index){
     std::cout <<INDICE_OBJETO << std::endl;
 }
 void JanelaPrincipal::IniciarCameraAutomatico(){
+
     ui->BT_CA_INICIAR_CAM->setEnabled(false);
     //   ui->BT_CA_INICIAR->setEnabled(true);
     // ui->BT_CA_FINALIZAR->setEnabled(true);
@@ -125,6 +126,7 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     //ui->PROGRESS_CA->setEnabled(true);
     ui->BT_FUNDO->setEnabled(true);
     CA.Iniciar(this, CAMERA);
+   // CA.ConfigurarCamera(this);
     if(INDISPONIVEL) {
         ResetarTelas();
     }
