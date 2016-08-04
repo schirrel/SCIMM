@@ -6,13 +6,16 @@
 class Automatica : public Calibracao
 {
 public:
-    Automatica();
-    void ConfigurarCamera(JanelaPrincipal* janela);
-    void Calibrar(JanelaPrincipal* janela);
+ Automatica();
+ void ConfigurarCamera(JanelaPrincipal* janela);
+ void Calibrar(JanelaPrincipal* janela);
  void Iniciar(JanelaPrincipal *janela, int c);
+ void ReconhecerFundo(JanelaPrincipal* janela);
+ void ExtrairObjetos(JanelaPrincipal* janela);
 private:
 
-    int thresh = 40;
+    int thresh = 20;
+    int brilho = 0, contraste = 50;
     std::vector<Rect> boundRect;
      std::vector<Rect> EliminarExcessos();
      void AplicarThresh(int, void *);

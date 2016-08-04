@@ -17,14 +17,12 @@ public:
     void ResetarTelas();
     void CameraIndisponivel();
 
-    // -----------  Métodos Calibração Manual
-    void Plot(int h[256] , int s[256], int v[256]);
-    void RePlot(int a[256]);
-    void SetHSV(int h[256] , int s[256], int v[256]);
+
 
     // -----------  Métodos Calibração Automatica
     void SetText(int qtd);
     void SetStatus(int porcento, std::string mensagem);
+    void SetStatusFundo(int n);
 
     // -----------  Variaveis Publicas
     bool CALIBRADO[7];
@@ -41,27 +39,15 @@ public:
 
 
 public slots:
-    // ----------- Slots Menu
-    void MenuManual();
-    void MenuAutomatico();
-    void MenuSobre();
-
-    //-----------Slots Calibração Manual
-    void TabChangedTo(int index);
-    void ComboChanged(int index);
-    void SalvarCalibracao();
-    void FinalizarCalibracao();
-    void IniciarCalibracao();
-    void setMaxTextInt( int value);
-    void setMaxSliderValue();
-    void setMinTextInt( int value);
-    void setMinSliderValue();
 
     //----------- Slots Calibração Automatica
     void ComboObjetoChanged(int index);
     void BotaoIniciar();
     void BotaoSalvar();
+    void BotaoSalvarFundo();
+    void BotaoConfigurar();
     void BotaoFinalizar();
+    void BotaoExtrair();
     void ComboCorChanged(int index);
 
     void IniciarCameraManual();

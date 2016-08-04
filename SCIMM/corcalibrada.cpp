@@ -20,4 +20,6 @@ void CorCalibrada::SetMin(int *min){
     for(int i=0; i < 3; i++){
         MIN[i]= min[i];
     }
+
+
 }
