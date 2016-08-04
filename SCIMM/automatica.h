@@ -14,7 +14,7 @@ public:
  void ExtrairObjetos(JanelaPrincipal* janela);
 private:
 
-    int thresh = 20;
+    int thresh = 40;
     int brilho = 0, contraste = 50;
     std::vector<Rect> boundRect;
      std::vector<Rect> EliminarExcessos();

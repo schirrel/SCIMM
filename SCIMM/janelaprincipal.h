@@ -23,6 +23,7 @@ public:
     void SetText(int qtd);
     void SetStatus(int porcento, std::string mensagem);
     void SetStatusFundo(int n);
+    void SetStatusExtrair(int n);
 
     // -----------  Variaveis Publicas
     bool CALIBRADO[7];
@@ -41,7 +42,6 @@ public:
 public slots:
 
     //----------- Slots Calibração Automatica
-    void ComboObjetoChanged(int index);
     void BotaoIniciar();
     void BotaoSalvar();
     void BotaoSalvarFundo();
@@ -50,7 +50,6 @@ public slots:
     void BotaoExtrair();
     void ComboCorChanged(int index);
 
-    void IniciarCameraManual();
     void IniciarCameraAutomatico();
 
 

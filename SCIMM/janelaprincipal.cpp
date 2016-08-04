@@ -72,6 +72,7 @@ void JanelaPrincipal::BotaoSalvar(){
 void JanelaPrincipal::BotaoIniciar(){
     INICIAR = true;
     ui->BT_CA_INICIAR->setEnabled(false);
+    CA.Calibrar(this);
 }
 void JanelaPrincipal::SetStatus(int porcento, std::string mensagem){
 
@@ -92,6 +93,15 @@ void JanelaPrincipal::BotaoFinalizar(){
 void JanelaPrincipal::SetStatusFundo(int n) {
     ui->PB_FUNDO->setValue(n);
     ui->PB_FUNDO->repaint();
+    if(n==100)
+        ui->PB_FUNDO->setEnabled(false);
+}
+
+void JanelaPrincipal::SetStatusExtrair(int n) {
+    ui->PB_EXTRAIR->setValue(n);
+    ui->PB_EXTRAIR->repaint();
+    if(n==100)
+        ui->PB_EXTRAIR->setEnabled(false);
 }
 
 void JanelaPrincipal::BotaoSalvarFundo(){
@@ -111,6 +121,7 @@ void JanelaPrincipal::BotaoConfigurar() {
 void JanelaPrincipal::BotaoExtrair(){
 ui->BT_EXTRAIR->setEnabled(false);
 CA.ExtrairObjetos(this);
+ui->BT_CA_INICIAR->setEnabled(true);
 }
 
 void JanelaPrincipal::ComboCorChanged(int index){
