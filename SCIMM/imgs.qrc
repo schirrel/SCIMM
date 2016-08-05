@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>extrair.png</file>
+        <file>detectar.png</file>
+        <file>color.png</file>
+        <file>salvar.png</file>
+    </qresource>
+</RCC>

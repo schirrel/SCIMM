@@ -1,15 +1,15 @@
 #include "automatica.h"
-#define PORCENTAGEM 3
+#define PORCENTAGEM 5
 #include "scimm_cor.h"
 #include "opencv2/opencv.hpp"
 RNG rng(12345);
 Mat frameA, src_gray;
-Automatica at ;
+Calibracao at ;
 std::vector<Rect> insideRect;
 char* src_window = "Configuração da Imagem";
 int brightness_value = 0, contrast_value = 50;
 Rect tamanho;
-std::vector<CorCalibrada> cores;
+
 int dragA, select_flagA;
 bool callbackA = false;
 Point point1, point2;
@@ -25,7 +25,7 @@ std::vector<SCIMM_COR> CORES;
 Ptr<BackgroundSubtractor> pMOG2; //MOG2 Background subtractor
 Mat fgMaskMOG2;
 
-double Automatica::ObterPorcentagem(int valor, int porcentagem){
+double Calibracao::ObterPorcentagem(int valor, int porcentagem){
     double p = (porcentagem*valor)/100;
     return p;
 }
@@ -57,10 +57,10 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
         }
     }
 }
-Automatica::Automatica()
+Calibracao::Calibracao()
 {
 }
-void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
+void Calibracao::ConfigurarCamera(JanelaPrincipal* janela){
 
     cv::VideoCapture cap;
     cap.open(CAMERA);
@@ -71,8 +71,8 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
     } else {
 
         while(true){
-            createTrackbar("Brilho", src_window, &brightness_value, 200);
-            createTrackbar("Contraste", src_window, &contrast_value, 100);
+       //     createTrackbar("Brilho", src_window, &brightness_value, 200);
+        //    createTrackbar("Contraste", src_window, &contrast_value, 100);
             cap >> frameA;
             // frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100);
 
@@ -80,9 +80,7 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
             cv::setMouseCallback(src_window,mouseHandler,0);
             cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
             cv::imshow(src_window,frameA);
-            cvtColor(frameA, src_gray, CV_BGR2GRAY);
-            blur(src_gray, src_gray, Size(5, 5));
-            AplicarThresh(0, 0);
+            janela->SetImage(frameA);
 
             cv::imshow(src_window,frameA);
             if (cv::waitKey(30) >= 0) break;
@@ -90,23 +88,22 @@ void Automatica::ConfigurarCamera(JanelaPrincipal* janela){
 
         cvDestroyAllWindows();
         tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
-        std::cout << tamanho << std::endl;
-        cv::Mat croppedImage;
-        while(true){
-            cap >> frameA;
-            //   frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100 );
-            croppedImage = frameA(tamanho);
-            cv::imshow(src_window,croppedImage);
-            if (cv::waitKey(30) >= 0) break;
-        }
+//        std::cout << tamanho << std::endl;
+//        cv::Mat croppedImage;
+//        while(true){
+//            cap >> frameA;
+//            //   frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100 );
+//            croppedImage = frameA(tamanho);
+//            cv::imshow(src_window,croppedImage);
+//            if (cv::waitKey(30) >= 0) break;
+//        }
         cvDestroyAllWindows();
         cap.release();
         cvDestroyAllWindows();
     }
 
 }
-
-void Automatica::ReconhecerFundo(JanelaPrincipal* janela){
+void Calibracao::ReconhecerFundo(JanelaPrincipal* janela){
 
     //create the capture object
     VideoCapture capture(CAMERA);
@@ -121,23 +118,23 @@ void Automatica::ReconhecerFundo(JanelaPrincipal* janela){
         if(capture.read(frame)) {
             // frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-100);
             //   frame = frame(tamanho);
+            janela->SetImage(frame);
             pMOG2->apply(frame, fgMaskMOG2);
         }
     }
-    while(true) {
+//    while(true) {
 
-        imshow("Fnndo", frame);
-        if (cv::waitKey(30)>= 0) break;
+//        imshow("Fnndo", frame);
+//        if (cv::waitKey(30)>= 0) break;
 
 
 
-    }
+//    }
 
     cvDestroyAllWindows();
     capture.release();
 }
-
-void Automatica::ExtrairObjetos(JanelaPrincipal *janela){
+void Calibracao::ExtrairObjetos(JanelaPrincipal *janela){
     //create the capture object
     VideoCapture capture(CAMERA);
     if(!capture.isOpened()){
@@ -148,34 +145,84 @@ void Automatica::ExtrairObjetos(JanelaPrincipal *janela){
         if(capture.read(frame)) {  //update the background model
             janela->SetStatusExtrair(var*10);
             pMOG2->apply(frame, fgMaskMOG2);
-            imshow("Final", fgMaskMOG2);
-            imshow("Final", frame);
+            janela->SetImage(fgMaskMOG2);
+
         }
     }
-    int k;
-    while(true) {
+
+    for (int var = 0; var < 11; ++var) {
         capture >> frame;
-        imshow("FG Mask MOG 2", fgMaskMOG2);
         bitwise_and(frame, frame, res, fgMaskMOG2);
-        cvtColor(res, src_gray, CV_BGR2GRAY);
-        blur(src_gray, src_gray, Size(5, 5));
-        AplicarThresh(0,0);
         res=res(tamanho);
         imshow("Final", res);
-        k = cv::waitKey(30);
-
-        if (k >= 0) break;
-
-
-
+        janela->SetImage(res);
     }
     cvDestroyAllWindows();
     cvDestroyAllWindows();
     //delete capture object
     capture.release();
 }
+void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
+    CAMERA =c ;
+    JANELA = janela;
+    //this->ConfigurarCamera(janela);
+    cv::VideoCapture cap;
+    cap.open(CAMERA);
 
-void Automatica::Calibrar(JanelaPrincipal *janela){
+    if( !cap.isOpened() )
+    { cameraIndisponivel = true;
+        janela->CameraIndisponivel();
+    } else {
+        cap.release();
+        cap.release();
+        cap.release();
+        brightness_value = 40 ;
+        contrast_value = 40 ;
+     //   tamanho = Rect( 166, 92,( 494- 166) ,( 389- 92));
+    }
+}
+void Calibracao::DetectarObjetos(int, void *){
+    Mat canny_output;
+    std::vector< std::vector<Point> > contours;
+    std::vector<Vec4i> hierarchy;
+
+
+    Canny(src_gray, canny_output, thresh, thresh * 3, 3);
+    findContours(canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+    std:: vector< std::vector<Point> > contours_poly(contours.size());
+
+
+    boundRect.clear();
+    insideRect.clear();
+    for (unsigned int i = 0; i < contours.size(); i++) {
+        approxPolyDP(Mat(contours[i]), contours_poly[i], 3, true);
+        boundRect.push_back(boundingRect(Mat(contours_poly[i])));
+
+    }
+
+    Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
+
+    Rect n;
+    Point pTopRight, pBottomLeft;
+    for (unsigned int i = 0; i < contours.size(); i++) {
+        Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+        drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, Point());
+        n = boundRect.at(i);
+        pTopRight = n.tl();
+        pBottomLeft = n.br();
+        pTopRight.x += ObterPorcentagem(pTopRight.x, PORCENTAGEM);
+        pTopRight.y += ObterPorcentagem(pTopRight.y, PORCENTAGEM);
+        pBottomLeft.x -= ObterPorcentagem(pBottomLeft.x, PORCENTAGEM);
+        pBottomLeft.y -= ObterPorcentagem(pBottomLeft.y,PORCENTAGEM);
+        Rect rRect(pTopRight, pBottomLeft);
+        if(rRect.area()>1){
+            insideRect.push_back(rRect);
+            rectangle(drawing, rRect, Scalar(0, 0, 255), 1, 8, 0);
+        }
+    }
+   // imshow("Contours", drawing);
+}
+void Calibracao::Calibrar(JanelaPrincipal *janela){
 
     FIM=false;
     cv::Mat croppedImage;
@@ -183,72 +230,39 @@ void Automatica::Calibrar(JanelaPrincipal *janela){
     if (!camera.isOpened()) {
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
-    int cont=0;
 
-    while (!janela->INICIAR) {
-        camera >> frame;
-        frame = frame(tamanho);
+//Mat res;
+  for(int i = 0; i < 20; i++){
+       camera >> frame;
+      //  frame = frame(tamanho);
+         bitwise_and(frame, frame, res, fgMaskMOG2);
+  }
         //frame.(frame, -1, contrast_value / 50.0, brightness_value-100 );
-        bitwise_and(frame, frame, res, fgMaskMOG2);
-        cvtColor(res, src_gray, CV_BGR2GRAY);
-        blur(src_gray, src_gray, Size(5, 5));
-        AplicarThresh(0, 0);
-        if (cv::waitKey(30) >= 0 || FIM) break;
+//
+//        cvtColor(res, src_gray, CV_BGR2GRAY);
+//        blur(src_gray, src_gray, Size(5, 5));
+//        AplicarThresh(0, 0);
+//        if (cv::waitKey(30) >= 0 || FIM) break;
 
-    }
+//    }
 
-    if(!FIM){
-        janela->SetStatus(25, "Detectando Objetos");
+    camera.release();
+        cvDestroyAllWindows();
+        cvDestroyAllWindows();
+        janela->SetStatus(25);
         frame = frame(tamanho);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
-        AplicarThresh(0, 0);
+        DetectarObjetos(0, 0);
         sleep(1);
         //insideRect = EliminarExcessos();
-        janela->SetStatus(50, "Eliminando Objetos Indesejados");
+        janela->SetStatus(50);
         sleep(1);
         Calcular();
-        janela->SetStatus(75, "Calculando Valores HSV");
-        sleep(1);
-        janela->SetText(cores.size() );
-        janela->SetStatus(100, "Exibindo Objetos com Threshold");
+        janela->SetStatus(75);
         sleep(1);
 
-
-        Mat Threshold;
-
-
-        while(1){
-            Mat final;
-            camera >> frame;
-            dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
-            cv::cvtColor(frame,HSV,cv::COLOR_BGR2HSV);
-            cv::inRange(
-                        HSV,
-                        cv::Scalar(CORES[janela->INDICE_OBJETO].S_H[0],
-                    CORES[janela->INDICE_OBJETO].S_S[0],
-                    CORES[janela->INDICE_OBJETO].S_V[0]),
-                    cv::Scalar( CORES[janela->INDICE_OBJETO].S_H[1] ,
-                    CORES[janela->INDICE_OBJETO].S_S[1] ,
-                    CORES[janela->INDICE_OBJETO].S_V[1] ),Threshold);
-            bitwise_and(frame, frame, final, Threshold );
-            final = final(tamanho);
-            cv::imshow("Limiar por Objeto", final);
-            if(janela->FINALIZADA){
-                break;
-            }
-            if (cv::waitKey(30) >= 0 || FIM) break;
-        }
-        SalvarArquivo();
-
-    }
-    camera.release();
-    camera.release();
-    camera.release();
-    cvDestroyAllWindows();
-    cvDestroyAllWindows();
-
-
+        janela->SetStatus(100);
 }
 void Calibracao::Calcular(){
     SCIMM_COR c1,c2,c3,c4,c5,c6,c7;
@@ -270,7 +284,7 @@ void Calibracao::Calcular(){
                 if(pixel.val[0]>0 &&pixel.val[0]<=20) {
                     //LARANJA
                     CORES[LARANJA].SetMinMax(pixel);
-                } else  if(pixel.val[0]>02 &&pixel.val[0]<=30) {
+                } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
                     //AMARELO
                     CORES[AMARELO].SetMinMax(pixel);
                 } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
@@ -297,75 +311,47 @@ void Calibracao::Calcular(){
 
     }
 }
-void Automatica::Iniciar(JanelaPrincipal *janela, int c){
-    CAMERA =c ;
-    //this->ConfigurarCamera(janela);
-    cv::VideoCapture cap;
-    cap.open(CAMERA);
-
-    if( !cap.isOpened() )
-    { cameraIndisponivel = true;
-        janela->CameraIndisponivel();
-    } else {
-        cap.release();
-        cap.release();
-        cap.release();
-        brightness_value = 40 ;
-        contrast_value = 40 ;
-        tamanho = Rect( 166, 92,( 494- 166) ,( 389- 92));
+void Calibracao::Exibir(){
+    Mat Threshold;
+    cv::VideoCapture camera(CAMERA);
+    if (!camera.isOpened()) {
+        std::cerr << "ERROR: Could not open camera" << std::endl;
     }
 
-    //    if(!cameraIndisponivel){
-    //        SCIMM_COR a, b, c1, d, e;
-    //        CORES.push_back(a);
-    //        CORES.push_back(b);
-    //        CORES.push_back(c1);
-    //        CORES.push_back(d);
-    //        CORES.push_back(e);
-    //        this->Calibrar(janela);
-    //    }
+  Mat final;
+    while(!JANELA->FINALIZADA){
+
+        camera >> frame;
+        dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
+        cv::cvtColor(frame,HSV,cv::COLOR_BGR2HSV);
+        cv::inRange(
+                    HSV,
+                    cv::Scalar(CORES[JANELA->INDICE_OBJETO].S_H[0],
+                CORES[JANELA->INDICE_OBJETO].S_S[0],
+                CORES[JANELA->INDICE_OBJETO].S_V[0]),
+                cv::Scalar( CORES[JANELA->INDICE_OBJETO].S_H[1] ,
+                CORES[JANELA->INDICE_OBJETO].S_S[1] ,
+                CORES[JANELA->INDICE_OBJETO].S_V[1] ),Threshold);
+        bitwise_and(frame, frame, final, Threshold );
+        final = final(tamanho);
+       JANELA->SetImage( final);
+
+    }
+    camera.release();
+    SalvarArquivo();
+}
+void Calibracao::Fechar(){
+    FIM =true;
+    cv::destroyAllWindows();
 
 }
-
-void Automatica::AplicarThresh(int, void *){
-    Mat canny_output;
-    std::vector< std::vector<Point> > contours;
-    std::vector<Vec4i> hierarchy;
-
-
-    Canny(src_gray, canny_output, thresh, thresh * 3, 3);
-    findContours(canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
-    std:: vector< std::vector<Point> > contours_poly(contours.size());
-
-
-    boundRect.clear();
-    insideRect.clear();
-    for (unsigned int i = 0; i < contours.size(); i++) {
-        approxPolyDP(Mat(contours[i]), contours_poly[i], 3, true);
-        boundRect.push_back(boundingRect(Mat(contours_poly[i])));
-
-    }
-
-    Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
-
-    Rect n;
-    Point pTopRight, pBottomLeft;
-    namedWindow("Contours", CV_WINDOW_AUTOSIZE);
-    for (unsigned int i = 0; i < contours.size(); i++) {
-        Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-        drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, Point());
-        n = boundRect.at(i);
-        pTopRight = n.tl();
-        pBottomLeft = n.br();
-        pTopRight.x += ObterPorcentagem(pTopRight.x, PORCENTAGEM);
-        pTopRight.y += ObterPorcentagem(pTopRight.y, PORCENTAGEM);
-        pBottomLeft.x -= ObterPorcentagem(pBottomLeft.x, PORCENTAGEM);
-        pBottomLeft.y -= ObterPorcentagem(pBottomLeft.y,PORCENTAGEM);
-        Rect rRect(pTopRight, pBottomLeft);
-        if(rRect.area()>1){
-            insideRect.push_back(rRect);
-            rectangle(drawing, rRect, Scalar(0, 0, 255), 1, 8, 0);
-        }
-    }
-    imshow("Contours", drawing);
+void Calibracao::SalvarArquivo(){
+    std::ofstream out;
+    std::cout << " salvando " << std::endl;
+    out.open("cores.arff");
+//    for(int i = 0; i < 8; i++){
+//        out << i << " : " << coresCalibradas[i].MIN[0] << "." << coresCalibradas[i].MIN[1]<< "."<< coresCalibradas[i].MIN[2] << std::endl;
+//        out << i << " : " << coresCalibradas[i].MAX[0] << "." << coresCalibradas[i].MAX[1]<< "."<< coresCalibradas[i].MAX[2] << std::endl;
+//    }
+    out.close();
 }

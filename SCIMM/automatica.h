@@ -2,8 +2,7 @@
 #define AUTOMATICA_H
 #include "calibracao.h"
 #include "janelaprincipal.h"
-#include "tdestudent.h"
-
+#include <fstream>
 
 #define LARANJA 4
 #define AMARELO 0
@@ -13,25 +12,32 @@
 #define ROSA 5
 #define ROXO 6
 
-class Automatica : public Calibracao
+class Calibracao
 {
 public:
- Automatica();
- void ConfigurarCamera(JanelaPrincipal* janela);
- void Calibrar(JanelaPrincipal* janela);
- void Iniciar(JanelaPrincipal *janela, int c);
- void ReconhecerFundo(JanelaPrincipal* janela);
- void ExtrairObjetos(JanelaPrincipal* janela);
+    Calibracao();
+    void ConfigurarCamera(JanelaPrincipal* janela);
+    void Calibrar(JanelaPrincipal* janela);
+    void Iniciar(JanelaPrincipal *janela, int c);
+    void ReconhecerFundo(JanelaPrincipal* janela);
+    void ExtrairObjetos(JanelaPrincipal* janela);
+    void Exibir();
+    void Calcular();
+    void Fechar();
+    void SalvarArquivo();
 private:
-
+    bool FIM;
+    Mat  HSV;
+    Mat frame;
     int thresh = 40;
+    int CAMERA;
     int brilho = 0, contraste = 50;
     std::vector<Rect> boundRect;
-     std::vector<Rect> EliminarExcessos();
-     void AplicarThresh(int, void *);
-     double ObterPorcentagem(int valor, int porcentagem);
-
-     bool CompararRectPorArea(Rect a, Rect b);
+    std::vector<Rect> EliminarExcessos();
+    void DetectarObjetos(int, void *);
+    double ObterPorcentagem(int valor, int porcentagem);
+    JanelaPrincipal* JANELA;
+    bool CompararRectPorArea(Rect a, Rect b);
 
 };
 

@@ -17,22 +17,21 @@ LIBS += -L/usr/local/lib -lopencv_shape -lopencv_stitching -lopencv_objdetect -l
 
 SOURCES += main.cpp\
         janelaprincipal.cpp \
-    calibracao.cpp \
     automatica.cpp \
-    corcalibrada.cpp \
-    qcustomplot.cpp \
-    tdestudent.cpp \
     scimm_cor.cpp
 
 HEADERS  += janelaprincipal.h \
-    calibracao.h \
     automatica.h \
-    corcalibrada.h \
-    qcustomplot.h \
-    tdestudent.h \
     scimm_cor.h
 
 FORMS    += janelaprincipal.ui
 
 RESOURCES += \
-    icon.qrc
+    icon.qrc \
+    cam.qrc \
+    fundo.qrc \
+    conf.qrc \
+    imgs.qrc
+
+DISTFILES += \
+    camera.png

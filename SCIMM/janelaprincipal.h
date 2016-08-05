@@ -1,8 +1,8 @@
 #ifndef JANELAPRINCIPAL_H
 #define JANELAPRINCIPAL_H
-#include "corcalibrada.h"
 #include <QMainWindow>
-
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 namespace Ui {
 class JanelaPrincipal;
 }
@@ -20,8 +20,7 @@ public:
 
 
     // -----------  Métodos Calibração Automatica
-    void SetText(int qtd);
-    void SetStatus(int porcento, std::string mensagem);
+    void SetStatus(int porcento);
     void SetStatusFundo(int n);
     void SetStatusExtrair(int n);
 
@@ -30,8 +29,7 @@ public:
 
     // -----------  Variaveis Publicas Calibração Manual
     int MIN[3], MAX[3],INDICE_CALIBRACAO;
-    bool FINALIZADA, CALIBRAR;
-    CorCalibrada cor;
+    bool FINALIZADA=false, CALIBRAR;
 
     // -----------  Variaveis Publicas Calibração Automatica
     int INDICE_COR = 0    , INDICE_OBJETO = 0;
@@ -49,9 +47,9 @@ public slots:
     void BotaoFinalizar();
     void BotaoExtrair();
     void ComboCorChanged(int index);
-
+    void SetImage(cv::Mat frame);
     void IniciarCameraAutomatico();
-
+    QImage ConverterFrame(cv::Mat frame);
 
 
 private:
