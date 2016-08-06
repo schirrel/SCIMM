@@ -23,11 +23,11 @@ class Calibracao
 {
 public:
     Calibracao();
-    void ConfigurarCamera(JanelaPrincipal* janela);
-    void Calibrar(JanelaPrincipal* janela);
+    void ConfigurarCamera();
+    void Calibrar();
     void Iniciar(JanelaPrincipal *janela, int c);
-    void ReconhecerFundo(JanelaPrincipal* janela);
-    void ExtrairObjetos(JanelaPrincipal* janela);
+    void ReconhecerFundo();
+    void ExtrairObjetos();
     void Exibir();
     void Calcular();
     void Fechar();

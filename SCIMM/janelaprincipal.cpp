@@ -23,8 +23,6 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
 
     ui->setupUi(this);
     //Inicialização de Variaveis
-    MIN[0] = MIN[1]  = MIN[2] = 0;
-    MAX[0] = MAX[1]  = MAX[2] =256;
     INDICE_CALIBRACAO =  INDEX = 0;
     memset(CALIBRADO, 0, sizeof(CALIBRADO));
 
@@ -42,7 +40,7 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     ui->BT_CA_INICIAR_CAM->setIcon(QIcon(":/icons/camera.png"));
     ui->BT_FUNDO->setIcon(QIcon(":/icons/fundo.png"));
     ui->BT_CONFIGURAR->setIcon(QIcon(":/icons/configuracao.png"));
-    ui->BT_EXTRAIR->setIcon(QIcon(":icons/extrair.png"));
+    ui->BT_EXTRAIR->setIcon(QIcon(":icons/detectar.png"));
      ui->BT_CA_INICIAR->setIcon(QIcon(":icons/color.png"));
      ui->BT_CA_FINALIZAR->setIcon(QIcon(":icons/salvar.png"));
 }
@@ -135,7 +133,7 @@ void JanelaPrincipal::BotaoSalvar(){
 void JanelaPrincipal::BotaoIniciar(){
     INICIAR = true;
     ui->BT_CA_INICIAR->setEnabled(false);
-    CA.Calibrar(this);
+    CA.Calibrar();
     ui->BT_CA_FINALIZAR->setEnabled(true);
      FINALIZADA=false;
     CA.Exibir();
@@ -172,21 +170,27 @@ void JanelaPrincipal::SetStatusExtrair(int n) {
 
 void JanelaPrincipal::BotaoSalvarFundo(){
     ui->BT_FUNDO->setEnabled(false);
-    ui->PB_FUNDO->setEnabled(true);
 
-    CA.ReconhecerFundo(this);
-    ui->BT_CONFIGURAR->setEnabled(true);
+    CA.ReconhecerFundo();
+     ui->BT_EXTRAIR->setEnabled(true);
+
+ //
 }
 
 void JanelaPrincipal::BotaoConfigurar() {
     ui->BT_CONFIGURAR->setEnabled(false);
-    CA.ConfigurarCamera(this);
-    ui->BT_EXTRAIR->setEnabled(true);
+    CA.ConfigurarCamera();
+    ui->BT_FUNDO->setEnabled(true);
+    ui->PB_FUNDO->setEnabled(true);
+
+
+
 }
 
 void JanelaPrincipal::BotaoExtrair(){
+    CA.ExtrairObjetos();
+
     ui->BT_EXTRAIR->setEnabled(false);
-    CA.ExtrairObjetos(this);
     ui->BT_CA_INICIAR->setEnabled(true);
 }
 
@@ -201,7 +205,7 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     // ui->BT_CA_FINALIZAR->setEnabled(true);
     //ui->CB_CA_CORES->setEnabled(true);
     //ui->PROGRESS_CA->setEnabled(true);
-    ui->BT_FUNDO->setEnabled(true);
+    ui->BT_CONFIGURAR->setEnabled(true);
     CA.Iniciar(this, CAMERA);
     // CA.ConfigurarCamera(this);
     if(INDISPONIVEL) {

@@ -118,7 +118,7 @@ public:
         BT_FUNDO = new QPushButton(centralWidget);
         BT_FUNDO->setObjectName(QStringLiteral("BT_FUNDO"));
         BT_FUNDO->setEnabled(false);
-        BT_FUNDO->setGeometry(QRect(50, 40, 36, 36));
+        BT_FUNDO->setGeometry(QRect(90, 40, 36, 36));
         QIcon icon3;
         icon3.addFile(QStringLiteral("fundo.png"), QSize(), QIcon::Normal, QIcon::Off);
         BT_FUNDO->setIcon(icon3);
@@ -134,7 +134,7 @@ public:
         BT_CONFIGURAR = new QPushButton(centralWidget);
         BT_CONFIGURAR->setObjectName(QStringLiteral("BT_CONFIGURAR"));
         BT_CONFIGURAR->setEnabled(false);
-        BT_CONFIGURAR->setGeometry(QRect(140, 40, 36, 36));
+        BT_CONFIGURAR->setGeometry(QRect(50, 40, 36, 36));
         QIcon icon5;
         icon5.addFile(QStringLiteral("configuracao.png"), QSize(), QIcon::Normal, QIcon::Off);
         BT_CONFIGURAR->setIcon(icon5);
@@ -142,7 +142,7 @@ public:
         PB_FUNDO = new QProgressBar(centralWidget);
         PB_FUNDO->setObjectName(QStringLiteral("PB_FUNDO"));
         PB_FUNDO->setEnabled(false);
-        PB_FUNDO->setGeometry(QRect(90, 42, 41, 31));
+        PB_FUNDO->setGeometry(QRect(130, 42, 41, 31));
         PB_FUNDO->setValue(0);
         IMAGEM = new QLabel(centralWidget);
         IMAGEM->setObjectName(QStringLiteral("IMAGEM"));

@@ -61,8 +61,10 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
 Calibracao::Calibracao()
 {
 }
-void Calibracao::ConfigurarCamera(JanelaPrincipal* janela){
-
+void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
+    CAMERA =c ;
+    JANELA = janela;
+    //this->ConfigurarCamera(janela);
     cv::VideoCapture camera;
     camera.open(CAMERA);
     camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
@@ -72,18 +74,37 @@ void Calibracao::ConfigurarCamera(JanelaPrincipal* janela){
     { cameraIndisponivel = true;
         janela->CameraIndisponivel();
     } else {
+        camera.release();
+        camera.release();
+        camera.release();
+        brightness_value = 40 ;
+        contrast_value = 40 ;
+     //   tamanho = Rect( 166, 92,( 494- 166) ,( 389- 92));
+    }
+}
+void Calibracao::ConfigurarCamera(){
+
+    cv::VideoCapture camera;
+    camera.open(CAMERA);
+    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
+        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
+
+    if( !camera.isOpened() )
+    { cameraIndisponivel = true;
+        JANELA->CameraIndisponivel();
+    } else {
 
         while(true){
-       //     createTrackbar("Brilho", src_window, &brightness_value, 200);
-        //    createTrackbar("Contraste", src_window, &contrast_value, 100);
+           // createTrackbar("Brilho", src_window, &brightness_value, 200);
+            //createTrackbar("Contraste", src_window, &contrast_value, 100);
             camera >> frameA;
-            // frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100);
+            //frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100);
 
 
             cv::setMouseCallback(src_window,mouseHandler,0);
             cv::rectangle(frameA, point1, point2, CV_RGB(255, 0, 0), 2, 5, 0);
             cv::imshow(src_window,frameA);
-            janela->SetImage(frameA);
+            JANELA->SetImage(frameA);
 
             cv::imshow(src_window,frameA);
             if (cv::waitKey(30) >= 0) break;
@@ -106,7 +127,7 @@ void Calibracao::ConfigurarCamera(JanelaPrincipal* janela){
     }
 
 }
-void Calibracao::ReconhecerFundo(JanelaPrincipal* janela){
+void Calibracao::ReconhecerFundo(){
 
     //create the capture object
     VideoCapture camera(CAMERA);
@@ -116,31 +137,22 @@ void Calibracao::ReconhecerFundo(JanelaPrincipal* janela){
     camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
         camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
 
-    camera >> frame;
+
     pMOG2= createBackgroundSubtractorMOG2(); //MOG2 approach
-    //read input data. ESC or 'q' for quitting
     for (int var = 0; var < 101; ++var) {
-        janela->SetStatusFundo(var);
-        if(camera.read(frame)) {
-            // frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-100);
-            //   frame = frame(tamanho);
-            janela->SetImage(frame);
+     JANELA->SetStatusFundo(var);
+          camera >> frame;
+            frame = frame(tamanho);
+            JANELA->SetImage(frame);
             pMOG2->apply(frame, mask);
-        }
+
     }
-//    while(true) {
-
-//        imshow("Fnndo", frame);
-//        if (cv::waitKey(30)>= 0) break;
-
-
-
-//    }
 
     cvDestroyAllWindows();
     camera.release();
+
 }
-void Calibracao::ExtrairObjetos(JanelaPrincipal *janela){
+void Calibracao::ExtrairObjetos(){
     //create the camera object
     VideoCapture camera(CAMERA);
     if(!camera.isOpened()){
@@ -149,47 +161,37 @@ void Calibracao::ExtrairObjetos(JanelaPrincipal *janela){
     camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
         camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
 
+        while(true) {
+            camera >> frame;
+            frame = frame(tamanho);
+              imshow("img", frame);
+              if (cv::waitKey(30)>= 0) break;
+     }
+
     for (int var = 0; var < 11; ++var) {
         if(camera.read(frame)) {  //update the background model
-            janela->SetStatusExtrair(var*10);
+            JANELA->SetStatusExtrair(var*10);
             pMOG2->apply(frame, mask);
-            janela->SetImage(mask);
+            JANELA->SetImage(mask);
 
         }
     }
+    cvDestroyAllWindows();
 
     for (int var = 0; var < 11; ++var) {
         camera >> frame;
         bitwise_and(frame, frame, res, mask);
         res=res(tamanho);
-        imshow("Final", res);
-        janela->SetImage(res);
+        JANELA->SetImage(res);
     }
+
+
     cvDestroyAllWindows();
     cvDestroyAllWindows();
     //delete capture object
     camera.release();
-}
-void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
-    CAMERA =c ;
-    JANELA = janela;
-    //this->ConfigurarCamera(janela);
-    cv::VideoCapture camera;
-    camera.open(CAMERA);
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
 
-    if( !camera.isOpened() )
-    { cameraIndisponivel = true;
-        janela->CameraIndisponivel();
-    } else {
-        camera.release();
-        camera.release();
-        camera.release();
-        brightness_value = 40 ;
-        contrast_value = 40 ;
-     //   tamanho = Rect( 166, 92,( 494- 166) ,( 389- 92));
-    }
+
 }
 void Calibracao::DetectarObjetos(int, void *){
     Mat canny_output;
@@ -232,7 +234,7 @@ void Calibracao::DetectarObjetos(int, void *){
     }
    // imshow("Contours", drawing);
 }
-void Calibracao::Calibrar(JanelaPrincipal *janela){
+void Calibracao::Calibrar(){
 
     FIM=false;
     cv::Mat croppedImage;
@@ -261,20 +263,20 @@ void Calibracao::Calibrar(JanelaPrincipal *janela){
     camera.release();
         cvDestroyAllWindows();
         cvDestroyAllWindows();
-        janela->SetStatus(25);
+        JANELA->SetStatus(25);
         frame = frame(tamanho);
         cvtColor(frame, src_gray, CV_BGR2GRAY);
         blur(src_gray, src_gray, Size(3, 3));
         DetectarObjetos(0, 0);
         sleep(1);
         //insideRect = EliminarExcessos();
-        janela->SetStatus(50);
+        JANELA->SetStatus(50);
         sleep(1);
         Calcular();
-        janela->SetStatus(75);
+        JANELA->SetStatus(75);
         sleep(1);
 
-        janela->SetStatus(100);
+        JANELA->SetStatus(100);
 }
 void Calibracao::Calcular(){
     SCIMM_COR c1,c2,c3,c4,c5,c6,c7;

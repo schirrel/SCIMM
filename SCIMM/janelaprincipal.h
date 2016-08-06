@@ -29,7 +29,7 @@ public:
 
     // -----------  Variaveis Publicas Calibração Manual
     int MIN[3], MAX[3],INDICE_CALIBRACAO;
-    bool FINALIZADA=false, CALIBRAR;
+    bool FINALIZADA=false, CALIBRAR=false,EXTRAIR=false;
 
     // -----------  Variaveis Publicas Calibração Automatica
     int INDICE_COR = 0    , INDICE_OBJETO = 0;
