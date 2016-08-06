@@ -50,8 +50,8 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../SCIMM/main.cpp \
 		../SCIMM/janelaprincipal.cpp \
-		../SCIMM/automatica.cpp \
-		../SCIMM/scimm_cor.cpp qrc_icon.cpp \
+		../SCIMM/scimm_cor.cpp \
+		../SCIMM/calibracao.cpp qrc_icon.cpp \
 		qrc_cam.cpp \
 		qrc_fundo.cpp \
 		qrc_conf.cpp \
@@ -59,8 +59,8 @@ SOURCES       = ../SCIMM/main.cpp \
 		moc_janelaprincipal.cpp
 OBJECTS       = main.o \
 		janelaprincipal.o \
-		automatica.o \
 		scimm_cor.o \
+		calibracao.o \
 		qrc_icon.o \
 		qrc_cam.o \
 		qrc_fundo.o \
@@ -218,11 +218,13 @@ DIST          = ../SCIMM/camera.png \
 		../../../../Qt/5.7/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt/5.7/gcc_64/mkspecs/features/lex.prf \
 		../SCIMM/SCIMM_OO.pro ../SCIMM/janelaprincipal.h \
-		../SCIMM/automatica.h \
-		../SCIMM/scimm_cor.h ../SCIMM/main.cpp \
+		automatica.h \
+		../SCIMM/scimm_cor.h \
+		calibracao \
+		../SCIMM/calibracao.h ../SCIMM/main.cpp \
 		../SCIMM/janelaprincipal.cpp \
-		../SCIMM/automatica.cpp \
-		../SCIMM/scimm_cor.cpp
+		../SCIMM/scimm_cor.cpp \
+		../SCIMM/calibracao.cpp
 QMAKE_TARGET  = SCIMM_OO
 DESTDIR       = 
 TARGET        = SCIMM_OO
@@ -568,8 +570,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../SCIMM/icon.qrc ../SCIMM/cam.qrc ../SCIMM/fundo.qrc ../SCIMM/conf.qrc ../SCIMM/imgs.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../SCIMM/janelaprincipal.h ../SCIMM/automatica.h ../SCIMM/scimm_cor.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../SCIMM/main.cpp ../SCIMM/janelaprincipal.cpp ../SCIMM/automatica.cpp ../SCIMM/scimm_cor.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../SCIMM/janelaprincipal.h automatica.h ../SCIMM/scimm_cor.h calibracao ../SCIMM/calibracao.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../SCIMM/main.cpp ../SCIMM/janelaprincipal.cpp ../SCIMM/scimm_cor.cpp ../SCIMM/calibracao.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../SCIMM/janelaprincipal.ui $(DISTDIR)/
 
 
@@ -1004,118 +1006,14 @@ janelaprincipal.o: ../SCIMM/janelaprincipal.cpp ../SCIMM/janelaprincipal.h \
 		../../../../Qt/5.7/gcc_64/include/QtWidgets/qabstractbutton.h \
 		../../../../Qt/5.7/gcc_64/include/QtWidgets/QWidget \
 		../../../../Qt/5.7/gcc_64/include/QtGui/QCloseEvent \
-		../SCIMM/calibracao.h \
-		../SCIMM/automatica.h
+		../SCIMM/calibracao.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o janelaprincipal.o ../SCIMM/janelaprincipal.cpp
-
-automatica.o: ../SCIMM/automatica.cpp ../SCIMM/automatica.h \
-		../SCIMM/calibracao.h \
-		../SCIMM/janelaprincipal.h \
-		../../../../Qt/5.7/gcc_64/include/QtWidgets/QMainWindow \
-		../../../../Qt/5.7/gcc_64/include/QtWidgets/qmainwindow.h \
-		../../../../Qt/5.7/gcc_64/include/QtWidgets/qwidget.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qfeatures.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qtypetraits.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qisenum.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qregexp.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qpalette.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qbrush.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qvector.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qmatrix.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qline.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qpainterpath.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qpixelformat.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qfont.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qfontmetrics.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qfontinfo.h \
-		../../../../Qt/5.7/gcc_64/include/QtWidgets/qsizepolicy.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qcursor.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qkeysequence.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qevent.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qset.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qurl.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qurlquery.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qfile.h \
-		../../../../Qt/5.7/gcc_64/include/QtCore/qfiledevice.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qvector2d.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qtouchdevice.h \
-		../../../../Qt/5.7/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../../../Qt/5.7/gcc_64/include/QtGui/qicon.h \
-		../SCIMM/scimm_cor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o automatica.o ../SCIMM/automatica.cpp
 
 scimm_cor.o: ../SCIMM/scimm_cor.cpp ../SCIMM/scimm_cor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o scimm_cor.o ../SCIMM/scimm_cor.cpp
+
+calibracao.o: ../SCIMM/calibracao.cpp ../SCIMM/scimm_cor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o calibracao.o ../SCIMM/calibracao.cpp
 
 qrc_icon.o: qrc_icon.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_icon.o qrc_icon.cpp

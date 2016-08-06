@@ -17,12 +17,14 @@ LIBS += -L/usr/local/lib -lopencv_shape -lopencv_stitching -lopencv_objdetect -l
 
 SOURCES += main.cpp\
         janelaprincipal.cpp \
-    automatica.cpp \
-    scimm_cor.cpp
+    scimm_cor.cpp \
+    calibracao.cpp
 
 HEADERS  += janelaprincipal.h \
     automatica.h \
-    scimm_cor.h
+    scimm_cor.h \
+    calibracao \
+    calibracao.h
 
 FORMS    += janelaprincipal.ui
 

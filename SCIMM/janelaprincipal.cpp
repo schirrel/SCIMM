@@ -8,7 +8,6 @@
 #include <qdebug.h>
 #include <QCloseEvent>
 #include "calibracao.h"
-#include "automatica.h"
 #include <stdio.h>
 #include <stdlib.h>
 Calibracao CA;
