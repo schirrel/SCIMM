@@ -1,5 +1,5 @@
-#ifndef AUTOMATICA_H
-#define AUTOMATICA_H
+#ifndef CALIBRACAO_H
+#define CALIBRACAO_H
 #include "calibracao.h"
 #include "janelaprincipal.h"
 #include <fstream>
@@ -44,8 +44,7 @@ private:
     void DetectarObjetos(int, void *);
     double ObterPorcentagem(int valor, int porcentagem);
     JanelaPrincipal* JANELA;
-    bool CompararRectPorArea(Rect a, Rect b);
 
 };
 
-#endif // AUTOMATICA_H
+#endif // CALIBRACAO_H
