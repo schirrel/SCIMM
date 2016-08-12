@@ -1,21 +1,19 @@
 #include "calibracao.h"
-#define PORCENTAGEM 5
-const int FRAME_WIDTH = 640;
-const int FRAME_HEIGHT = 480;
+#define PORCENTAGEM 1
+#define ALTURA 480
+#define LARGURA 640
 
 RNG rng(12345);
-Mat frameA, src_gray;
+Mat src_gray, frameA, res,mask;
 Calibracao at ;
 std::vector<Rect> insideRect;
 char* src_window = "Configuração da Imagem";
-int brightness_value = 0, contrast_value = 50;
+int brightness_value = 0, contrast_value = 50, dragA, select_flagA;
 Rect tamanho;
-
-int dragA, select_flagA;
-bool callbackA = false;
+bool callbackA = false,cameraIndisponivel=false;
 Point point1, point2;
-bool cameraIndisponivel=false;
-Mat res;
+
+
 /*
 0 AMARELO
 1 AZUL
@@ -24,7 +22,7 @@ Mat res;
 */
 std::vector<SCIMM_COR> CORES;
 Ptr<BackgroundSubtractor> pMOG2; //MOG2 Background subtractor
-Mat mask;
+
 
 double Calibracao::ObterPorcentagem(int valor, int porcentagem){
     double p = (porcentagem*valor)/100;
@@ -51,7 +49,7 @@ static void mouseHandler(int event, int x, int y, int flags, void *param) {
         dragA = 0;
         callbackA = true;
         imshow(src_window, frameA);
-        std::cout << point1 << " "<< point2 << std::endl;
+        // std::cout << point1 << " "<< point2 << std::endl;
         if (point1.y > point2.y || point1.x > point2.x) {
             printf("Horientação errada para detecção de cor.");
 
@@ -67,8 +65,6 @@ void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
     //this->ConfigurarCamera(janela);
     cv::VideoCapture camera;
     camera.open(CAMERA);
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
 
     if( !camera.isOpened() )
     { cameraIndisponivel = true;
@@ -77,17 +73,12 @@ void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
         camera.release();
         camera.release();
         camera.release();
-        brightness_value = 40 ;
-        contrast_value = 40 ;
-     //   tamanho = Rect( 166, 92,( 494- 166) ,( 389- 92));
     }
 }
 void Calibracao::ConfigurarCamera(){
 
     cv::VideoCapture camera;
     camera.open(CAMERA);
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
 
     if( !camera.isOpened() )
     { cameraIndisponivel = true;
@@ -95,10 +86,11 @@ void Calibracao::ConfigurarCamera(){
     } else {
 
         while(true){
-           // createTrackbar("Brilho", src_window, &brightness_value, 200);
-            //createTrackbar("Contraste", src_window, &contrast_value, 100);
+            createTrackbar("Brilho", src_window, &brightness_value, 200);
+            createTrackbar("Contraste", src_window, &contrast_value, 100);
             camera >> frameA;
-            //frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100);
+            frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-200);
+            cv::resize(frameA, frameA, cvSize(LARGURA, ALTURA));
 
 
             cv::setMouseCallback(src_window,mouseHandler,0);
@@ -112,15 +104,16 @@ void Calibracao::ConfigurarCamera(){
 
         cvDestroyAllWindows();
         tamanho = Rect( point1.x, point1.y,( point2.x- point1.x) ,( point2.y- point1.y));
-//        std::cout << tamanho << std::endl;
-//        cv::Mat croppedImage;
-//        while(true){
-//            camera >> frameA;
-//            //   frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100 );
-//            croppedImage = frameA(tamanho);
-//            cv::imshow(src_window,croppedImage);
-//            if (cv::waitKey(30) >= 0) break;
-//        }
+        //        std::cout << tamanho << std::endl;
+        //        cv::Mat croppedImage;
+        //        while(true){
+        //            camera >> frameA;
+        //            //   frameA.convertTo(frameA, -1, contrast_value / 50.0, brightness_value-100 );
+        //            croppedImage = frameA(tamanho);
+        //            cv::imshow(src_window,croppedImage);
+        //            if (cv::waitKey(30) >= 0) break;
+        //        }
+
         cvDestroyAllWindows();
         camera.release();
         cvDestroyAllWindows();
@@ -134,63 +127,72 @@ void Calibracao::ReconhecerFundo(){
     if(!camera.isOpened()){
 
     }
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
 
 
     pMOG2= createBackgroundSubtractorMOG2(); //MOG2 approach
     for (int var = 0; var < 101; ++var) {
-     JANELA->SetStatusFundo(var);
-          camera >> frame;
-            frame = frame(tamanho);
-            JANELA->SetImage(frame);
-            pMOG2->apply(frame, mask);
+        JANELA->SetStatusFundo(var);
+        camera >> frame;
+
+
+        frame.convertTo(frame, -1, contrast_value / 50.0, brightness_value-200);
+        cv::resize(frame, frame, cvSize(LARGURA, ALTURA));
+        JANELA->SetImage(frame);
+        pMOG2->apply(frame, mask);
 
     }
+    Mat Atual;
 
+    QMessageBox::StandardButton reply =  JANELA->SCIMM_ALERT();
+
+    if(reply == QMessageBox::StandardButton::Ok) {
+
+
+
+        for(int var = 0; var <= 10; var++){
+            camera >> Atual;
+            Atual.convertTo(Atual, -1, contrast_value / 50.0, brightness_value-200);
+
+            pMOG2->apply(Atual, mask);
+        }
+        Mat aux;
+        while(true) {
+            camera >> Atual;
+            Atual.convertTo(Atual, -1, contrast_value / 50.0, brightness_value-200);
+            imshow("Mask", mask);
+            //            JANELA->SetImage(mask);
+            if (cv::waitKey(30)>= 0) break;
+            bitwise_and(Atual, Atual, aux, mask);
+            JANELA->SetImage(aux);
+
+        }
+
+
+    }
+    pMOG2.release();
     cvDestroyAllWindows();
     camera.release();
 
 }
 void Calibracao::ExtrairObjetos(){
-    //create the camera object
-    VideoCapture camera(CAMERA);
-    if(!camera.isOpened()){
 
-    }
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
-
-        while(true) {
-            camera >> frame;
-            frame = frame(tamanho);
-              imshow("img", frame);
-              if (cv::waitKey(30)>= 0) break;
-     }
-
-    for (int var = 0; var < 11; ++var) {
-        if(camera.read(frame)) {  //update the background model
-            JANELA->SetStatusExtrair(var*10);
-            pMOG2->apply(frame, mask);
-            JANELA->SetImage(mask);
-
-        }
-    }
-    cvDestroyAllWindows();
-
-    for (int var = 0; var < 11; ++var) {
-        camera >> frame;
-        bitwise_and(frame, frame, res, mask);
-        res=res(tamanho);
-        JANELA->SetImage(res);
+    Mat Atual;
+    VideoCapture cap(1); // open the default camera
+    for(int var = 0; var <= 15; var++){
+        cap >> Atual;
+        pMOG2->apply(Atual, mask);
     }
 
+    while(true) {
+        imshow("Fundo", frame);
+        imshow("Mask", mask);
+        imshow("Atual", Atual);
+
+        if (cv::waitKey(30)>= 0) break;
+    }
 
     cvDestroyAllWindows();
-    cvDestroyAllWindows();
-    //delete capture object
-    camera.release();
-
+    cap.release();
 
 }
 void Calibracao::DetectarObjetos(int, void *){
@@ -232,51 +234,49 @@ void Calibracao::DetectarObjetos(int, void *){
             rectangle(drawing, rRect, Scalar(0, 0, 255), 1, 8, 0);
         }
     }
-   // imshow("Contours", drawing);
+
 }
 void Calibracao::Calibrar(){
-
+    Mat cali;
     FIM=false;
     cv::Mat croppedImage;
     cv::VideoCapture camera(CAMERA);
     if (!camera.isOpened()) {
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
+    Mat aux;
+    mask = mask(tamanho);
+    for(int i = 0; i < 20; i++){
+        camera >> cali;
 
-//Mat res;
-  for(int i = 0; i < 20; i++){
-       camera >> frame;
-      //  frame = frame(tamanho);
-         bitwise_and(frame, frame, res, mask);
-  }
-        //frame.(frame, -1, contrast_value / 50.0, brightness_value-100 );
-//
-//        cvtColor(res, src_gray, CV_BGR2GRAY);
-//        blur(src_gray, src_gray, Size(5, 5));
-//        AplicarThresh(0, 0);
-//        if (cv::waitKey(30) >= 0 || FIM) break;
+        cali = cali(tamanho);
+          cali.copyTo(aux);
+        cali.convertTo(cali, -1, contrast_value / 50.0, brightness_value-200);
 
-//    }
+        bitwise_and(cali, cali, res, mask);
 
+    }
+    //   cv::resize(frame, frame, cvSize(LARGURA, ALTURA));
+
+
+         bitwise_and(aux, aux, res, mask);
     camera.release();
-        cvDestroyAllWindows();
-        cvDestroyAllWindows();
-        JANELA->SetStatus(25);
-        frame = frame(tamanho);
-        cvtColor(frame, src_gray, CV_BGR2GRAY);
-        blur(src_gray, src_gray, Size(3, 3));
-        DetectarObjetos(0, 0);
-        sleep(1);
-        //insideRect = EliminarExcessos();
-        JANELA->SetStatus(50);
-        sleep(1);
-        Calcular();
-        JANELA->SetStatus(75);
-        sleep(1);
+    cvDestroyAllWindows();
 
-        JANELA->SetStatus(100);
+    JANELA->SetStatus(25);
+
+    cvtColor(res, src_gray, CV_BGR2GRAY);
+    blur(src_gray, src_gray, Size(3, 3));
+    DetectarObjetos(0, 0);
+    sleep(1);
+
+    JANELA->SetStatus(50);
+
+    Calcular();
+    JANELA->SetStatus(75);
+
+
+    JANELA->SetStatus(100);
 }
 void Calibracao::Calcular(){
     SCIMM_COR c1,c2,c3,c4,c5,c6,c7;
@@ -290,40 +290,52 @@ void Calibracao::Calcular(){
     cv::cvtColor(frame, HSV, CV_BGR2HSV );
     cv::Vec3b pixel;
     for (unsigned int i = 0; i < insideRect.size(); i++) {
+     //   std::cout << "Objeto: " <<i <<std::endl;
         for (int y = insideRect.at(i).tl().y; y < insideRect.at(i).br().y; y++) {
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
                 pixel = HSV.at<cv::Vec3b>(y, x);
 
-
-                if(pixel.val[0]>0 &&pixel.val[0]<=20) {
-                    //LARANJA
-                    CORES[LARANJA].SetMinMax(pixel);
-                } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
-                    //AMARELO
-                    CORES[AMARELO].SetMinMax(pixel);
-                } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
-                    //VERDE
-                    CORES[VERDE].SetMinMax(pixel);
-                }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
-                    //AZUL
-                    pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
-                    pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
-                    CORES[AZUL].SetMinMax(pixel);
-                }else  if(pixel.val[0]>120 &&pixel.val[0]<=160) {
-                    //ROXO
-                    CORES[ROXO].SetMinMax(pixel);
-                }else  if(pixel.val[0]>160 &&pixel.val[0]<=168) {
-                    //ROSA
-                    CORES[ROSA].SetMinMax(pixel);
-                }else  if(pixel.val[0]>168 &&pixel.val[0]<=180) {
-                    //VERMELHO
-                    CORES[VERMELHO].SetMinMax(pixel);
+                if(pixel.val[0]>0){
+                    pixel.val[1] = pixel.val[1] < 30 ? 30 : pixel.val[1];
+                    pixel.val[2] = pixel.val[2] < 30 ? 30 : pixel.val[2];
+                    if(pixel.val[0]<=20) {
+                        //LARANJA
+                        CORES[LARANJA].SetMinMax3(pixel);
+                    } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
+                        //AMARELO
+                        //std::cout <<"AMARELO: " << ((int)pixel.val[0]) << "."<< ((int)pixel.val[1]) << "."<< ((int)pixel.val[2]) <<std::endl;
+                          CORES[AMARELO].SetMinMax3(pixel);
+                    } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
+                        //VERDE
+                        pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
+                        pixel.val[2] = pixel.val[2] < 30 ? 30 : pixel.val[2];
+                        CORES[VERDE].SetMinMax2(pixel);
+                    }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
+                        //AZUL
+                        //    std::cout <<"AZUL: " << ((int)pixel.val[0]) << "."<< ((int)pixel.val[1]) << "."<< ((int)pixel.val[2]) <<std::endl;
+                        pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
+                        pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
+                        CORES[AZUL].SetMinMax2(pixel);
+                    }else  if(pixel.val[0]>120 &&pixel.val[0]<=160) {
+                        //ROXO
+                        CORES[ROXO].SetMinMax3(pixel);
+                    }else  if(pixel.val[0]>160 &&pixel.val[0]<=168) {
+                        //ROSA
+                        CORES[ROSA].SetMinMax3(pixel);
+                    }else  if(pixel.val[0]>168 &&pixel.val[0]<=180) {
+                        //VERMELHO
+                        CORES[VERMELHO].SetMinMax3(pixel);
+                    }
                 }
             }
         }
 
 
     }
+
+//    std::cout <<"-----------------" <<std::endl;
+
+
 }
 void Calibracao::Exibir(){
     Mat Threshold;
@@ -331,12 +343,11 @@ void Calibracao::Exibir(){
     if (!camera.isOpened()) {
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
-    camera.set(CV_CAP_PROP_FRAME_WIDTH,FRAME_WIDTH);
-        camera.set(CV_CAP_PROP_FRAME_HEIGHT,FRAME_HEIGHT);
-  Mat final;
-    while(!JANELA->FINALIZADA){
 
+    while(!JANELA->FINALIZADA){
+        Mat final;
         camera >> frame;
+
         dilate(frame, frame, Mat(), Point(-1, -1), 2, 1, 1);
         cv::cvtColor(frame,HSV,cv::COLOR_BGR2HSV);
         cv::inRange(
@@ -348,10 +359,9 @@ void Calibracao::Exibir(){
                 CORES[JANELA->INDICE_OBJETO].S_S[1] ,
                 CORES[JANELA->INDICE_OBJETO].S_V[1] ),Threshold);
         bitwise_and(frame, frame, final, Threshold );
-        final = final(tamanho);
-       // cv::imshow("final", final);
-       JANELA->SetImage( final);
-       if (cv::waitKey(30)>= 0) break;
+
+        JANELA->SetImage( final);
+        if (cv::waitKey(30)>= 0) break;
 
     }
     camera.release();
@@ -364,11 +374,11 @@ void Calibracao::Fechar(){
 }
 void Calibracao::SalvarArquivo(){
     std::ofstream out;
-    std::cout << " salvando " << std::endl;
+    //  std::cout << " salvando " << std::endl;
     out.open("cores.arff");
-//    for(int i = 0; i < 8; i++){
-//        out << i << " : " << coresCalibradas[i].MIN[0] << "." << coresCalibradas[i].MIN[1]<< "."<< coresCalibradas[i].MIN[2] << std::endl;
-//        out << i << " : " << coresCalibradas[i].MAX[0] << "." << coresCalibradas[i].MAX[1]<< "."<< coresCalibradas[i].MAX[2] << std::endl;
-//    }
+        for(int i = 0; i < CORES.size(); i++){
+            out << i << " : " << CORES[i].S_H[0] << "." << CORES[i].S_S[0]<< "."<< CORES[i].S_V[0] << std::endl;
+            out << i << " : " << CORES[i].S_H[1] << "." << CORES[i].S_S[1]<< "."<< CORES[i].S_V[1] << std::endl;
+        }
     out.close();
 }

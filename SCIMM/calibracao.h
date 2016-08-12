@@ -22,6 +22,7 @@ using namespace cv;
 class Calibracao
 {
 public:
+    enum ESTADO {RECONHCER_FUNDO, EXTRAIR_OBJETOS, CALCULAR, CABO, PARADO};
     Calibracao();
     void ConfigurarCamera();
     void Calibrar();
@@ -32,11 +33,14 @@ public:
     void Calcular();
     void Fechar();
     void SalvarArquivo();
+    void TUDAO(JanelaPrincipal *ja);
+    ESTADO atual;
 private:
+
     bool FIM;
     Mat  HSV;
-    Mat frame;
-    int thresh = 40;
+    Mat frame, frameAtual;
+    int thresh = 60;
     int CAMERA;
     int brilho = 0, contraste = 50;
     std::vector<Rect> boundRect;

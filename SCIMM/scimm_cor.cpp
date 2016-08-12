@@ -10,12 +10,12 @@ SCIMM_COR::SCIMM_COR()
     memset(S_S, 0, sizeof(S_S));
     memset(S_V, 0, sizeof(S_V));
     S_H[0] = 255;
-    S_S[0] = 255;
-    S_V[0] = 255;
+    S_S[0] = 0;
+    S_V[0] = 0;
 
     S_H[1] = 0;
-    S_S[1] = 0;
-    S_V[1] = 0;
+    S_S[1] = 255;
+    S_V[1] = 255;
 
 }
 
@@ -75,14 +75,45 @@ void SCIMM_COR::SetMinMax(int *mi, int *ma){
 
 void SCIMM_COR::SetMinMax(cv::Vec3b pixel){
     S_H[0]= pixel.val[0] < S_H[0]?  pixel.val[0] :  S_H[0];
-    S_S[0]= pixel.val[1] < S_S[0]?  pixel.val[1] :  S_S[0];
-    S_V[0]= pixel.val[2] < S_V[0]? pixel.val[2] :  S_V[0];
+    S_H[1]= pixel.val[0] > S_H[1]?  pixel.val[0] :  S_H[1];
+}
+
+void SCIMM_COR::SetMinMax2(cv::Vec3b pixel){
+    S_H[0]= pixel.val[0] < S_H[0]?  pixel.val[0] :  S_H[0];
+    S_S[0]= 100;
+    S_V[0]= 100;
     S_H[1]= pixel.val[0] > S_H[1]?  pixel.val[0] :  S_H[1];
     S_S[1]= pixel.val[1] > S_S[1]?  pixel.val[1] :  S_S[1];
     S_V[1]= pixel.val[2] > S_V[1]?  pixel.val[2] :  S_V[1];
+
+
+    if(S_S[0] ==  S_S[1]) {
+        S_S[1] = 255;
+    }
 }
+
+void SCIMM_COR::SetMinMax3(cv::Vec3b pixel){
+    S_H[0]= pixel.val[0] < S_H[0]?  pixel.val[0] :  S_H[0];
+    S_S[0]=  pixel.val[1] < S_S[0]?  pixel.val[1] :  S_S[0];
+    S_V[0]= pixel.val[2] < S_V[0]?  pixel.val[2] :  S_V[0];
+    S_H[1]= pixel.val[0] > S_H[1]?  pixel.val[0] :  S_H[1];
+    S_S[1]= pixel.val[1] > S_S[1]?  pixel.val[1] :  S_S[1];
+    S_V[1]= pixel.val[2] > S_V[1]?  pixel.val[2] :  S_V[1];
+
+
+    if(S_S[0] ==  S_S[1]) {
+        S_S[1] = 255;
+    }
+}
+
 void SCIMM_COR::PRINT(){
     std::cout << "MIN: " << S_H[0] << " "<<S_S[0]<< " "<<S_V[0] <<std::endl;
     std::cout << "MAX: " << S_H[1] << " "<<S_S[1]<< " "<<S_V[1] <<std::endl;
+
+}
+
+void SCIMM_COR::PRINTV(){
+    std::cout << "MIN: " <<S_V[0] <<std::endl;
+    std::cout << "MAX: " <<S_V[1] <<std::endl;
 
 }

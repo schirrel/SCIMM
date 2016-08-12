@@ -28,8 +28,11 @@ public:
 
 
     void SetMinMax(int* mi, int* ma);
-     void SetMinMax(cv::Vec3b pixel);
+    void SetMinMax(cv::Vec3b pixel);
+    void SetMinMax2(cv::Vec3b pixel);
+    void SetMinMax3(cv::Vec3b pixel);
     void PRINT();
+    void PRINTV();
 
 };
 

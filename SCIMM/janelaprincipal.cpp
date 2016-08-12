@@ -10,10 +10,11 @@
 #include "calibracao.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <QMessageBox>
 Calibracao CA;
 QComboBox *op;
 bool INDISPONIVEL;
-int CAMERA =0;
+int CAMERA =1;
 JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::JanelaPrincipal)
@@ -35,20 +36,24 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
     connect(ui->BT_CA_INICIAR_CAM, SIGNAL(clicked(bool)), SLOT(IniciarCameraAutomatico()));
     connect(ui->BT_FUNDO, SIGNAL(clicked(bool)), SLOT(BotaoSalvarFundo()));
     connect(ui->BT_CONFIGURAR, SIGNAL(clicked(bool)), SLOT(BotaoConfigurar()));
-    connect(ui->BT_EXTRAIR, SIGNAL(clicked(bool)), SLOT(BotaoExtrair()));
-
     ui->BT_CA_INICIAR_CAM->setIcon(QIcon(":/icons/camera.png"));
     ui->BT_FUNDO->setIcon(QIcon(":/icons/fundo.png"));
+    ui->BT_CA_INICIAR->setIcon(QIcon(":icons/color.png"));
+    ui->BT_CA_FINALIZAR->setIcon(QIcon(":icons/salvar.png"));
     ui->BT_CONFIGURAR->setIcon(QIcon(":/icons/configuracao.png"));
-    ui->BT_EXTRAIR->setIcon(QIcon(":icons/detectar.png"));
-     ui->BT_CA_INICIAR->setIcon(QIcon(":icons/color.png"));
-     ui->BT_CA_FINALIZAR->setIcon(QIcon(":icons/salvar.png"));
+
 }
 
+
 void JanelaPrincipal::CameraIndisponivel(){
-    //    QMessageBox::StandardButton reply;
-    //    reply = QMessageBox::warning(this, "SCIMM", "Camera Indisponivel");
-    //    INDISPONIVEL = true;
+  QMessageBox::warning(this, "SCIMM", "Camera Indisponivel");
+    INDISPONIVEL = true;
+}
+
+QMessageBox::StandardButton JanelaPrincipal::SCIMM_ALERT(){
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::warning(this, "SCIMM", "Fundo Reconhecido, disponha os objetos no campo e clique em Ok para iniciar a Extração de Objetos.");
+    return reply;
 }
 
 void JanelaPrincipal::ResetarTelas(){
@@ -135,7 +140,7 @@ void JanelaPrincipal::BotaoIniciar(){
     ui->BT_CA_INICIAR->setEnabled(false);
     CA.Calibrar();
     ui->BT_CA_FINALIZAR->setEnabled(true);
-     FINALIZADA=false;
+    FINALIZADA=false;
     CA.Exibir();
 
 }
@@ -161,25 +166,17 @@ void JanelaPrincipal::SetStatusFundo(int n) {
         ui->PB_FUNDO->setEnabled(false);
 }
 
-void JanelaPrincipal::SetStatusExtrair(int n) {
-    ui->PB_EXTRAIR->setValue(n);
-    ui->PB_EXTRAIR->repaint();
-    if(n==100)
-        ui->PB_EXTRAIR->setEnabled(false);
-}
 
 void JanelaPrincipal::BotaoSalvarFundo(){
     ui->BT_FUNDO->setEnabled(false);
 
     CA.ReconhecerFundo();
-     ui->BT_EXTRAIR->setEnabled(true);
 
- //
+    //
 }
 
 void JanelaPrincipal::BotaoConfigurar() {
-    ui->BT_CONFIGURAR->setEnabled(false);
-    CA.ConfigurarCamera();
+     CA.ConfigurarCamera();
     ui->BT_FUNDO->setEnabled(true);
     ui->PB_FUNDO->setEnabled(true);
 
@@ -190,7 +187,6 @@ void JanelaPrincipal::BotaoConfigurar() {
 void JanelaPrincipal::BotaoExtrair(){
     CA.ExtrairObjetos();
 
-    ui->BT_EXTRAIR->setEnabled(false);
     ui->BT_CA_INICIAR->setEnabled(true);
 }
 
@@ -205,7 +201,6 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     // ui->BT_CA_FINALIZAR->setEnabled(true);
     //ui->CB_CA_CORES->setEnabled(true);
     //ui->PROGRESS_CA->setEnabled(true);
-    ui->BT_CONFIGURAR->setEnabled(true);
     CA.Iniciar(this, CAMERA);
     // CA.ConfigurarCamera(this);
     if(INDISPONIVEL) {

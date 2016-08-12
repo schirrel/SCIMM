@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include <QMessageBox>
 namespace Ui {
 class JanelaPrincipal;
 }
@@ -16,7 +17,7 @@ public:
     ~JanelaPrincipal();
     void ResetarTelas();
     void CameraIndisponivel();
-
+    QMessageBox::StandardButton SCIMM_ALERT();
 
 
     // -----------  Métodos Calibração Automatica
