@@ -5,3 +5,10 @@
 Requisitos: OpenCV, Qt
 Linguagem: C++
 
+
+
+* Selecionar Recorte da Janela
+* Limpar campo para fazer reconheciment de fundo > fazer reconhecimento de fundo
+* Adicionar objetos para fazer extracao de objetos > fazer extração de objetos
+* Fazer reconhecimento de objetos /calculo de cores
+* salvar arquivo
