@@ -170,7 +170,7 @@ void JanelaPrincipal::SetStatusFundo(int n) {
 void JanelaPrincipal::BotaoSalvarFundo(){
     ui->BT_FUNDO->setEnabled(false);
 
-    CA.ReconhecerFundo();
+    CA.ReconhecerFundoExtrairObjetos();
 
     //
 }
@@ -185,7 +185,6 @@ void JanelaPrincipal::BotaoConfigurar() {
 }
 
 void JanelaPrincipal::BotaoExtrair(){
-    CA.ExtrairObjetos();
 
     ui->BT_CA_INICIAR->setEnabled(true);
 }

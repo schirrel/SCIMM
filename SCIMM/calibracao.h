@@ -22,19 +22,15 @@ using namespace cv;
 class Calibracao
 {
 public:
-    enum ESTADO {RECONHCER_FUNDO, EXTRAIR_OBJETOS, CALCULAR, CABO, PARADO};
-    Calibracao();
+   Calibracao();
     void ConfigurarCamera();
     void Calibrar();
     void Iniciar(JanelaPrincipal *janela, int c);
-    void ReconhecerFundo();
-    void ExtrairObjetos();
+    void ReconhecerFundoExtrairObjetos();
     void Exibir();
     void Calcular();
     void Fechar();
     void SalvarArquivo();
-    void TUDAO(JanelaPrincipal *ja);
-    ESTADO atual;
 private:
 
     bool FIM;

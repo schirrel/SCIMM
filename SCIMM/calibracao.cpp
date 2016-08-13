@@ -62,7 +62,6 @@ Calibracao::Calibracao()
 void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
     CAMERA =c ;
     JANELA = janela;
-    //this->ConfigurarCamera(janela);
     cv::VideoCapture camera;
     camera.open(CAMERA);
 
@@ -120,7 +119,7 @@ void Calibracao::ConfigurarCamera(){
     }
 
 }
-void Calibracao::ReconhecerFundo(){
+void Calibracao::ReconhecerFundoExtrairObjetos(){
 
     //create the capture object
     VideoCapture camera(CAMERA);
@@ -172,27 +171,6 @@ void Calibracao::ReconhecerFundo(){
     pMOG2.release();
     cvDestroyAllWindows();
     camera.release();
-
-}
-void Calibracao::ExtrairObjetos(){
-
-    Mat Atual;
-    VideoCapture cap(1); // open the default camera
-    for(int var = 0; var <= 15; var++){
-        cap >> Atual;
-        pMOG2->apply(Atual, mask);
-    }
-
-    while(true) {
-        imshow("Fundo", frame);
-        imshow("Mask", mask);
-        imshow("Atual", Atual);
-
-        if (cv::waitKey(30)>= 0) break;
-    }
-
-    cvDestroyAllWindows();
-    cap.release();
 
 }
 void Calibracao::DetectarObjetos(int, void *){
