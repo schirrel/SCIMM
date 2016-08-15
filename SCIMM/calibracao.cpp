@@ -64,7 +64,7 @@ void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
     JANELA = janela;
     cv::VideoCapture camera;
     camera.open(CAMERA);
-
+camera.set(CAP_PROP_AUTOFOCUS, 0);
     if( !camera.isOpened() )
     { cameraIndisponivel = true;
         janela->CameraIndisponivel();
@@ -273,16 +273,16 @@ void Calibracao::Calcular(){
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
                 pixel = HSV.at<cv::Vec3b>(y, x);
 
-                if(pixel.val[0]>0){
-                    pixel.val[1] = pixel.val[1] < 30 ? 30 : pixel.val[1];
-                    pixel.val[2] = pixel.val[2] < 30 ? 30 : pixel.val[2];
+                if(pixel.val[1]>99 && pixel.val[2]>99){
+                    //pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
+//                    pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
                     if(pixel.val[0]<=20) {
                         //LARANJA
                         CORES[LARANJA].SetMinMax3(pixel);
                     } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
                         //AMARELO
                         //std::cout <<"AMARELO: " << ((int)pixel.val[0]) << "."<< ((int)pixel.val[1]) << "."<< ((int)pixel.val[2]) <<std::endl;
-                          CORES[AMARELO].SetMinMax3(pixel);
+                          CORES[AMARELO].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
                         //VERDE
                         pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
