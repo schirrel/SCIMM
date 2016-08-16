@@ -31,6 +31,7 @@ public:
     void Calcular();
     void Fechar();
     void SalvarArquivo();
+    void AutoFoco();
 private:
 
     bool FIM;
@@ -44,7 +45,7 @@ private:
     void DetectarObjetos(int, void *);
     double ObterPorcentagem(int valor, int porcentagem);
     JanelaPrincipal* JANELA;
-
+    int FOCO = 0;
 };
 
 #endif // CALIBRACAO_H
