@@ -12,7 +12,7 @@ int brightness_value = 0, contrast_value = 50, dragA, select_flagA;
 Rect tamanho;
 bool callbackA = false,cameraIndisponivel=false;
 Point point1, point2;
-
+cv::VideoCapture camera;
 
 /*
 0 AMARELO
@@ -62,21 +62,18 @@ Calibracao::Calibracao()
 void Calibracao::Iniciar(JanelaPrincipal *janela, int c){
     CAMERA =c ;
     JANELA = janela;
-    cv::VideoCapture camera;
+
     camera.open(CAMERA);
-camera.set(CAP_PROP_AUTOFOCUS, 0);
+    camera.set(CAP_PROP_AUTOFOCUS, FOCO);
     if( !camera.isOpened() )
     { cameraIndisponivel = true;
         janela->CameraIndisponivel();
-    } else {
-        camera.release();
-        camera.release();
-        camera.release();
     }
 }
+
+
 void Calibracao::ConfigurarCamera(){
 
-    cv::VideoCapture camera;
     camera.open(CAMERA);
 
     if( !camera.isOpened() )
@@ -114,19 +111,11 @@ void Calibracao::ConfigurarCamera(){
         //        }
 
         cvDestroyAllWindows();
-        camera.release();
         cvDestroyAllWindows();
     }
 
 }
 void Calibracao::ReconhecerFundoExtrairObjetos(){
-
-    //create the capture object
-    VideoCapture camera(CAMERA);
-    if(!camera.isOpened()){
-
-    }
-
 
     pMOG2= createBackgroundSubtractorMOG2(); //MOG2 approach
     for (int var = 0; var < 101; ++var) {
@@ -170,7 +159,7 @@ void Calibracao::ReconhecerFundoExtrairObjetos(){
     }
     pMOG2.release();
     cvDestroyAllWindows();
-    camera.release();
+
 
 }
 void Calibracao::DetectarObjetos(int, void *){
@@ -178,7 +167,8 @@ void Calibracao::DetectarObjetos(int, void *){
     std::vector< std::vector<Point> > contours;
     std::vector<Vec4i> hierarchy;
 
-
+    cvtColor(res, src_gray, CV_BGR2GRAY);
+    blur(src_gray, src_gray, Size(3, 3));
     Canny(src_gray, canny_output, thresh, thresh * 3, 3);
     findContours(canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
     std:: vector< std::vector<Point> > contours_poly(contours.size());
@@ -218,17 +208,15 @@ void Calibracao::Calibrar(){
     Mat cali;
     FIM=false;
     cv::Mat croppedImage;
-    cv::VideoCapture camera(CAMERA);
-    if (!camera.isOpened()) {
-        std::cerr << "ERROR: Could not open camera" << std::endl;
-    }
+
+
     Mat aux;
     mask = mask(tamanho);
     for(int i = 0; i < 20; i++){
         camera >> cali;
 
         cali = cali(tamanho);
-          cali.copyTo(aux);
+        cali.copyTo(aux);
         cali.convertTo(cali, -1, contrast_value / 50.0, brightness_value-200);
 
         bitwise_and(cali, cali, res, mask);
@@ -237,14 +225,12 @@ void Calibracao::Calibrar(){
     //   cv::resize(frame, frame, cvSize(LARGURA, ALTURA));
 
 
-         bitwise_and(aux, aux, res, mask);
-    camera.release();
+    bitwise_and(aux, aux, res, mask);
     cvDestroyAllWindows();
 
     JANELA->SetStatus(25);
 
-    cvtColor(res, src_gray, CV_BGR2GRAY);
-    blur(src_gray, src_gray, Size(3, 3));
+
     DetectarObjetos(0, 0);
     sleep(1);
 
@@ -256,6 +242,7 @@ void Calibracao::Calibrar(){
 
     JANELA->SetStatus(100);
 }
+
 void Calibracao::Calcular(){
     SCIMM_COR c1,c2,c3,c4,c5,c6,c7;
     CORES.push_back(c1);
@@ -265,24 +252,26 @@ void Calibracao::Calcular(){
     CORES.push_back(c5);
     CORES.push_back(c6);
     CORES.push_back(c7);
-    cv::cvtColor(frame, HSV, CV_BGR2HSV );
+    Mat thisFrame;
+    camera >> thisFrame;
+    cv::cvtColor(thisFrame, HSV, CV_BGR2HSV );
     cv::Vec3b pixel;
     for (unsigned int i = 0; i < insideRect.size(); i++) {
-     //   std::cout << "Objeto: " <<i <<std::endl;
+        //   std::cout << "Objeto: " <<i <<std::endl;
         for (int y = insideRect.at(i).tl().y; y < insideRect.at(i).br().y; y++) {
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
                 pixel = HSV.at<cv::Vec3b>(y, x);
 
                 if(pixel.val[1]>99 && pixel.val[2]>99){
                     //pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
-//                    pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
+                    //                    pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
                     if(pixel.val[0]<=20) {
                         //LARANJA
-                        CORES[LARANJA].SetMinMax3(pixel);
+                        CORES[LARANJA].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
                         //AMARELO
                         //std::cout <<"AMARELO: " << ((int)pixel.val[0]) << "."<< ((int)pixel.val[1]) << "."<< ((int)pixel.val[2]) <<std::endl;
-                          CORES[AMARELO].SetMinMax2(pixel);
+                        CORES[AMARELO].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
                         //VERDE
                         pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
@@ -299,10 +288,10 @@ void Calibracao::Calcular(){
                         CORES[ROXO].SetMinMax3(pixel);
                     }else  if(pixel.val[0]>160 &&pixel.val[0]<=168) {
                         //ROSA
-                        CORES[ROSA].SetMinMax3(pixel);
+                        CORES[ROSA].SetMinMax2(pixel);
                     }else  if(pixel.val[0]>168 &&pixel.val[0]<=180) {
                         //VERMELHO
-                        CORES[VERMELHO].SetMinMax3(pixel);
+                        CORES[VERMELHO].SetMinMax2(pixel);
                     }
                 }
             }
@@ -311,13 +300,13 @@ void Calibracao::Calcular(){
 
     }
 
-//    std::cout <<"-----------------" <<std::endl;
+    //    std::cout <<"-----------------" <<std::endl;
 
 
 }
 void Calibracao::Exibir(){
     Mat Threshold;
-    cv::VideoCapture camera(CAMERA);
+
     if (!camera.isOpened()) {
         std::cerr << "ERROR: Could not open camera" << std::endl;
     }
@@ -337,7 +326,7 @@ void Calibracao::Exibir(){
                 CORES[JANELA->INDICE_OBJETO].S_S[1] ,
                 CORES[JANELA->INDICE_OBJETO].S_V[1] ),Threshold);
         bitwise_and(frame, frame, final, Threshold );
-
+        final = final(tamanho);
         JANELA->SetImage( final);
         if (cv::waitKey(30)>= 0) break;
 
@@ -354,9 +343,16 @@ void Calibracao::SalvarArquivo(){
     std::ofstream out;
     //  std::cout << " salvando " << std::endl;
     out.open("cores.arff");
-        for(int i = 0; i < CORES.size(); i++){
-            out << i << " : " << CORES[i].S_H[0] << "." << CORES[i].S_S[0]<< "."<< CORES[i].S_V[0] << std::endl;
-            out << i << " : " << CORES[i].S_H[1] << "." << CORES[i].S_S[1]<< "."<< CORES[i].S_V[1] << std::endl;
-        }
+    for(int i = 0; i < CORES.size(); i++){
+        out << i << " : " << CORES[i].S_H[0] << "." << CORES[i].S_S[0]<< "."<< CORES[i].S_V[0] << std::endl;
+        out << i << " : " << CORES[i].S_H[1] << "." << CORES[i].S_S[1]<< "."<< CORES[i].S_V[1] << std::endl;
+    }
     out.close();
+}
+
+
+void Calibracao::AutoFoco() {
+    FOCO = FOCO == 0 ? 1 : 0;
+    camera.set(CAP_PROP_AUTOFOCUS, FOCO);
+
 }
