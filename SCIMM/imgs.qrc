@@ -3,5 +3,9 @@
         <file>detectar.png</file>
         <file>color.png</file>
         <file>salvar.png</file>
+        <file>foco.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>foco.png</file>
     </qresource>
 </RCC>
