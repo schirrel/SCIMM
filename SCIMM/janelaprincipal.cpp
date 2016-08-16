@@ -46,7 +46,7 @@ JanelaPrincipal::JanelaPrincipal(QWidget *parent) :
 
 
 void JanelaPrincipal::CameraIndisponivel(){
-  QMessageBox::warning(this, "SCIMM", "Camera Indisponivel");
+    QMessageBox::warning(this, "SCIMM", "Camera Indisponivel");
     INDISPONIVEL = true;
 }
 
@@ -176,7 +176,7 @@ void JanelaPrincipal::BotaoSalvarFundo(){
 }
 
 void JanelaPrincipal::BotaoConfigurar() {
-     CA.ConfigurarCamera();
+    CA.ConfigurarCamera();
     ui->BT_FUNDO->setEnabled(true);
     ui->PB_FUNDO->setEnabled(true);
 
@@ -207,7 +207,9 @@ void JanelaPrincipal::IniciarCameraAutomatico(){
     }
 
 }
-
+void JanelaPrincipal::BotaoFoco(){
+    CA.AutoFoco();
+}
 
 JanelaPrincipal::~JanelaPrincipal()
 {

@@ -50,6 +50,8 @@ public slots:
     void ComboCorChanged(int index);
     void SetImage(cv::Mat frame);
     void IniciarCameraAutomatico();
+    void BotaoFoco();
+
     QImage ConverterFrame(cv::Mat frame);
 
 
