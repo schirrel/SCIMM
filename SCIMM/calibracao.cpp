@@ -262,35 +262,26 @@ void Calibracao::Calcular(){
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
                 pixel = HSV.at<cv::Vec3b>(y, x);
 
-                if(pixel.val[1]>99 && pixel.val[2]>99){
-                    //pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
-                    //                    pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
+                if(pixel.val[1]>20 && pixel.val[2]>20){
                     if(pixel.val[0]<=20) {
-                        //LARANJA
                         CORES[LARANJA].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
-                        //AMARELO
-                        //std::cout <<"AMARELO: " << ((int)pixel.val[0]) << "."<< ((int)pixel.val[1]) << "."<< ((int)pixel.val[2]) <<std::endl;
                         CORES[AMARELO].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
-                        //VERDE
                         pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
                         pixel.val[2] = pixel.val[2] < 30 ? 30 : pixel.val[2];
                         CORES[VERDE].SetMinMax2(pixel);
                     }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
-                        //AZUL
-                        //    std::cout <<"AZUL: " << ((int)pixel.val[0]) << "."<< ((int)pixel.val[1]) << "."<< ((int)pixel.val[2]) <<std::endl;
                         pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
                         pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
                         CORES[AZUL].SetMinMax2(pixel);
-                    }else  if(pixel.val[0]>120 &&pixel.val[0]<=160) {
-                        //ROXO
+                    }else  if(pixel.val[0]>125 &&pixel.val[0]<=160) {
+                       pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
+                        pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
                         CORES[ROXO].SetMinMax3(pixel);
                     }else  if(pixel.val[0]>160 &&pixel.val[0]<=168) {
-                        //ROSA
-                        CORES[ROSA].SetMinMax2(pixel);
+                       CORES[ROSA].SetMinMax2(pixel);
                     }else  if(pixel.val[0]>168 &&pixel.val[0]<=180) {
-                        //VERMELHO
                         CORES[VERMELHO].SetMinMax2(pixel);
                     }
                 }
