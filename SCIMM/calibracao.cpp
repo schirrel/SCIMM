@@ -262,18 +262,17 @@ void Calibracao::Calcular(){
             for (int x = insideRect.at(i).tl().x; x < insideRect.at(i).br().x; x++) {
                 pixel = HSV.at<cv::Vec3b>(y, x);
 
-                if(pixel.val[1]>20 && pixel.val[2]>20){
+               // if(pixel.val[1]>20 && pixel.val[2]>20){
                     if(pixel.val[0]<=20) {
                         CORES[LARANJA].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
                         CORES[AMARELO].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
-                        pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
-                        pixel.val[2] = pixel.val[2] < 30 ? 30 : pixel.val[2];
-                        CORES[VERDE].SetMinMax2(pixel);
+                        pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
+                        pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
+                        CORES[VERDE].SetMinMax3(pixel);
                     }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
-                        pixel.val[1] = pixel.val[1] < 100 ? 100 : pixel.val[1];
-                        pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
+
                         CORES[AZUL].SetMinMax2(pixel);
                     }else  if(pixel.val[0]>125 &&pixel.val[0]<=160) {
                        pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
@@ -286,7 +285,7 @@ void Calibracao::Calcular(){
                     }
                 }
             }
-        }
+      //  }
 
 
     }
@@ -335,8 +334,8 @@ void Calibracao::SalvarArquivo(){
     //  std::cout << " salvando " << std::endl;
     out.open("cores.arff");
     for(int i = 0; i < CORES.size(); i++){
-        out << i << " : " << CORES[i].S_H[0] << "." << CORES[i].S_S[0]<< "."<< CORES[i].S_V[0] << std::endl;
-        out << i << " : " << CORES[i].S_H[1] << "." << CORES[i].S_S[1]<< "."<< CORES[i].S_V[1] << std::endl;
+        out << CORES[i].S_H[0] << "." << CORES[i].S_S[0]<< "."<< CORES[i].S_V[0] << std::endl;
+        out << CORES[i].S_H[1] << "." << CORES[i].S_S[1]<< "."<< CORES[i].S_V[1] << std::endl;
     }
     out.close();
 }
