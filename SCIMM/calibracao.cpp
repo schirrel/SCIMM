@@ -266,17 +266,18 @@ void Calibracao::Calcular(){
                     if(pixel.val[0]<=20) {
                         CORES[LARANJA].SetMinMax2(pixel);
                     } else  if(pixel.val[0]>20 &&pixel.val[0]<=30) {
-                        CORES[AMARELO].SetMinMax2(pixel);
-                    } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
                         pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
-                        pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
-                        CORES[VERDE].SetMinMax3(pixel);
+                         pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
+                        CORES[AMARELO].SetMinMax3(pixel);
+                    } else  if(pixel.val[0]>60 &&pixel.val[0]<=90) {
+                       pixel.val[1] = pixel.val[1] < 30 ? 30 : pixel.val[1];
+                       pixel.val[2] = pixel.val[2] < 100 ? 100 : pixel.val[2];
+                         CORES[VERDE].SetMinMax3(pixel);
                     }else  if(pixel.val[0]>90 &&pixel.val[0]<=120) {
-
                         CORES[AZUL].SetMinMax2(pixel);
                     }else  if(pixel.val[0]>125 &&pixel.val[0]<=160) {
-                       pixel.val[1] = pixel.val[1] < 50 ? 50 : pixel.val[1];
-                        pixel.val[2] = pixel.val[2] < 50 ? 50 : pixel.val[2];
+                       pixel.val[1] = pixel.val[1] < 30 ? 30 : pixel.val[1];
+                        pixel.val[2] = pixel.val[2] < 30 ? 30 : pixel.val[2];
                         CORES[ROXO].SetMinMax3(pixel);
                     }else  if(pixel.val[0]>160 &&pixel.val[0]<=168) {
                        CORES[ROSA].SetMinMax2(pixel);
