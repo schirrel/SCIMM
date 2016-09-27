@@ -1,42 +1,51 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <title>SCIMM by CoderSquirrel</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">SCIMM</h1>
-      <h2 class="project-tagline">Sistema de Calibração de Intervalos Minimos e Maximos</h2>
-      <a href="https://github.com/CoderSquirrel/SCIMM" class="btn">View on GitHub</a>
-      <a href="https://github.com/CoderSquirrel/SCIMM/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/CoderSquirrel/SCIMM/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <section class="main-content">
-      
-      <img src="https://raw.githubusercontent.com/CoderSquirrel/SCIMM/SCIMM_COLOR/SCIMM/icone.png" alt="icone" /> <br />
-### Projeto.
-Todo o projeto está disponivel no Github.
-    
-    <h3>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>SCIMM by CoderSquirrel</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>SCIMM</h1>
+        <h2>Sistema de Calibração de Intervalos Minimos e Maximos</h2>
+        <a href="https://github.com/CoderSquirrel/SCIMM" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p><img src="https://raw.githubusercontent.com/CoderSquirrel/SCIMM/SCIMM_COLOR/SCIMM/logo.png" alt="Icone"></p>
+
+<h3>
+<a id="resumo" class="anchor" href="#resumo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resumo</h3>
+
+<p>um sistema automático de calibração de cores, reduzindo o tempo gasto pelas equipes de futebol de robôs nesta tarefa. Foram utilizadas a técnica Algoritmo de Canny, que faz a detecção das bordas presentes na imagem e em seguida utiliza-se do algoritmo <em>border following</em>, ambos presentes na biblioteca OpenCV. Como resultado as cores verde e laranja obtiveram 100% de sucesso na detecção, a cores amarelo e azul foram detectadas com sucesso com percentual de erro de 6,66%, a cor roxa teve todos os objetos encontrados com 26,66% deles encontrados completamente, a cor vermelha obteve sucesso da detecção de seus objetos com percentual de erro 19,99%, e a cor Rosa não foi detectada com sucesso.</p>
+
+<h3>
 <a id="tecnologias" class="anchor" href="#tecnologias" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tecnologias</h3>
 
-<p><img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" alt="GPL V3"></p>
 <ul>
 <li>OpenCV (V2.4.13)</li>
 <li>Qt (V5.7)</li>
 <li>C++ (gcc 4.8.5)</li>
+</ul>
 
-    
-    </ul>
-     <h3>
-       <a id="links" class="anchor" href="#links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Links</h3>
+<h3>
+<a id="links" class="anchor" href="#links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Links</h3>
 
 <ul>
 <li><a href="https://github.com/CoderSquirrel/SCIMM">Códigos</a></li>
@@ -55,17 +64,27 @@ Todo o projeto está disponivel no Github.
 <p>O projeto faz parte do sistema de Visão Computacional da <a href="https://github.com/equipecedro" class="user-mention">@equipecedro</a>.</p>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="contato" class="anchor" href="#contato" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contato</h3>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<p><a href="mailto:saneschio@gmail.com">Email</a></p>
+        </section>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/CoderSquirrel/SCIMM">SCIMM</a> is maintained by <a href="https://github.com/CoderSquirrel">CoderSquirrel</a>.</span>
+        <aside id="sidebar">
+          <a href="https://github.com/CoderSquirrel/SCIMM/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/CoderSquirrel/SCIMM/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+          <p class="repo-owner"><a href="https://github.com/CoderSquirrel/SCIMM"></a> is maintained by <a href="https://github.com/CoderSquirrel">CoderSquirrel</a>.</p>
 
-    </section>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
 
   
   </body>
